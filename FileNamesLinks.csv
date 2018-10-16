@@ -7,7 +7,7 @@ Forensic and other services procurement costs data,https://www.police.uk/procure
 Remuneration data,https://data.police.uk/static/files/remuneration-data-2015-16.csv
 Financial Reserves Data,https://s3-eu-west-1.amazonaws.com/policeuk/financial-reserves/financial_reserves_data.zip
 Force Boundaries,https://data.police.uk/data/boundaries/force_kmls.zip
-2011 LSOA Boundaries,http://webarchive.nationalarchives.gov.uk/20160110200248/http://www.ons.gov.uk/ons/external-links/social-media/g-m/lsoa-boundaries---full-resolution--extent-of-the-realm.html
+2011 LSOA Boundaries,http://www.ons.gov.uk/ons/external-links/social-media/g-m/lsoa-boundaries---full-resolution--extent-of-the-realm.html
 Neighbourhood boundaries July 2018,https://data.police.uk/data/boundaries/2018-07.zip
 Neighbourhood boundaries June 2018,https://data.police.uk/data/boundaries/2018-06.zip
 Neighbourhood boundaries May 2018,https://data.police.uk/data/boundaries/2018-05.zip
@@ -56,3 +56,21 @@ Firearm and Shotgun Certificates 08-18,https://www.gov.uk/government/uploads/sys
 Offences involving Firearms 02-17,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/crimeandjustice/datasets/offencesinvolvingtheuseofweaponsdatatables/yearendingmarch2017/offencesinvolvingtheuseofweaponstablesfinalcorrected.xls
 Drug deaths by locale,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/drugmisusedeathsbylocalauthority/current/localauthoritiesregistrations201517.xlsx
 Drug Seizure data,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/657809/seizures-drugs-mar2017-hosb2217-tables.ods
+NHS Drug Abuse Data 13-17,https://files.digital.nhs.uk/publication/a/o/drug-misu-eng-2017-tab.xlsx
+Police use of Tasers 2016,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/607748/police-use-of-conducted-energy-devices-2016.ods
+Police use of Tasers 2015,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/519763/police-use-of-taser-2015tabs.ods
+Police use of Tasers 2014,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/442680/police-use-of-taser-jandec2014-tabs.ods
+Police use of Tasers 2012-13,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/295041/police-use-of-taser-20122013-tabs.ods
+Police use of Tasers 2009-11,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/236652/police-use-of-taser-20092011-tabs.ods
+More Weapon Crime Statistics,http://researchbriefings.files.parliament.uk/documents/SN04304/CBPSN04304.download.xlsx
+Illicit drug use by demographics,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/728748/drug-misuse-1718-tables.xlsx
+Income and Inequality 2017,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/datasets/householddisposableincomeandinequality/financialyearending2017/hdiireferencetables201617.xlsx
+Income and Inequality 2016,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/datasets/householddisposableincomeandinequality/financialyearending2016/hdii201516workbookv1.xls
+Income and Inequality 2015,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/datasets/householddisposableincomeandinequality/financialyearending2015/hdii201415referencetablesv2tcm77433858.xls
+Population by LSOA 2016,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2016sape19dt11/sape19dt11mid2016lsoapopulationdensity.zip
+Population by LSOA 2015,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2015sape18dt11/sape18dt11mid2015lsoapopulationdensity.zip
+Population by LSOA 2014,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2014/rft-lsoa-density-table-2014.zip
+Population by LSOA 2013,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2013/rft-lsoa-density-table-2013.zip
+Population by LSOA 2012,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2012/rftmid2012soadensitytables.zip
+Population by LSOA 2011,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2011/rftmid2011soadensitytables.zip
+Area comparison table,http://geoportal.statistics.gov.uk/datasets/output-area-to-lsoa-to-msoa-to-local-authority-district-december-2017-lookup-with-area-classifications-in-great-britain/data?page=9
