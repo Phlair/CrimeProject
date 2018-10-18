@@ -15,6 +15,7 @@ GO
 
 	AreaCompare table
 		Just keep LSOA and Region columns as this is what it's needed for
+		Adding in relationship between force area and regions obtained from FirearmDealersForceArea
 	
 	PoliceCrimeData Tables
 		StopSearch
@@ -165,6 +166,8 @@ select
 		WHEN poly.EnvelopeAngle() < 180 THEN poly
 		ELSE poly.ReorientObject()
 	 END AS [Geo poly]
+	 /* Going to do area in Alteryx in the interests of speed
+	,round(([Geo poly].STArea())/1000000,6) AS [Area (sq.km)] -- Calculating Force area (square kilometres) */
 INTO Geo.ForceArea -- Put into a table for comparison down the line
 FROM makevalids
 -- LSOA polys (34,753 LSOAs)
@@ -173,7 +176,7 @@ as (
 	SELECT
 		(geography::STMPolyFromText(REPLACE(WKT,'"',''), 4326).MakeValid()) as poly,
 		*
-	FROM LSOAFinal
+	FROM dirty.LSOAFinal
 	)
 ,deletedupes -- have to run a cte with ROW_NUMBER since DISTINCT isn't allowed on Geog
 as (
@@ -193,11 +196,36 @@ SELECT
 	[LSOA code]
 	,[LSOA name]
 	,[Geo poly]
+	/* Going to do area in Alteryx in the interests of speed
+	,round(([Geo poly].STArea())/1000000,6) AS [Area (sq.km)] -- Calculating LSOA area (square kilometres) */
 INTO Geo.LSOA -- Putting into table for comparisons down the line
 FROM deletedupes
 WHERE rown=1
 ALTER SCHEMA Dirty TRANSFER dbo.ForceAreaFinal
 ALTER SCHEMA Dirty TRANSFER dbo.LSOAFinal
+-- Joining Alteryx calculated areas into Geo tables
+ALTER SCHEMA temp TRANSFER Geo.ForceArea
+ALTER SCHEMA temp TRANSFER Geo.LSOA
+SELECT 
+	 fa.id
+	,fa.[Area name]
+	,fa.[Area code]
+	,round(gfa.[Area (sqkm)],2) AS [Area (sqkm)]-- Taking area (square kilometres) and inserting
+	,fa.[Geo poly]
+INTO geo.ForceArea
+FROM temp.ForceArea fa
+JOIN temp.GeoForceArea gfa
+	on fa.id = gfa.id
+SELECT 
+	 l.id
+	,l.[LSOA name]
+	,l.[lsoa code]
+	,round(gl.[Area (sqkm)],6) AS [Area (sqkm)]-- Taking area (square kilometres) and inserting
+	,l.[Geo poly]
+INTO geo.LSOA
+FROM temp.LSOA l
+JOIN temp.GeoLSOA gl
+	on l.id = gl.id
 
 
 /*----------------------------------
@@ -450,15 +478,43 @@ CREATE SPATIAL INDEX SIndx_GeoLSOA_GeoPoly
 /*-----------------------------
    AreaCompare table cleanse
 ------------------------------*/
--- just quick cleanse to convert this into a comparison for LSOA to Region
+-- Creating a comparison table for LSOA to Force Area to Region
+	-- This should form the basis of the DimGeo table
 SELECT DISTINCT
-	 LSOA11CD as [LSOA code]
-	,LSOA11NM as [LSOA name]
-	,RGN11CD as [Region code]
-	,RGN11NM as [Region name]
-INTO geo.RegionToLSOA
-FROM AreaCompare
-WHERE RGN11NM != 'Scotland'
+	 ac.LSOA11NM as [LSOA name]
+	,ac.LSOA11CD as [LSOA code]
+	,b.[Force area] as [Force area]
+	,c.[Area code] as [Force area code]
+	,ac.RGN11NM as [Region name]
+	,ac.RGN11CD as [Region code]
+INTO temp.AreaCompare
+FROM dirty.AreaCompare ac
+join dirty.FirearmDealersForceArea f
+	on ac.RGN11NM = f.Region
+join police.MatchedStreet c
+	on ac.LSOA11NM = c.[LSOA name]
+join Drug.SeizuresForceArea b
+	on b.[Area code] = c.[Area code]
+WHERE ac.RGN11NM != 'Scotland'
+AND f.[Police force area] not like '*%'
+
+;with dupelsoadelete -- Need to delete some duplicate LSOAs where they fell into multiple areas
+as (
+select
+	*,
+	ROW_NUMBER() over (partition by [LSOA name] order by (SELECT 1)) AS rown
+FROM Temp.AreaCompare
+)
+select
+	 [LSOA name]
+	,[LSOA code]
+	,[Force area]
+	,[Force area code]
+	,[Region name]
+	,[Region code]
+INTO Geo.AreaCompare
+FROM dupelsoadelete
+WHERE rown=1 -- We end up losing 3 LSOAs where no crime occurred 
 
 ALTER SCHEMA dirty TRANSFER dbo.AreaCompare
 
@@ -877,7 +933,6 @@ ALTER SCHEMA Dirty TRANSFER dbo.PoliceTaserUse14
 ALTER SCHEMA Dirty TRANSFER dbo.PoliceTaserUse15
 ALTER SCHEMA Dirty TRANSFER dbo.PoliceTaserUse16
 
-
 /*------------------------------------
     DrugDeathByArea table cleanse
 -------------------------------------*/
@@ -893,3 +948,48 @@ SELECT
 into Drug.DeathByRegion
 FROM temp.deathbyarea
 WHERE [Year] > 1999
+
+/*----------------------------------
+    DrugSeizures tables cleanse 
+-----------------------------------*/
+-- Completed in Alteryx, moving original data to dirty schema
+ALTER SCHEMA Dirty TRANSFER dbo.DrugSeizuresForceArea
+ALTER SCHEMA Dirty TRANSFER dbo.DrugSeizuresForceAreaSnapshot
+
+/*-------------------------------------
+    DrugAdmissionsNHS tables cleanse 
+--------------------------------------*/
+-- Completed in Alteryx, moving original data to dirty schema
+ALTER SCHEMA Dirty TRANSFER dbo.DrugAdmissionsNHSMental
+ALTER SCHEMA Dirty TRANSFER dbo.DrugAdmissionsNHSPoison
+
+/*----------------------------------
+    DrugSurveyData tables cleanse 
+-----------------------------------*/
+-- Completed in Alteryx, moving original data to dirty schema
+ALTER SCHEMA Dirty TRANSFER dbo.DrugSurveyData
+
+/*------------------------------------------
+    DeprivationIndicesLSOA tables cleanse 
+-------------------------------------------*/
+-- Completed in Alteryx, moving original data to dirty schema
+ALTER SCHEMA Dirty TRANSFER dbo.DeprivationIndicesLSOA
+ALTER SCHEMA Dirty TRANSFER dbo.WalesDeprivationRanksLSOA
+
+/*------------------------------------
+    PopulationByLSOA tables cleanse 
+-------------------------------------*/
+-- Completed in Alteryx, moving original data to dirty schema
+ALTER SCHEMA Dirty TRANSFER dbo.PopulationByLSOA11
+ALTER SCHEMA Dirty TRANSFER dbo.PopulationByLSOA12
+ALTER SCHEMA Dirty TRANSFER dbo.PopulationByLSOA13
+ALTER SCHEMA Dirty TRANSFER dbo.PopulationByLSOA14
+ALTER SCHEMA Dirty TRANSFER dbo.PopulationByLSOA15
+ALTER SCHEMA Dirty TRANSFER dbo.PopulationByLSOA16
+
+--	   ___ _                  _                 ___                      _      _         --
+--	  / __\ | ___  __ _ _ __ (_)_ __   __ _    / __\___  _ __ ___  _ __ | | ___| |_ ___   --
+--	 / /  | |/ _ \/ _` | '_ \| | '_ \ / _` |  / /  / _ \| '_ ` _ \| '_ \| |/ _ \ __/ _ \  --
+--	/ /___| |  __/ (_| | | | | | | | | (_| | / /__| (_) | | | | | | |_) | |  __/ ||  __/  --
+--	\____/|_|\___|\__,_|_| |_|_|_| |_|\__, | \____/\___/|_| |_| |_| .__/|_|\___|\__\___|  --
+--                                    |___/                       |_|                     --
