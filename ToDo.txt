@@ -1,0 +1,13 @@
+TODO:
+
+	Combine Geo-tables by conglomerating indices used so columns match up
+		and add new column specifying domain for the ranks (England OR Wales)
+
+	Unpivot GunsAge and use as supplementary to YearlyForceArea
+		Do same with GunsGender
+		Same with DrugSeizureSnapshot but this doesn't need unpivoting
+
+	DateTime table is unnecessary, change it to monthly Date table
+	
+	Fact table is literally just crimes, need to do last and then link to everything
+		aggregate stopsearch into month to be coherent with street

@@ -1,9 +1,547 @@
 <?xml version="1.0"?>
 <AlteryxDocument yxmdVer="2018.3">
   <Nodes>
+    <Node ToolID="291">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="53.99998" y="246" width="170.7311" height="19" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>YearlyRegionPivots</Caption>
+          <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="25" />
+          <Disabled value="True" />
+          <Folded value="True" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="292">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+            <Position x="91.99996" y="354.0001" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Passwords />
+              <CachedCosmeticName />
+              <File RecordLimit="" FileFormat="23">aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion</File>
+              <FormatSpecificOptions>
+                <PreSQLOnConfig>True</PreSQLOnConfig>
+                <ReadCentroids>False</ReadCentroids>
+                <NoProgress>True</NoProgress>
+                <ReadUncommitted>False</ReadUncommitted>
+                <TableStyle>Quoted</TableStyle>
+                <PreSQL />
+                <PostSQL />
+              </FormatSpecificOptions>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>aka:Test
+Table=Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <Dependencies>
+              <Implicit />
+            </Dependencies>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Year" size="11" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="String" />
+                <Field name="Region" size="255" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="V_WString" />
+                <Field name="Region code" size="255" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="V_WString" />
+                <Field name="Gender" size="11" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="String" />
+                <Field name="Drug admissions (mental health)" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="Double" />
+                <Field name="Drug admissions (poisoning)" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="Double" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
+        </Node>
+        <Node ToolID="293">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.CrossTab.CrossTab">
+            <Position x="175" y="322" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <GroupFields>
+                <Field field="Year" />
+                <Field field="Region" />
+                <Field field="Region code" />
+              </GroupFields>
+              <HeaderField field="Gender" />
+              <DataField field="Drug admissions (mental health)" />
+              <Methods>
+                <Method method="Sum" />
+              </Methods>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Year" size="11" source="CrossTab:Group:Sum:" type="String" />
+                <Field name="Region" size="255" source="CrossTab:Group:Sum:" type="V_WString" />
+                <Field name="Region code" size="255" source="CrossTab:Group:Sum:" type="V_WString" />
+                <Field name="Female" source="CrossTab:Header:Gender:Female:Sum:" type="Double" />
+                <Field name="Male" source="CrossTab:Header:Gender:Male:Sum:" type="Double" />
+              </RecordInfo>
+              <SortInfo>
+                <Field field="Year" order="Asc" />
+                <Field field="Region" order="Asc" />
+                <Field field="Region code" order="Asc" />
+              </SortInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxCrossTab" />
+        </Node>
+        <Node ToolID="294">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.CrossTab.CrossTab">
+            <Position x="175" y="382" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <GroupFields>
+                <Field field="Year" />
+                <Field field="Region" />
+                <Field field="Region code" />
+              </GroupFields>
+              <HeaderField field="Gender" />
+              <DataField field="Drug admissions (poisoning)" />
+              <Methods>
+                <Method method="Sum" />
+              </Methods>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Year" size="11" source="CrossTab:Group:Sum:" type="String" />
+                <Field name="Region" size="255" source="CrossTab:Group:Sum:" type="V_WString" />
+                <Field name="Region code" size="255" source="CrossTab:Group:Sum:" type="V_WString" />
+                <Field name="Female" source="CrossTab:Header:Gender:Female:Sum:" type="Double" />
+                <Field name="Male" source="CrossTab:Header:Gender:Male:Sum:" type="Double" />
+              </RecordInfo>
+              <SortInfo>
+                <Field field="Year" order="Asc" />
+                <Field field="Region" order="Asc" />
+                <Field field="Region code" order="Asc" />
+              </SortInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxCrossTab" />
+        </Node>
+        <Node ToolID="295">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="247" y="382" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="Female" selected="True" rename="NHS admissions (drug poisoning female)" />
+                <SelectField field="Male" selected="True" rename="NHS admissions (drug poisoning male)" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="296">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="247" y="322" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="Female" selected="True" rename="NHS admissions (drug mental health female)" />
+                <SelectField field="Male" selected="True" rename="NHS admissions (drug mental health male)" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="297">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
+            <Position x="319" y="358" />
+          </GuiSettings>
+          <Properties>
+            <Configuration joinByRecordPos="False">
+              <JoinInfo connection="Left">
+                <Field field="Year" />
+                <Field field="Region code" />
+              </JoinInfo>
+              <JoinInfo connection="Right">
+                <Field field="Year" />
+                <Field field="Region code" />
+              </JoinInfo>
+              <SelectConfiguration>
+                <Configuration outputConnection="Join">
+                  <OrderChanged value="True" />
+                  <CommaDecimal value="False" />
+                  <SelectFields>
+                    <SelectField field="Left_Year" selected="True" />
+                    <SelectField field="Left_Region" selected="True" />
+                    <SelectField field="Left_Region code" selected="True" />
+                    <SelectField field="Left_NHS admissions (drug mental health male)" selected="True" />
+                    <SelectField field="Left_NHS admissions (drug mental health female)" selected="True" />
+                    <SelectField field="Right_NHS admissions (drug poisoning male)" selected="True" />
+                    <SelectField field="Right_NHS admissions (drug poisoning female)" selected="True" />
+                    <SelectField field="Right_Year" selected="False" />
+                    <SelectField field="Right_Region" selected="False" />
+                    <SelectField field="Right_Region code" selected="False" />
+                    <SelectField field="Right_NHS admission (drug poisoning male)" selected="False" />
+                    <SelectField field="Right_NHS admission (drug poisoning female)" selected="False" />
+                    <SelectField field="Left_NHS admission (drug mental health male)" selected="False" />
+                    <SelectField field="Left_NHS admission (drug mental health female)" selected="False" />
+                    <SelectField field="*Unknown" selected="True" />
+                  </SelectFields>
+                </Configuration>
+              </SelectConfiguration>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxJoin" />
+        </Node>
+        <Node ToolID="298">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+            <Position x="90.99979" y="554" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Passwords />
+              <CachedCosmeticName />
+              <File RecordLimit="" FileFormat="23">aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData</File>
+              <FormatSpecificOptions>
+                <PreSQLOnConfig>True</PreSQLOnConfig>
+                <ReadCentroids>False</ReadCentroids>
+                <NoProgress>True</NoProgress>
+                <ReadUncommitted>False</ReadUncommitted>
+                <TableStyle>Quoted</TableStyle>
+                <PreSQL />
+                <PostSQL />
+              </FormatSpecificOptions>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>aka:test2
+Table=Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <Dependencies>
+              <Implicit />
+            </Dependencies>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Year" size="7" source="File: aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData" type="String" />
+                <Field name="Region" size="255" source="File: aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData" type="V_WString" />
+                <Field name="Region code" size="255" source="File: aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData" type="V_WString" />
+                <Field name="Drug" size="50" source="File: aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData" type="String" />
+                <Field name="Users (%)" source="File: aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData" type="Double" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
+        </Node>
+        <Node ToolID="299">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.CrossTab.CrossTab">
+            <Position x="175" y="554" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <GroupFields>
+                <Field field="Year" />
+                <Field field="Region" />
+                <Field field="Region code" />
+              </GroupFields>
+              <HeaderField field="Drug" />
+              <DataField field="Users (%)" />
+              <Methods>
+                <Method method="Avg" />
+              </Methods>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Year" size="7" source="CrossTab:Group:Avg:" type="String" />
+                <Field name="Region" size="255" source="CrossTab:Group:Avg:" type="V_WString" />
+                <Field name="Region code" size="255" source="CrossTab:Group:Avg:" type="V_WString" />
+                <Field name="Avg_Amphetamines" source="CrossTab:Header:Drug:Amphetamines:Avg:" type="Double" />
+                <Field name="Avg_Any_Class_A_drug" source="CrossTab:Header:Drug:Any Class A drug:Avg:" type="Double" />
+                <Field name="Avg_Any_drug" source="CrossTab:Header:Drug:Any drug:Avg:" type="Double" />
+                <Field name="Avg_Cannabis" source="CrossTab:Header:Drug:Cannabis:Avg:" type="Double" />
+                <Field name="Avg_Ecstasy" source="CrossTab:Header:Drug:Ecstasy:Avg:" type="Double" />
+                <Field name="Avg_Hallucinogens" source="CrossTab:Header:Drug:Hallucinogens:Avg:" type="Double" />
+                <Field name="Avg_Powder_cocaine" source="CrossTab:Header:Drug:Powder cocaine:Avg:" type="Double" />
+              </RecordInfo>
+              <SortInfo>
+                <Field field="Year" order="Asc" />
+                <Field field="Region" order="Asc" />
+                <Field field="Region code" order="Asc" />
+              </SortInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxCrossTab" />
+        </Node>
+        <Node ToolID="300">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="247" y="554" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="True" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="Year" selected="True" />
+                <SelectField field="Region" selected="True" />
+                <SelectField field="Region code" selected="True" />
+                <SelectField field="Avg_Any_drug" selected="True" rename="Drug users (% of pop)" />
+                <SelectField field="Avg_Cannabis" selected="True" rename="Cannabis users (% of pop)" />
+                <SelectField field="Avg_Any_Class_A_drug" selected="True" rename="Class A users (% of pop)" />
+                <SelectField field="Avg_Powder_cocaine" selected="True" rename="Cocaine users (% of pop)" />
+                <SelectField field="Avg_Ecstasy" selected="True" rename="Ecstasy users (% of pop)" />
+                <SelectField field="Avg_Amphetamines" selected="True" rename="Amphetamine users (% of pop)" />
+                <SelectField field="Avg_Hallucinogens" selected="True" rename="Hallucinogen users (% of pop)" />
+                <SelectField field="Female" selected="False" rename="NHS admissions (drug poisoning female)" />
+                <SelectField field="Male" selected="False" rename="NHS admissions (drug poisoning male)" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="301">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="331" y="554" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="23">aka:Test|||Drug.SurveyData</File>
+              <Passwords />
+              <FormatSpecificOptions>
+                <TransactionMessages>False</TransactionMessages>
+                <Geometry>False</Geometry>
+                <Projection />
+                <IgnoreDropTableSQLErrors>False</IgnoreDropTableSQLErrors>
+                <SpatialObjSize>8000</SpatialObjSize>
+                <OutputOption>Create</OutputOption>
+                <PostSQL />
+                <TransactionSize>10000</TransactionSize>
+                <TableStyle>Quoted</TableStyle>
+                <PreSQL />
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>aka:Test
+Table=Drug.SurveyData</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <Dependencies>
+              <Implicit />
+            </Dependencies>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="302">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="331" y="446" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="23">aka:Test|||Drug.AdmissionsNHSRegion</File>
+              <Passwords />
+              <CachedCosmeticName />
+              <FormatSpecificOptions>
+                <TransactionMessages>False</TransactionMessages>
+                <Geometry>False</Geometry>
+                <Projection />
+                <IgnoreDropTableSQLErrors>False</IgnoreDropTableSQLErrors>
+                <SpatialObjSize>8000</SpatialObjSize>
+                <OutputOption>Overwrite</OutputOption>
+                <PostSQL />
+                <TransactionSize>10000</TransactionSize>
+                <TableStyle>Quoted</TableStyle>
+                <PreSQL />
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>aka:Test
+Table=Drug.AdmissionsNHSRegion</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <Dependencies>
+              <Implicit />
+            </Dependencies>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="303">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="78.99994" y="410" width="60.00002" height="132" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Pulling in data from SQL, this has already been cleaned but need to prep for dim table</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="304">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="175" y="434" width="60" height="36" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Pivoting gender</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="305">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="175" y="518" width="60" height="36" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Pivoting drug</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="306">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="247" y="458" width="60.00003" height="72" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Selecting and renaming required columns</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="307">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="319" y="290" width="71" height="72" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Joining drug poisoning and drug mental health</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="308">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="342" y="510" width="48" height="36" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Send to SQL</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+      </ChildNodes>
+    </Node>
     <Node ToolID="270">
       <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
-        <Position x="30" y="186" width="165.0646" height="19" />
+        <Position x="54" y="222" width="165.0646" height="19" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -21,7 +559,7 @@
       <ChildNodes>
         <Node ToolID="271">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="54.99999" y="230" />
+            <Position x="91.99993" y="266" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -45,9 +583,6 @@
 Table=Select DeprivationIndicesLSOA.* From DeprivationIndicesLSOA</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="LSOA code (2011)" size="255" source="File: aka:Test|||Select DeprivationIndicesLSOA.* From DeprivationIndicesLSOA" type="V_WString" />
@@ -114,7 +649,7 @@ Table=Select DeprivationIndicesLSOA.* From DeprivationIndicesLSOA</DefaultAnnota
         </Node>
         <Node ToolID="272">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="139" y="238" />
+            <Position x="212" y="273.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -191,7 +726,7 @@ Table=Select DeprivationIndicesLSOA.* From DeprivationIndicesLSOA</DefaultAnnota
         </Node>
         <Node ToolID="273">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="235" y="298" width="36" height="40" />
+            <Position x="308" y="333.9999" width="36" height="40" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -211,7 +746,7 @@ Table=Select DeprivationIndicesLSOA.* From DeprivationIndicesLSOA</DefaultAnnota
         </Node>
         <Node ToolID="274">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-            <Position x="223" y="238" />
+            <Position x="296" y="273.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -239,15 +774,12 @@ Table=Select DeprivationIndicesLSOA.* From DeprivationIndicesLSOA</DefaultAnnota
 Table=Geo.DeprivationRanksLSOA</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
         </Node>
         <Node ToolID="275">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="127" y="298" width="96" height="40" />
+            <Position x="200" y="333.9999" width="96" height="40" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -267,11 +799,11 @@ Table=Geo.DeprivationRanksLSOA</DefaultAnnotationText>
         </Node>
         <Node ToolID="276">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="55" y="286" width="60" height="48" />
+            <Position x="79.00002" y="317.9999" width="59.99999" height="56" />
           </GuiSettings>
           <Properties>
             <Configuration>
-              <Text>Import dirty table from SQL</Text>
+              <Text>Import dirty table from SQL (England)</Text>
               <Font name="Arial" size="8.25" style="0" />
               <TextColor name="Black" />
               <FillColor name="White" />
@@ -285,11 +817,325 @@ Table=Geo.DeprivationRanksLSOA</DefaultAnnotationText>
             </Annotation>
           </Properties>
         </Node>
+        <Node ToolID="277">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+            <Position x="90.99995" y="401.9999" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Passwords />
+              <CachedCosmeticName />
+              <File RecordLimit="" FileFormat="23">aka:Test|||Select WalesDeprivationRanksLSOA.* From WalesDeprivationRanksLSOA</File>
+              <FormatSpecificOptions>
+                <PreSQLOnConfig>True</PreSQLOnConfig>
+                <ReadCentroids>False</ReadCentroids>
+                <NoProgress>True</NoProgress>
+                <ReadUncommitted>False</ReadUncommitted>
+                <TableStyle>Quoted</TableStyle>
+                <PreSQL />
+                <PostSQL />
+              </FormatSpecificOptions>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>aka:Test
+Table=Select WalesDeprivationRanksLSOA.* From WalesDeprivationRanksLSOA</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <Dependencies>
+              <Implicit />
+            </Dependencies>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="F1" size="255" source="File: aka:Test|||Select WalesDeprivationRanksLSOA.* From WalesDeprivationRanksLSOA" type="V_WString" />
+                <Field name="WIMD (1)" source="File: aka:Test|||Select WalesDeprivationRanksLSOA.* From WalesDeprivationRanksLSOA" type="Double" />
+                <Field name="Income (2)" source="File: aka:Test|||Select WalesDeprivationRanksLSOA.* From WalesDeprivationRanksLSOA" type="Double" />
+                <Field name="Employment (3)" source="File: aka:Test|||Select WalesDeprivationRanksLSOA.* From WalesDeprivationRanksLSOA" type="Double" />
+                <Field name="Health (4)" source="File: aka:Test|||Select WalesDeprivationRanksLSOA.* From WalesDeprivationRanksLSOA" type="Double" />
+                <Field name="Education (5)" source="File: aka:Test|||Select WalesDeprivationRanksLSOA.* From WalesDeprivationRanksLSOA" type="Double" />
+                <Field name="Access to Services (6)" source="File: aka:Test|||Select WalesDeprivationRanksLSOA.* From WalesDeprivationRanksLSOA" type="Double" />
+                <Field name="Community Safety (7)" source="File: aka:Test|||Select WalesDeprivationRanksLSOA.* From WalesDeprivationRanksLSOA" type="Double" />
+                <Field name="Physical Environment (8)" source="File: aka:Test|||Select WalesDeprivationRanksLSOA.* From WalesDeprivationRanksLSOA" type="Double" />
+                <Field name="Housing (9)" source="File: aka:Test|||Select WalesDeprivationRanksLSOA.* From WalesDeprivationRanksLSOA" type="Double" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
+        </Node>
+        <Node ToolID="278">
+          <GuiSettings>
+            <Position x="151" y="401.9999" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Value name="List Box (11)">"F1","WIMD (1)","Income (2)","Employment (3)","Health (4)","Education (5)","Access to Services (6)","Community Safety (7)","Physical Environment (8)","Housing (9)"</Value>
+              <Value name="Check Box (84)">False</Value>
+              <Value name="Check Box (117)">False</Value>
+              <Value name="Check Box (15)">True</Value>
+              <Value name="Check Box (109)">False</Value>
+              <Value name="Check Box (122)">False</Value>
+              <Value name="Check Box (53)">False</Value>
+              <Value name="Check Box (58)">False</Value>
+              <Value name="Check Box (70)">False</Value>
+              <Value name="Check Box (77)">False</Value>
+              <Value name="Drop Down (81)">upper</Value>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+            <Dependencies>
+              <Implicit />
+            </Dependencies>
+          </Properties>
+          <EngineSettings Macro="Cleanse.yxmc" />
+        </Node>
+        <Node ToolID="283">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
+            <Position x="211" y="401.9999" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Expression>!IsNull([F1])</Expression>
+              <Mode>Simple</Mode>
+              <Simple>
+                <Operator>IsNotNull</Operator>
+                <Field>F1</Field>
+                <Operands>
+                  <IgnoreTimeInDateTime>True</IgnoreTimeInDateTime>
+                  <DateType>fixed</DateType>
+                  <PeriodDate>2018-10-18 12:54:30</PeriodDate>
+                  <PeriodType>
+                  </PeriodType>
+                  <PeriodCount>0</PeriodCount>
+                  <Operand>
+                  </Operand>
+                  <StartDate>2018-10-18 12:54:30</StartDate>
+                  <EndDate>2018-10-18 12:54:30</EndDate>
+                </Operands>
+              </Simple>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>!IsNull([F1])</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFilter" />
+        </Node>
+        <Node ToolID="280">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="343" y="461.9999" width="96" height="40" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Select and rename required columns</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="282">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="355" y="401.9999" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="True" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="F1" selected="True" rename="LSOA code" />
+                <SelectField field="WIMD (1)" selected="True" rename="Multiple deprivation" />
+                <SelectField field="Income (2)" selected="True" rename="Income deprivation" />
+                <SelectField field="Employment (3)" selected="True" rename="Employment deprivation" />
+                <SelectField field="Education (5)" selected="True" rename="Education deprivation" />
+                <SelectField field="Health (4)" selected="True" rename="Health deprivation" />
+                <SelectField field="Housing (9)" selected="True" rename="Barriers to housing" />
+                <SelectField field="Access to Services (6)" selected="True" rename="Barriers to services" />
+                <SelectField field="Community Safety (7)" selected="True" rename="Crime" />
+                <SelectField field="Physical Environment (8)" selected="True" rename="Living environment dep" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="284">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+            <Position x="283" y="401.9999" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FormulaFields>
+                <FormulaField expression="Left([F1],9)" field="F1" size="255" type="V_WString" />
+              </FormulaFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText><![CDATA[F1 = Left([F1],9)
+]]></DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+        </Node>
+        <Node ToolID="285">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="79.00001" y="462.0001" width="60" height="60" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Import dirty table from SQL (Wales)</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="286">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="139" y="461.9999" width="72" height="36" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Cleanse whitespace</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="287">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="223" y="461.9999" width="47.99997" height="36" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Filter NULLs</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="288">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="283" y="461.9999" width="47.99997" height="60" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Derive just LSOA code</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="289">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="451" y="461.9999" width="36" height="40" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Send to SQL</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="290">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="439" y="401.9999" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="23">aka:Test|||Geo.WalesDeprivationRanksLSOA</File>
+              <Passwords />
+              <FormatSpecificOptions>
+                <TransactionMessages>False</TransactionMessages>
+                <Geometry>False</Geometry>
+                <Projection />
+                <IgnoreDropTableSQLErrors>False</IgnoreDropTableSQLErrors>
+                <SpatialObjSize>8000</SpatialObjSize>
+                <OutputOption>Overwrite</OutputOption>
+                <PostSQL />
+                <TransactionSize>10000</TransactionSize>
+                <TableStyle>Quoted</TableStyle>
+                <PreSQL />
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>aka:Test
+Table=Geo.WalesDeprivationRanksLSOA</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <Dependencies>
+              <Implicit />
+            </Dependencies>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
       </ChildNodes>
     </Node>
     <Node ToolID="234">
       <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
-        <Position x="30" y="114" width="168.7921" height="19" />
+        <Position x="54" y="150" width="168.7921" height="19" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -307,7 +1153,7 @@ Table=Geo.DeprivationRanksLSOA</DefaultAnnotationText>
       <ChildNodes>
         <Node ToolID="235">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="91" y="206" />
+            <Position x="115" y="242" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -331,9 +1177,6 @@ Table=Geo.DeprivationRanksLSOA</DefaultAnnotationText>
 Table=Select PopulationByLSOA11.* From PopulationByLSOA11</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="Code" size="255" source="File: aka:Test|||Select PopulationByLSOA11.* From PopulationByLSOA11" type="V_WString" />
@@ -347,7 +1190,7 @@ Table=Select PopulationByLSOA11.* From PopulationByLSOA11</DefaultAnnotationText
         </Node>
         <Node ToolID="236">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="163" y="206" />
+            <Position x="187" y="242" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -367,7 +1210,7 @@ Table=Select PopulationByLSOA11.* From PopulationByLSOA11</DefaultAnnotationText
         </Node>
         <Node ToolID="237">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="91" y="314" />
+            <Position x="115" y="350" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -391,9 +1234,6 @@ Table=Select PopulationByLSOA11.* From PopulationByLSOA11</DefaultAnnotationText
 Table=Select PopulationByLSOA12.* From PopulationByLSOA12</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="Code" size="255" source="File: aka:Test|||Select PopulationByLSOA12.* From PopulationByLSOA12" type="V_WString" />
@@ -408,7 +1248,7 @@ Table=Select PopulationByLSOA12.* From PopulationByLSOA12</DefaultAnnotationText
         </Node>
         <Node ToolID="238">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="163" y="314" />
+            <Position x="187" y="350" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -428,7 +1268,7 @@ Table=Select PopulationByLSOA12.* From PopulationByLSOA12</DefaultAnnotationText
         </Node>
         <Node ToolID="239">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="175" y="158" />
+            <Position x="199" y="194" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -448,7 +1288,7 @@ Table=Select PopulationByLSOA12.* From PopulationByLSOA12</DefaultAnnotationText
         </Node>
         <Node ToolID="242">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="235" y="314" />
+            <Position x="259" y="350" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -474,7 +1314,7 @@ Table=Select PopulationByLSOA12.* From PopulationByLSOA12</DefaultAnnotationText
         </Node>
         <Node ToolID="243">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="235" y="206" />
+            <Position x="259" y="242" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -501,7 +1341,7 @@ Table=Select PopulationByLSOA12.* From PopulationByLSOA12</DefaultAnnotationText
         </Node>
         <Node ToolID="244">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="91" y="266" width="48" height="36" />
+            <Position x="115" y="302" width="48" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -521,7 +1361,7 @@ Table=Select PopulationByLSOA12.* From PopulationByLSOA12</DefaultAnnotationText
         </Node>
         <Node ToolID="245">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="163" y="266" width="60" height="48" />
+            <Position x="187" y="302" width="60" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -541,7 +1381,7 @@ Table=Select PopulationByLSOA12.* From PopulationByLSOA12</DefaultAnnotationText
         </Node>
         <Node ToolID="246">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="247" y="170" width="108" height="36" />
+            <Position x="271" y="206" width="108" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -561,7 +1401,7 @@ Table=Select PopulationByLSOA12.* From PopulationByLSOA12</DefaultAnnotationText
         </Node>
         <Node ToolID="247">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="235" y="266" width="96" height="48" />
+            <Position x="259" y="302" width="96" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -581,7 +1421,7 @@ Table=Select PopulationByLSOA12.* From PopulationByLSOA12</DefaultAnnotationText
         </Node>
         <Node ToolID="248">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="90.99999" y="362" />
+            <Position x="115" y="398" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -605,9 +1445,6 @@ Table=Select PopulationByLSOA12.* From PopulationByLSOA12</DefaultAnnotationText
 Table=Select PopulationByLSOA13.* From PopulationByLSOA13</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="Code" size="255" source="File: aka:Test|||Select PopulationByLSOA13.* From PopulationByLSOA13" type="V_WString" />
@@ -622,7 +1459,7 @@ Table=Select PopulationByLSOA13.* From PopulationByLSOA13</DefaultAnnotationText
         </Node>
         <Node ToolID="249">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="163" y="362" />
+            <Position x="187" y="398" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -642,7 +1479,7 @@ Table=Select PopulationByLSOA13.* From PopulationByLSOA13</DefaultAnnotationText
         </Node>
         <Node ToolID="250">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="235" y="362" />
+            <Position x="259" y="398" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -669,7 +1506,7 @@ Table=Select PopulationByLSOA13.* From PopulationByLSOA13</DefaultAnnotationText
         </Node>
         <Node ToolID="251">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="90.99998" y="410" />
+            <Position x="115" y="446" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -693,9 +1530,6 @@ Table=Select PopulationByLSOA13.* From PopulationByLSOA13</DefaultAnnotationText
 Table=Select PopulationByLSOA14.* From PopulationByLSOA14</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="Code" size="255" source="File: aka:Test|||Select PopulationByLSOA14.* From PopulationByLSOA14" type="V_WString" />
@@ -710,7 +1544,7 @@ Table=Select PopulationByLSOA14.* From PopulationByLSOA14</DefaultAnnotationText
         </Node>
         <Node ToolID="252">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="163" y="410" />
+            <Position x="187" y="446" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -730,7 +1564,7 @@ Table=Select PopulationByLSOA14.* From PopulationByLSOA14</DefaultAnnotationText
         </Node>
         <Node ToolID="253">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="235" y="410" />
+            <Position x="259" y="446" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -757,7 +1591,7 @@ Table=Select PopulationByLSOA14.* From PopulationByLSOA14</DefaultAnnotationText
         </Node>
         <Node ToolID="254">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="90.99998" y="458" />
+            <Position x="115" y="494" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -781,9 +1615,6 @@ Table=Select PopulationByLSOA14.* From PopulationByLSOA14</DefaultAnnotationText
 Table=Select PopulationByLSOA15.* From PopulationByLSOA15</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="Code" size="255" source="File: aka:Test|||Select PopulationByLSOA15.* From PopulationByLSOA15" type="V_WString" />
@@ -798,7 +1629,7 @@ Table=Select PopulationByLSOA15.* From PopulationByLSOA15</DefaultAnnotationText
         </Node>
         <Node ToolID="255">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="163" y="458" />
+            <Position x="187" y="494" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -818,7 +1649,7 @@ Table=Select PopulationByLSOA15.* From PopulationByLSOA15</DefaultAnnotationText
         </Node>
         <Node ToolID="256">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="235" y="458" />
+            <Position x="259" y="494" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -845,7 +1676,7 @@ Table=Select PopulationByLSOA15.* From PopulationByLSOA15</DefaultAnnotationText
         </Node>
         <Node ToolID="257">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="55" y="230" width="36" height="24" />
+            <Position x="79" y="266" width="36" height="24" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -865,7 +1696,7 @@ Table=Select PopulationByLSOA15.* From PopulationByLSOA15</DefaultAnnotationText
         </Node>
         <Node ToolID="258">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="55.00012" y="338.0001" width="36" height="24" />
+            <Position x="79.00012" y="374.0001" width="36" height="24" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -885,7 +1716,7 @@ Table=Select PopulationByLSOA15.* From PopulationByLSOA15</DefaultAnnotationText
         </Node>
         <Node ToolID="259">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="54.99997" y="385.9999" width="36" height="24" />
+            <Position x="78.99997" y="421.9999" width="36" height="24" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -905,7 +1736,7 @@ Table=Select PopulationByLSOA15.* From PopulationByLSOA15</DefaultAnnotationText
         </Node>
         <Node ToolID="260">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="55" y="434" width="36" height="24" />
+            <Position x="79" y="470" width="36" height="24" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -925,7 +1756,7 @@ Table=Select PopulationByLSOA15.* From PopulationByLSOA15</DefaultAnnotationText
         </Node>
         <Node ToolID="261">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="54.99993" y="482" width="36" height="24" />
+            <Position x="78.99993" y="518" width="36" height="24" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -945,7 +1776,7 @@ Table=Select PopulationByLSOA15.* From PopulationByLSOA15</DefaultAnnotationText
         </Node>
         <Node ToolID="262">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="55.00006" y="530" width="36" height="24" />
+            <Position x="79.00006" y="566" width="36" height="24" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -965,7 +1796,7 @@ Table=Select PopulationByLSOA15.* From PopulationByLSOA15</DefaultAnnotationText
         </Node>
         <Node ToolID="263">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="90.99998" y="506" />
+            <Position x="115" y="542" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -989,9 +1820,6 @@ Table=Select PopulationByLSOA15.* From PopulationByLSOA15</DefaultAnnotationText
 Table=Select PopulationByLSOA16.* From PopulationByLSOA16</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="Code" size="255" source="File: aka:Test|||Select PopulationByLSOA16.* From PopulationByLSOA16" type="V_WString" />
@@ -1006,7 +1834,7 @@ Table=Select PopulationByLSOA16.* From PopulationByLSOA16</DefaultAnnotationText
         </Node>
         <Node ToolID="264">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="162.9999" y="506" />
+            <Position x="186.9999" y="542" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1026,7 +1854,7 @@ Table=Select PopulationByLSOA16.* From PopulationByLSOA16</DefaultAnnotationText
         </Node>
         <Node ToolID="265">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="235" y="506" />
+            <Position x="259" y="542" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1053,7 +1881,7 @@ Table=Select PopulationByLSOA16.* From PopulationByLSOA16</DefaultAnnotationText
         </Node>
         <Node ToolID="266">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Union.Union">
-            <Position x="355" y="338" />
+            <Position x="379" y="374" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1072,7 +1900,7 @@ Table=Select PopulationByLSOA16.* From PopulationByLSOA16</DefaultAnnotationText
         </Node>
         <Node ToolID="267">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="355" y="398" width="60" height="60" />
+            <Position x="379" y="434" width="60" height="60" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1092,7 +1920,7 @@ Table=Select PopulationByLSOA16.* From PopulationByLSOA16</DefaultAnnotationText
         </Node>
         <Node ToolID="268">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-            <Position x="439" y="338" />
+            <Position x="463" y="374" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1120,15 +1948,12 @@ Table=Select PopulationByLSOA16.* From PopulationByLSOA16</DefaultAnnotationText
 Table=Geo.PopulationLSOA</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
         </Node>
         <Node ToolID="269">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="439" y="398" width="60" height="36" />
+            <Position x="463" y="434" width="60" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1150,7 +1975,7 @@ Table=Geo.PopulationLSOA</DefaultAnnotationText>
     </Node>
     <Node ToolID="210">
       <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
-        <Position x="30" y="90" width="122.6759" height="19" />
+        <Position x="54" y="126" width="122.6759" height="19" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -1168,7 +1993,7 @@ Table=Geo.PopulationLSOA</DefaultAnnotationText>
       <ChildNodes>
         <Node ToolID="211">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="66.99999" y="146" />
+            <Position x="90.99999" y="182" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1192,9 +2017,6 @@ Table=Geo.PopulationLSOA</DefaultAnnotationText>
 Table=Select Geo.LSOA.id, Geo.LSOA.[LSOA code], Geo.LSOA.[LSOA name], Geo.LSOA.[Geo poly] From Geo.LSOA</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="id" source="File: aka:Test|||Select Geo.LSOA.id, Geo.LSOA.[LSOA code], Geo.LSOA.[LSOA name], Geo.LSOA.[Geo poly] From Geo.LSOA" type="Int32" />
@@ -1208,7 +2030,7 @@ Table=Select Geo.LSOA.id, Geo.LSOA.[LSOA code], Geo.LSOA.[LSOA name], Geo.LSOA.[
         </Node>
         <Node ToolID="212">
           <GuiSettings Plugin="AlteryxSpatialPluginsGui.SpatialInfo.SpatialInfo">
-            <Position x="151" y="134" />
+            <Position x="175" y="170" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1227,7 +2049,7 @@ Table=Select Geo.LSOA.id, Geo.LSOA.[LSOA code], Geo.LSOA.[LSOA name], Geo.LSOA.[
         </Node>
         <Node ToolID="213">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-            <Position x="307" y="146" />
+            <Position x="331" y="182" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1255,15 +2077,12 @@ Table=Select Geo.LSOA.id, Geo.LSOA.[LSOA code], Geo.LSOA.[LSOA name], Geo.LSOA.[
 Table=Temp.GeoLSOA</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
         </Node>
         <Node ToolID="225">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="55.00002" y="194" width="84" height="48" />
+            <Position x="79.00002" y="230" width="84" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1283,7 +2102,7 @@ Table=Temp.GeoLSOA</DefaultAnnotationText>
         </Node>
         <Node ToolID="226">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="152" y="190" width="72" height="48" />
+            <Position x="176" y="226" width="72" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1303,7 +2122,7 @@ Table=Temp.GeoLSOA</DefaultAnnotationText>
         </Node>
         <Node ToolID="227">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="319" y="194" width="36" height="48" />
+            <Position x="343" y="230" width="36" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1323,7 +2142,7 @@ Table=Temp.GeoLSOA</DefaultAnnotationText>
         </Node>
         <Node ToolID="228">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="67.99999" y="238.0001" />
+            <Position x="91.99999" y="274.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1347,9 +2166,6 @@ Table=Temp.GeoLSOA</DefaultAnnotationText>
 Table=Select Geo.ForceArea.id, Geo.ForceArea.[Area code], Geo.ForceArea.[Area name], Geo.ForceArea.[Geo poly] From Geo.ForceArea</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="id" source="File: aka:Test|||Select Geo.ForceArea.id, Geo.ForceArea.[Area code], Geo.ForceArea.[Area name], Geo.ForceArea.[Geo poly] From Geo.ForceArea" type="Int32" />
@@ -1363,7 +2179,7 @@ Table=Select Geo.ForceArea.id, Geo.ForceArea.[Area code], Geo.ForceArea.[Area na
         </Node>
         <Node ToolID="229">
           <GuiSettings Plugin="AlteryxSpatialPluginsGui.SpatialInfo.SpatialInfo">
-            <Position x="151" y="254" />
+            <Position x="175" y="290" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1382,7 +2198,7 @@ Table=Select Geo.ForceArea.id, Geo.ForceArea.[Area code], Geo.ForceArea.[Area na
         </Node>
         <Node ToolID="231">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="235" y="242" />
+            <Position x="259" y="278" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1404,7 +2220,7 @@ Table=Select Geo.ForceArea.id, Geo.ForceArea.[Area code], Geo.ForceArea.[Area na
         </Node>
         <Node ToolID="230">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-            <Position x="307" y="242" />
+            <Position x="331" y="278" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1435,15 +2251,12 @@ Table=Select Geo.ForceArea.id, Geo.ForceArea.[Area code], Geo.ForceArea.[Area na
 Table=Temp.GeoForceArea</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
         </Node>
         <Node ToolID="232">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="235" y="146" />
+            <Position x="259" y="182" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1465,7 +2278,7 @@ Table=Temp.GeoForceArea</DefaultAnnotationText>
         </Node>
         <Node ToolID="233">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="235" y="194" width="60" height="48" />
+            <Position x="259" y="230" width="60" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1487,7 +2300,7 @@ Table=Temp.GeoForceArea</DefaultAnnotationText>
     </Node>
     <Node ToolID="91">
       <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
-        <Position x="30" y="18" width="132.1129" height="19" />
+        <Position x="54" y="54" width="132.1129" height="19" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -1505,7 +2318,7 @@ Table=Temp.GeoForceArea</DefaultAnnotationText>
       <ChildNodes>
         <Node ToolID="92">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="54.99996" y="109.9999" />
+            <Position x="78.99996" y="145.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1529,9 +2342,6 @@ Table=Temp.GeoForceArea</DefaultAnnotationText>
 Table=Select DrugDeathByArea.* From DrugDeathByArea</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="Registration Year" source="File: aka:Test|||Select DrugDeathByArea.* From DrugDeathByArea" type="Double" />
@@ -1553,7 +2363,7 @@ Table=Select DrugDeathByArea.* From DrugDeathByArea</DefaultAnnotationText>
         </Node>
         <Node ToolID="93">
           <GuiSettings>
-            <Position x="139" y="110" />
+            <Position x="163" y="146" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1574,15 +2384,12 @@ Table=Select DrugDeathByArea.* From DrugDeathByArea</DefaultAnnotationText>
               <DefaultAnnotationText />
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings Macro="Cleanse.yxmc" />
         </Node>
         <Node ToolID="95">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="318.9999" y="110" />
+            <Position x="342.9999" y="146" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1607,7 +2414,7 @@ Table=Select DrugDeathByArea.* From DrugDeathByArea</DefaultAnnotationText>
         </Node>
         <Node ToolID="96">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="235" y="110.0001" />
+            <Position x="259" y="146.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1627,7 +2434,7 @@ Table=Select DrugDeathByArea.* From DrugDeathByArea</DefaultAnnotationText>
         </Node>
         <Node ToolID="97">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-            <Position x="498.0001" y="102" />
+            <Position x="522.0001" y="138" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1665,7 +2472,7 @@ AND
         </Node>
         <Node ToolID="102">
           <GuiSettings Plugin="AlteryxBasePluginsGui.MultiRowFormula.MultiRowFormula">
-            <Position x="415" y="110" />
+            <Position x="439" y="146" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1690,7 +2497,7 @@ AND
         </Node>
         <Node ToolID="103">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-            <Position x="438" y="198" />
+            <Position x="462" y="234" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1718,15 +2525,12 @@ AND
 Table=Drug.DeathByArea</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
         </Node>
         <Node ToolID="104">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="498" y="210" width="72" height="48" />
+            <Position x="522" y="246" width="72" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1746,7 +2550,7 @@ Table=Drug.DeathByArea</DefaultAnnotationText>
         </Node>
         <Node ToolID="105">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="66.00003" y="174" width="36" height="60" />
+            <Position x="90.00003" y="210" width="36" height="60" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1766,7 +2570,7 @@ Table=Drug.DeathByArea</DefaultAnnotationText>
         </Node>
         <Node ToolID="106">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="138" y="174.0001" width="72" height="36" />
+            <Position x="162" y="210.0001" width="72" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1786,7 +2590,7 @@ Table=Drug.DeathByArea</DefaultAnnotationText>
         </Node>
         <Node ToolID="107">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="270" y="162" width="72" height="84" />
+            <Position x="294" y="198" width="72" height="84" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1806,7 +2610,7 @@ Table=Drug.DeathByArea</DefaultAnnotationText>
         </Node>
         <Node ToolID="108">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="330" y="78" width="180" height="36" />
+            <Position x="354" y="114" width="180" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1826,7 +2630,7 @@ Table=Drug.DeathByArea</DefaultAnnotationText>
         </Node>
         <Node ToolID="109">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="534" y="62" width="72" height="48" />
+            <Position x="558" y="98" width="72" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1848,7 +2652,7 @@ Table=Drug.DeathByArea</DefaultAnnotationText>
     </Node>
     <Node ToolID="193">
       <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
-        <Position x="30" y="66" width="155.4074" height="19" />
+        <Position x="54" y="102" width="155.4074" height="19" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -1866,7 +2670,7 @@ Table=Drug.DeathByArea</DefaultAnnotationText>
       <ChildNodes>
         <Node ToolID="194">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="56.00002" y="142.0001" />
+            <Position x="80.00002" y="178.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1890,9 +2694,6 @@ Table=Drug.DeathByArea</DefaultAnnotationText>
 Table=Select DrugSurveyData.* From DrugSurveyData</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="F1" size="255" source="File: aka:Test|||Select DrugSurveyData.* From DrugSurveyData" type="V_WString" />
@@ -1923,7 +2724,7 @@ Table=Select DrugSurveyData.* From DrugSurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="195">
           <GuiSettings>
-            <Position x="133" y="146.0001" />
+            <Position x="157" y="182.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1944,15 +2745,12 @@ Table=Select DrugSurveyData.* From DrugSurveyData</DefaultAnnotationText>
               <DefaultAnnotationText />
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings Macro="Cleanse.yxmc" />
         </Node>
         <Node ToolID="196">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-            <Position x="205" y="146.0003" />
+            <Position x="229" y="182.0003" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -1986,7 +2784,7 @@ Table=Select DrugSurveyData.* From DrugSurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="197">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Transpose.Transpose">
-            <Position x="367" y="146.0003" />
+            <Position x="391" y="182.0003" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2031,7 +2829,7 @@ Table=Select DrugSurveyData.* From DrugSurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="199">
           <GuiSettings Plugin="AlteryxBasePluginsGui.MultiRowFormula.MultiRowFormula">
-            <Position x="289" y="146.0003" />
+            <Position x="313" y="182.0003" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2067,7 +2865,7 @@ OR Con...</DefaultAnnotationText>
         </Node>
         <Node ToolID="200">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="295" y="206.0003" />
+            <Position x="319" y="242.0003" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2091,9 +2889,6 @@ OR Con...</DefaultAnnotationText>
 Table=Select Geo.RegionToLSOA.[Region code], Geo.RegionToLSOA.[Region name] From Geo.RegionToLSOA</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="Region code" size="255" source="File: aka:Test|||Select Geo.RegionToLSOA.[Region code], Geo.RegionToLSOA.[Region name] From Geo.RegionToLSOA" type="V_WString" />
@@ -2105,7 +2900,7 @@ Table=Select Geo.RegionToLSOA.[Region code], Geo.RegionToLSOA.[Region name] From
         </Node>
         <Node ToolID="202">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
-            <Position x="511" y="170.0003" />
+            <Position x="535" y="206.0003" />
           </GuiSettings>
           <Properties>
             <Configuration joinByRecordPos="False">
@@ -2143,7 +2938,7 @@ Table=Select Geo.RegionToLSOA.[Region code], Geo.RegionToLSOA.[Region name] From
         </Node>
         <Node ToolID="203">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
-            <Position x="367" y="204.0003" />
+            <Position x="391" y="240.0003" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2163,7 +2958,7 @@ Table=Select Geo.RegionToLSOA.[Region code], Geo.RegionToLSOA.[Region name] From
         </Node>
         <Node ToolID="204">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="439" y="144.0003" />
+            <Position x="463" y="180.0003" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2185,7 +2980,7 @@ Table=Select Geo.RegionToLSOA.[Region code], Geo.RegionToLSOA.[Region name] From
         </Node>
         <Node ToolID="205">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="439" y="204.0003" />
+            <Position x="463" y="240.0003" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2205,7 +3000,7 @@ Table=Select Geo.RegionToLSOA.[Region code], Geo.RegionToLSOA.[Region name] From
         </Node>
         <Node ToolID="206">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-            <Position x="127" y="278.0002" />
+            <Position x="151" y="314.0002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2239,7 +3034,7 @@ Table=Select Geo.RegionToLSOA.[Region code], Geo.RegionToLSOA.[Region name] From
         </Node>
         <Node ToolID="207">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="211" y="278.0002" />
+            <Position x="235" y="314.0002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2259,7 +3054,7 @@ Table=Select Geo.RegionToLSOA.[Region code], Geo.RegionToLSOA.[Region name] From
         </Node>
         <Node ToolID="208">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="295" y="278.0002" />
+            <Position x="319" y="314.0002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2282,7 +3077,7 @@ Table=Select Geo.RegionToLSOA.[Region code], Geo.RegionToLSOA.[Region name] From
         </Node>
         <Node ToolID="209">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-            <Position x="367" y="278.0002" />
+            <Position x="391" y="314.0002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2310,15 +3105,12 @@ Table=Select Geo.RegionToLSOA.[Region code], Geo.RegionToLSOA.[Region name] From
 Table=Drug.SurveyData</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
         </Node>
         <Node ToolID="214">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="54.99999" y="110" width="60" height="36.00002" />
+            <Position x="78.99998" y="146" width="60" height="36.00002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2338,7 +3130,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="215">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="115" y="110" width="84" height="35.99997" />
+            <Position x="139" y="146" width="84" height="35.99997" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2358,7 +3150,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="216">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="211" y="110" width="60" height="35.99997" />
+            <Position x="235" y="146" width="60" height="35.99997" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2378,7 +3170,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="217">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="271" y="110" width="96" height="35.99997" />
+            <Position x="295" y="146" width="96" height="35.99997" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2398,7 +3190,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="218">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="379" y="110" width="48" height="35.99997" />
+            <Position x="403" y="146" width="48" height="35.99997" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2418,7 +3210,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="219">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="511" y="230" width="60" height="60" />
+            <Position x="535" y="266" width="60" height="60" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2438,7 +3230,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="220">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="439" y="110" width="96" height="35.99997" />
+            <Position x="463" y="146" width="96" height="35.99997" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2458,7 +3250,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="221">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="127" y="338.0001" width="60" height="35.99997" />
+            <Position x="151" y="374.0001" width="60" height="35.99997" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2478,7 +3270,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="222">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="211" y="338" width="60" height="35.99997" />
+            <Position x="235" y="374" width="60" height="35.99997" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2498,7 +3290,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="223">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="283" y="326" width="72" height="48" />
+            <Position x="307" y="362" width="72" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2518,7 +3310,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="224">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="367" y="338" width="60" height="35.99997" />
+            <Position x="391" y="374" width="60" height="35.99997" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2540,7 +3332,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
     </Node>
     <Node ToolID="160">
       <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
-        <Position x="30" y="138" width="178.1969" height="19" />
+        <Position x="54" y="174" width="178.1969" height="19" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -2558,7 +3350,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
       <ChildNodes>
         <Node ToolID="161">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="56" y="182" />
+            <Position x="80" y="218" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2582,9 +3374,6 @@ Table=Drug.SurveyData</DefaultAnnotationText>
 Table=Select DrugAdmissionsNHSMental.* From DrugAdmissionsNHSMental</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="F1" size="255" source="File: aka:Test|||Select DrugAdmissionsNHSMental.* From DrugAdmissionsNHSMental" type="V_WString" />
@@ -2629,7 +3418,7 @@ Table=Select DrugAdmissionsNHSMental.* From DrugAdmissionsNHSMental</DefaultAnno
         </Node>
         <Node ToolID="162">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="55.00006" y="318.0001" />
+            <Position x="79.00006" y="354.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2653,9 +3442,6 @@ Table=Select DrugAdmissionsNHSMental.* From DrugAdmissionsNHSMental</DefaultAnno
 Table=Select DrugAdmissionsNHSPoison.* From DrugAdmissionsNHSPoison</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="F1" size="255" source="File: aka:Test|||Select DrugAdmissionsNHSPoison.* From DrugAdmissionsNHSPoison" type="V_WString" />
@@ -2700,7 +3486,7 @@ Table=Select DrugAdmissionsNHSPoison.* From DrugAdmissionsNHSPoison</DefaultAnno
         </Node>
         <Node ToolID="163">
           <GuiSettings>
-            <Position x="128.0001" y="182.0001" />
+            <Position x="152.0001" y="218.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2721,15 +3507,12 @@ Table=Select DrugAdmissionsNHSPoison.* From DrugAdmissionsNHSPoison</DefaultAnno
               <DefaultAnnotationText />
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings Macro="Cleanse.yxmc" />
         </Node>
         <Node ToolID="164">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="200.0001" y="182" />
+            <Position x="224.0001" y="218" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2784,7 +3567,7 @@ Table=Select DrugAdmissionsNHSPoison.* From DrugAdmissionsNHSPoison</DefaultAnno
         </Node>
         <Node ToolID="165">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="151" y="234.0001" />
+            <Position x="175" y="270.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2808,9 +3591,6 @@ Table=Select DrugAdmissionsNHSPoison.* From DrugAdmissionsNHSPoison</DefaultAnno
 Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="Region code" size="255" source="File: aka:Test|||Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA" type="V_WString" />
@@ -2821,7 +3601,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="166">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
-            <Position x="295" y="190" />
+            <Position x="319" y="226" />
           </GuiSettings>
           <Properties>
             <Configuration joinByRecordPos="False">
@@ -2871,7 +3651,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="167">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="283" y="238" width="72" height="72" />
+            <Position x="307" y="274" width="72" height="72" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2891,7 +3671,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="168">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
-            <Position x="223" y="222" />
+            <Position x="247" y="258" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2910,7 +3690,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="169">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Transpose.Transpose">
-            <Position x="379" y="190" />
+            <Position x="403" y="226" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2943,7 +3723,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="170">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="367" y="249.9999" width="72" height="60" />
+            <Position x="391" y="285.9999" width="72" height="60" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2963,7 +3743,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="171">
           <GuiSettings Plugin="AlteryxBasePluginsGui.TextToColumns.TextToColumns">
-            <Position x="451" y="190" />
+            <Position x="475" y="226" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2985,7 +3765,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="172">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="451" y="250" width="60" height="48" />
+            <Position x="475" y="286" width="60" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3005,7 +3785,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="173">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="523" y="198" />
+            <Position x="547" y="234" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3031,7 +3811,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="174">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="523" y="246" width="72" height="24" />
+            <Position x="547" y="282" width="72" height="24" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3051,7 +3831,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="175">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="151" y="378" />
+            <Position x="175" y="414" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3085,7 +3865,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="176">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
-            <Position x="295" y="318" />
+            <Position x="319" y="354" />
           </GuiSettings>
           <Properties>
             <Configuration joinByRecordPos="False">
@@ -3135,7 +3915,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="177">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="283" y="378" width="72" height="72" />
+            <Position x="307" y="414" width="72" height="72" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3155,7 +3935,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="178">
           <GuiSettings>
-            <Position x="127.0001" y="318.0002" />
+            <Position x="151.0001" y="354.0002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3176,15 +3956,12 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
               <DefaultAnnotationText />
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings Macro="Cleanse.yxmc" />
         </Node>
         <Node ToolID="179">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="199.0001" y="318" />
+            <Position x="223.0001" y="354" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3243,7 +4020,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="180">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
-            <Position x="223" y="365.9999" />
+            <Position x="247" y="401.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3262,7 +4039,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="181">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Transpose.Transpose">
-            <Position x="379" y="317.9999" />
+            <Position x="403" y="353.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3295,7 +4072,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="182">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="367" y="378" width="72" height="60" />
+            <Position x="391" y="414" width="72" height="60" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3315,7 +4092,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="183">
           <GuiSettings Plugin="AlteryxBasePluginsGui.TextToColumns.TextToColumns">
-            <Position x="451" y="318" />
+            <Position x="475" y="354" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3337,7 +4114,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="184">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="451" y="377.9999" width="60" height="48" />
+            <Position x="475" y="413.9999" width="60" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3357,7 +4134,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="185">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="523" y="306" />
+            <Position x="547" y="342" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3383,7 +4160,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="186">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="523.0001" y="366" width="72" height="24" />
+            <Position x="547.0001" y="402" width="72" height="24" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3403,7 +4180,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="187">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="55.00013" y="234.0002" width="72" height="60" />
+            <Position x="79.00013" y="270.0002" width="72" height="60" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3423,7 +4200,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="188">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="54.99998" y="365.9999" width="72" height="60" />
+            <Position x="78.99998" y="401.9999" width="72" height="60" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3443,7 +4220,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="189">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
-            <Position x="595" y="258" />
+            <Position x="619" y="294" />
           </GuiSettings>
           <Properties>
             <Configuration joinByRecordPos="False">
@@ -3487,7 +4264,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="190">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="595" y="306.0001" width="72" height="36" />
+            <Position x="619" y="342.0001" width="72" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3507,7 +4284,7 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
         </Node>
         <Node ToolID="191">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-            <Position x="667.0002" y="258" />
+            <Position x="691.0002" y="294" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3535,15 +4312,12 @@ Table=Select Geo.RegionToLSOA.[Region code] From Geo.RegionToLSOA</DefaultAnnota
 Table=Drug.AdmissionsNHS</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
         </Node>
         <Node ToolID="192">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="679.0001" y="234.0001" width="48" height="36" />
+            <Position x="703.0001" y="270.0001" width="48" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3565,7 +4339,7 @@ Table=Drug.AdmissionsNHS</DefaultAnnotationText>
     </Node>
     <Node ToolID="110">
       <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
-        <Position x="30" y="42" width="140.3629" height="19" />
+        <Position x="54" y="78" width="140.3629" height="19" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -3583,7 +4357,7 @@ Table=Drug.AdmissionsNHS</DefaultAnnotationText>
       <ChildNodes>
         <Node ToolID="111">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="55.99915" y="86.00002" />
+            <Position x="79.99915" y="122" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3607,9 +4381,6 @@ Table=Drug.AdmissionsNHS</DefaultAnnotationText>
 Table=Select DrugSeizuresForceArea.* From DrugSeizuresForceArea</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="Police force region or authority" size="255" source="File: aka:Test|||Select DrugSeizuresForceArea.* From DrugSeizuresForceArea" type="V_WString" />
@@ -3631,7 +4402,7 @@ Table=Select DrugSeizuresForceArea.* From DrugSeizuresForceArea</DefaultAnnotati
         </Node>
         <Node ToolID="112">
           <GuiSettings>
-            <Position x="138.9993" y="90.00031" />
+            <Position x="162.9993" y="126.0003" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3652,15 +4423,12 @@ Table=Select DrugSeizuresForceArea.* From DrugSeizuresForceArea</DefaultAnnotati
               <DefaultAnnotationText />
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings Macro="Cleanse.yxmc" />
         </Node>
         <Node ToolID="114">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Transpose.Transpose">
-            <Position x="211.9992" y="86" />
+            <Position x="235.9992" y="122" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3694,7 +4462,7 @@ Table=Select DrugSeizuresForceArea.* From DrugSeizuresForceArea</DefaultAnnotati
         </Node>
         <Node ToolID="115">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="283.9992" y="86.00043" />
+            <Position x="307.9992" y="122.0004" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3714,7 +4482,7 @@ Table=Select DrugSeizuresForceArea.* From DrugSeizuresForceArea</DefaultAnnotati
         </Node>
         <Node ToolID="116">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-            <Position x="367.9992" y="86.00024" />
+            <Position x="391.9992" y="122.0002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3756,7 +4524,7 @@ AND
         </Node>
         <Node ToolID="117">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="55.99956" y="146" width="48" height="59.99997" />
+            <Position x="79.99956" y="182" width="48" height="59.99997" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3776,7 +4544,7 @@ AND
         </Node>
         <Node ToolID="118">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="127.9992" y="146.0003" width="72" height="60" />
+            <Position x="151.9992" y="182.0003" width="72" height="60" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3796,7 +4564,7 @@ AND
         </Node>
         <Node ToolID="119">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="211.9992" y="146.0004" width="48" height="24" />
+            <Position x="235.9992" y="182.0004" width="48" height="24" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3816,7 +4584,7 @@ AND
         </Node>
         <Node ToolID="120">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="271.9992" y="146.0004" width="72" height="36" />
+            <Position x="295.9992" y="182.0004" width="72" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3836,7 +4604,7 @@ AND
         </Node>
         <Node ToolID="121">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="355.9992" y="146.0004" width="72" height="40" />
+            <Position x="379.9992" y="182.0004" width="72" height="40" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3856,7 +4624,7 @@ AND
         </Node>
         <Node ToolID="122">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="474.9992" y="90.00024" />
+            <Position x="498.9992" y="126.0002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3879,7 +4647,7 @@ AND
         </Node>
         <Node ToolID="123">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="438.9992" y="138.0004" width="60" height="48" />
+            <Position x="462.9992" y="174.0004" width="60" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3899,7 +4667,7 @@ AND
         </Node>
         <Node ToolID="124">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
-            <Position x="402.9992" y="246.0004" />
+            <Position x="426.9992" y="282.0004" />
           </GuiSettings>
           <Properties>
             <Configuration joinByRecordPos="False">
@@ -3935,7 +4703,7 @@ AND
         </Node>
         <Node ToolID="125">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="342.9992" y="318.0005" />
+            <Position x="366.9992" y="354.0005" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3970,7 +4738,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
         </Node>
         <Node ToolID="127">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="210.9992" y="318.0004" width="132" height="36" />
+            <Position x="234.9992" y="354.0004" width="132" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3990,7 +4758,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
         </Node>
         <Node ToolID="128">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="186.9992" y="270.0004" />
+            <Position x="210.9992" y="306.0004" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4011,7 +4779,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
         </Node>
         <Node ToolID="129">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="414.9992" y="306.0005" width="96" height="48" />
+            <Position x="438.9992" y="342.0005" width="96" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4031,7 +4799,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
         </Node>
         <Node ToolID="130">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="306.9992" y="270.0003" />
+            <Position x="330.9992" y="306.0003" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4051,7 +4819,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
         </Node>
         <Node ToolID="131">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="246.9992" y="270.0004" />
+            <Position x="270.9992" y="306.0004" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4072,7 +4840,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
         </Node>
         <Node ToolID="132">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-            <Position x="498.9992" y="186.0004" />
+            <Position x="522.9992" y="222.0004" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4099,15 +4867,12 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
 Table=Drug.Seizures</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
         </Node>
         <Node ToolID="133">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="486.9992" y="234.0004" width="48" height="36" />
+            <Position x="510.9992" y="270.0004" width="48" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4127,7 +4892,7 @@ Table=Drug.Seizures</DefaultAnnotationText>
         </Node>
         <Node ToolID="134">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
-            <Position x="402.9992" y="534.0005" />
+            <Position x="426.9992" y="570.0005" />
           </GuiSettings>
           <Properties>
             <Configuration joinByRecordPos="False">
@@ -4165,7 +4930,7 @@ Table=Drug.Seizures</DefaultAnnotationText>
         </Node>
         <Node ToolID="135">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="342.9994" y="606.0008" />
+            <Position x="366.9994" y="642.0008" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4200,7 +4965,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
         </Node>
         <Node ToolID="136">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="222.999" y="606.0002" width="132" height="36" />
+            <Position x="246.999" y="642.0002" width="132" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4220,7 +4985,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
         </Node>
         <Node ToolID="137">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="198.9997" y="558.0002" />
+            <Position x="222.9997" y="594.0002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4241,7 +5006,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
         </Node>
         <Node ToolID="138">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="414.9992" y="594.0002" width="96" height="48" />
+            <Position x="438.9992" y="630.0002" width="96" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4261,7 +5026,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
         </Node>
         <Node ToolID="139">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="55.00006" y="378.0001" />
+            <Position x="79.00006" y="414.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4285,9 +5050,6 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
 Table=Select DrugSeizuresForceAreaSnapshot.* From DrugSeizuresForceAreaSnapshot</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="Police force region or authority" size="255" source="File: aka:Test|||Select DrugSeizuresForceAreaSnapshot.* From DrugSeizuresForceAreaSnapshot" type="V_WString" />
@@ -4322,7 +5084,7 @@ Table=Select DrugSeizuresForceAreaSnapshot.* From DrugSeizuresForceAreaSnapshot<
         </Node>
         <Node ToolID="140">
           <GuiSettings>
-            <Position x="138.9992" y="378.0004" />
+            <Position x="162.9992" y="414.0004" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4343,15 +5105,12 @@ Table=Select DrugSeizuresForceAreaSnapshot.* From DrugSeizuresForceAreaSnapshot<
               <DefaultAnnotationText />
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings Macro="Cleanse.yxmc" />
         </Node>
         <Node ToolID="141">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Transpose.Transpose">
-            <Position x="270.9992" y="378.0004" />
+            <Position x="294.9992" y="414.0004" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4398,7 +5157,7 @@ Table=Select DrugSeizuresForceAreaSnapshot.* From DrugSeizuresForceAreaSnapshot<
         </Node>
         <Node ToolID="143">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-            <Position x="198.9991" y="378.0004" />
+            <Position x="222.9991" y="414.0004" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4448,7 +5207,7 @@ AND
         </Node>
         <Node ToolID="144">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="55.00011" y="438.0004" width="60" height="48" />
+            <Position x="79.00011" y="474.0004" width="60" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4468,7 +5227,7 @@ AND
         </Node>
         <Node ToolID="145">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="126.9992" y="438.0003" width="72" height="60" />
+            <Position x="150.9992" y="474.0003" width="72" height="60" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4488,7 +5247,7 @@ AND
         </Node>
         <Node ToolID="146">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="270.9993" y="438.0004" width="48" height="24" />
+            <Position x="294.9993" y="474.0004" width="48" height="24" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4508,7 +5267,7 @@ AND
         </Node>
         <Node ToolID="147">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="318.9992" y="438.0004" width="72" height="36" />
+            <Position x="342.9992" y="474.0004" width="72" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4528,7 +5287,7 @@ AND
         </Node>
         <Node ToolID="148">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="198.9993" y="438.0004" width="72" height="40" />
+            <Position x="222.9993" y="474.0004" width="72" height="40" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4548,7 +5307,7 @@ AND
         </Node>
         <Node ToolID="149">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="474.9993" y="378.0004" />
+            <Position x="498.9993" y="414.0004" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4572,7 +5331,7 @@ AND
         </Node>
         <Node ToolID="150">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="474.9992" y="438.0003" width="60" height="48" />
+            <Position x="498.9992" y="474.0003" width="60" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4592,7 +5351,7 @@ AND
         </Node>
         <Node ToolID="151">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="318.9992" y="558.0004" />
+            <Position x="342.9992" y="594.0004" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4612,7 +5371,7 @@ AND
         </Node>
         <Node ToolID="152">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="258.9995" y="558.0002" />
+            <Position x="282.9995" y="594.0002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4633,7 +5392,7 @@ AND
         </Node>
         <Node ToolID="153">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-            <Position x="474.9992" y="498.0004" />
+            <Position x="498.9992" y="534.0004" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4661,15 +5420,12 @@ AND
 Table=Drug.SeizuresSnapshot17</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
         </Node>
         <Node ToolID="154">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="486.9992" y="546.0002" width="48" height="36" />
+            <Position x="510.9992" y="582.0002" width="48" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4689,7 +5445,7 @@ Table=Drug.SeizuresSnapshot17</DefaultAnnotationText>
         </Node>
         <Node ToolID="155">
           <GuiSettings>
-            <Position x="402.9992" y="378.0004" />
+            <Position x="426.9992" y="414.0004" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4710,15 +5466,12 @@ Table=Drug.SeizuresSnapshot17</DefaultAnnotationText>
               <DefaultAnnotationText />
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings Macro="Cleanse.yxmc" />
         </Node>
         <Node ToolID="156">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="402.9992" y="438.0002" width="60" height="48" />
+            <Position x="426.9992" y="474.0002" width="60" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4738,7 +5491,7 @@ Table=Drug.SeizuresSnapshot17</DefaultAnnotationText>
         </Node>
         <Node ToolID="157">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="330.9992" y="378.0004" />
+            <Position x="354.9992" y="414.0004" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4758,7 +5511,7 @@ Table=Drug.SeizuresSnapshot17</DefaultAnnotationText>
         </Node>
         <Node ToolID="158">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="138.9991" y="510.0004" />
+            <Position x="162.9991" y="546.0004" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4781,7 +5534,7 @@ ENDIF
         </Node>
         <Node ToolID="159">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="114.9992" y="558.0002" width="60" height="60" />
+            <Position x="138.9992" y="594.0002" width="60" height="60" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4803,7 +5556,7 @@ ENDIF
     </Node>
     <Node ToolID="1">
       <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
-        <Position x="30" y="162" width="164.3664" height="19" />
+        <Position x="54" y="198" width="164.3664" height="19" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -4821,7 +5574,7 @@ ENDIF
       <ChildNodes>
         <Node ToolID="4">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="79.99979" y="264.0006" />
+            <Position x="103.9998" y="300.0006" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4845,9 +5598,6 @@ ENDIF
 Table=Select CrimeProject.dbo.PoliceTaserUse13.* From CrimeProject.dbo.PoliceTaserUse13</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="Force" size="255" source="File: aka:Test|||Select CrimeProject.dbo.PoliceTaserUse13.* From CrimeProject.dbo.PoliceTaserUse13" type="V_WString" />
@@ -4868,7 +5618,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse13.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="41">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="534.9998" y="350.0001" />
+            <Position x="558.9998" y="386.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4888,7 +5638,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse13.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="42">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Union.Union">
-            <Position x="750.9998" y="350.0001" />
+            <Position x="774.9998" y="386.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4907,7 +5657,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse13.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="43">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">
-            <Position x="822.9996" y="350.0001" />
+            <Position x="846.9996" y="386.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4928,7 +5678,7 @@ Year - Ascending</DefaultAnnotationText>
         </Node>
         <Node ToolID="44">
           <GuiSettings>
-            <Position x="175.0007" y="458.0004" />
+            <Position x="199.0007" y="494.0004" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4949,15 +5699,12 @@ Year - Ascending</DefaultAnnotationText>
               <DefaultAnnotationText />
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings Macro="Cleanse.yxmc" />
         </Node>
         <Node ToolID="45">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Transpose.Transpose">
-            <Position x="246.9996" y="458.001" />
+            <Position x="270.9996" y="494.001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -4992,7 +5739,7 @@ Year - Ascending</DefaultAnnotationText>
         </Node>
         <Node ToolID="38">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-            <Position x="391" y="349.9998" />
+            <Position x="415" y="385.9998" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5032,7 +5779,7 @@ OR
         </Node>
         <Node ToolID="46">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="246.9995" y="494.0007" />
+            <Position x="270.9995" y="530.0007" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5066,7 +5813,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area name] From CrimeProject.Geo.ForceA
         </Node>
         <Node ToolID="48">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-            <Position x="390.9998" y="470" />
+            <Position x="414.9998" y="506" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5108,7 +5855,7 @@ OR
         </Node>
         <Node ToolID="49">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-            <Position x="462.9998" y="470.0001" />
+            <Position x="486.9998" y="506.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5145,7 +5892,7 @@ AND
         </Node>
         <Node ToolID="50">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="606.9998" y="470.0001" />
+            <Position x="630.9998" y="506.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5171,7 +5918,7 @@ AND
         </Node>
         <Node ToolID="51">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="534.9998" y="470.0001" />
+            <Position x="558.9998" y="506.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5191,7 +5938,7 @@ AND
         </Node>
         <Node ToolID="52">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Union.Union">
-            <Position x="750.9995" y="470.0001" />
+            <Position x="774.9995" y="506.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5210,7 +5957,7 @@ AND
         </Node>
         <Node ToolID="53">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">
-            <Position x="822.9996" y="470.0001" />
+            <Position x="846.9996" y="506.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5231,7 +5978,7 @@ Year - Ascending</DefaultAnnotationText>
         </Node>
         <Node ToolID="54">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
-            <Position x="678.9998" y="350.0001" />
+            <Position x="702.9998" y="386.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5252,7 +5999,7 @@ Year - Ascending</DefaultAnnotationText>
         </Node>
         <Node ToolID="47">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AppendFields.AppendFields">
-            <Position x="330.9998" y="470.0001" />
+            <Position x="354.9998" y="506.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5277,7 +6024,7 @@ Year - Ascending</DefaultAnnotationText>
         </Node>
         <Node ToolID="40">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="606.9998" y="350.0001" />
+            <Position x="630.9998" y="386.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5302,7 +6049,7 @@ Year - Ascending</DefaultAnnotationText>
         </Node>
         <Node ToolID="39">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-            <Position x="462.9998" y="349.9999" />
+            <Position x="486.9998" y="385.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5339,7 +6086,7 @@ AND
         </Node>
         <Node ToolID="36">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AppendFields.AppendFields">
-            <Position x="331" y="349.9998" />
+            <Position x="355" y="385.9998" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5364,7 +6111,7 @@ AND
         </Node>
         <Node ToolID="56">
           <GuiSettings Plugin="AlteryxSpatialPluginsGui.Summarize.Summarize">
-            <Position x="402.9998" y="637.9999" />
+            <Position x="426.9998" y="673.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5384,7 +6131,7 @@ AND
         </Node>
         <Node ToolID="8">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="54.99996" y="229.9997" width="95.00006" height="31.9999" />
+            <Position x="78.99996" y="265.9997" width="95.00006" height="31.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5405,7 +6152,7 @@ AND
         </Node>
         <Node ToolID="9">
           <GuiSettings>
-            <Position x="174.9999" y="262" />
+            <Position x="198.9999" y="298" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5426,15 +6173,12 @@ AND
               <DefaultAnnotationText />
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings Macro="Cleanse.yxmc" />
         </Node>
         <Node ToolID="12">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Transpose.Transpose">
-            <Position x="247" y="262.0002" />
+            <Position x="271" y="298.0002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5467,7 +6211,7 @@ AND
         </Node>
         <Node ToolID="13">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-            <Position x="319" y="261.9997" />
+            <Position x="343" y="297.9997" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5500,7 +6244,7 @@ AND
         </Node>
         <Node ToolID="14">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-            <Position x="390.9998" y="261.9999" />
+            <Position x="414.9998" y="297.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5533,7 +6277,7 @@ AND
         </Node>
         <Node ToolID="15">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-            <Position x="462.9998" y="262.0002" />
+            <Position x="486.9998" y="298.0002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5566,7 +6310,7 @@ AND
         </Node>
         <Node ToolID="5">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="78.99956" y="350" />
+            <Position x="102.9996" y="386" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5590,9 +6334,6 @@ AND
 Table=Select CrimeProject.dbo.PoliceTaserUse14.* From CrimeProject.dbo.PoliceTaserUse14</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="Police Force/Region/Wales" size="255" source="File: aka:test2|||Select CrimeProject.dbo.PoliceTaserUse14.* From CrimeProject.dbo.PoliceTaserUse14" type="V_WString" />
@@ -5630,7 +6371,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse14.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="55">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
-            <Position x="678.9998" y="469.9999" />
+            <Position x="702.9998" y="505.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5651,7 +6392,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse14.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="23">
           <GuiSettings Plugin="AlteryxSpatialPluginsGui.Summarize.Summarize">
-            <Position x="678.9993" y="261.9999" />
+            <Position x="702.9993" y="297.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5671,7 +6412,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse14.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="24">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="750.9995" y="261.9999" />
+            <Position x="774.9995" y="297.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5694,7 +6435,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse14.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="25">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="823" y="262.0002" />
+            <Position x="847" y="298.0002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5714,7 +6455,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse14.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="10">
           <GuiSettings>
-            <Position x="174.9998" y="345.9998" />
+            <Position x="198.9998" y="381.9998" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5735,15 +6476,12 @@ Table=Select CrimeProject.dbo.PoliceTaserUse14.* From CrimeProject.dbo.PoliceTas
               <DefaultAnnotationText />
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings Macro="Cleanse.yxmc" />
         </Node>
         <Node ToolID="26">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Transpose.Transpose">
-            <Position x="246.9995" y="346.0002" />
+            <Position x="270.9995" y="382.0002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5793,7 +6531,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse14.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="22">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="606.9998" y="262" />
+            <Position x="630.9998" y="298" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5813,7 +6551,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse14.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="35">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="246.9996" y="386.0006" />
+            <Position x="270.9996" y="422.0006" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5837,9 +6575,6 @@ Table=Select CrimeProject.dbo.PoliceTaserUse14.* From CrimeProject.dbo.PoliceTas
 Table=Select CrimeProject.Geo.ForceArea.[Area name] From CrimeProject.Geo.ForceArea</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="Area name" size="50" source="File: aka:test2|||Select CrimeProject.Geo.ForceArea.[Area name] From CrimeProject.Geo.ForceArea" type="V_String" />
@@ -5850,7 +6585,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area name] From CrimeProject.Geo.ForceA
         </Node>
         <Node ToolID="18">
           <GuiSettings Plugin="AlteryxBasePluginsGui.TextToColumns.TextToColumns">
-            <Position x="534.9998" y="262.0001" />
+            <Position x="558.9998" y="298.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5871,7 +6606,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area name] From CrimeProject.Geo.ForceA
         </Node>
         <Node ToolID="6">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="78.99968" y="458.0002" />
+            <Position x="102.9997" y="494.0002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5895,9 +6630,6 @@ Table=Select CrimeProject.Geo.ForceArea.[Area name] From CrimeProject.Geo.ForceA
 Table=Select CrimeProject.dbo.PoliceTaserUse15.* From CrimeProject.dbo.PoliceTaserUse15</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="Police Force/Region" size="255" source="File: aka:test2|||Select CrimeProject.dbo.PoliceTaserUse15.* From CrimeProject.dbo.PoliceTaserUse15" type="V_WString" />
@@ -5920,7 +6652,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse15.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="7">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="79.00003" y="542.0001" />
+            <Position x="103" y="578.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -5944,9 +6676,6 @@ Table=Select CrimeProject.dbo.PoliceTaserUse15.* From CrimeProject.dbo.PoliceTas
 Table=Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTaserUse16</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="Police Force/Region" size="255" source="File: aka:test2|||Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTaserUse16" type="V_WString" />
@@ -5980,7 +6709,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="57">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="163" y="242.0001" width="72" height="27.99995" />
+            <Position x="187" y="278.0001" width="72" height="27.99995" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6000,7 +6729,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="58">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="246.9995" y="218.0002" width="72" height="51.99997" />
+            <Position x="270.9995" y="254.0002" width="72" height="51.99997" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6020,7 +6749,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="59">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="342.9999" y="410" width="72" height="60" />
+            <Position x="366.9999" y="446" width="72" height="60" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6040,7 +6769,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="60">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="426.9998" y="410" width="72" height="60" />
+            <Position x="450.9998" y="446" width="72" height="60" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6060,7 +6789,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="61">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="522.9998" y="422.0001" width="60" height="48" />
+            <Position x="546.9998" y="458.0001" width="60" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6080,7 +6809,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="62">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="594.9998" y="410.0002" width="72" height="60" />
+            <Position x="618.9998" y="446.0002" width="72" height="60" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6100,7 +6829,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="63">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="678.9998" y="410.0001" width="60" height="60" />
+            <Position x="702.9998" y="446.0001" width="60" height="60" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6120,7 +6849,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="64">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="750.9998" y="409.9999" width="60" height="60" />
+            <Position x="774.9998" y="445.9999" width="60" height="60" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6140,7 +6869,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="65">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="822.9995" y="422.0001" width="72" height="36" />
+            <Position x="846.9995" y="458.0001" width="72" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6160,7 +6889,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="66">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="342.9995" y="230.0001" width="156" height="36" />
+            <Position x="366.9995" y="266.0001" width="156" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6180,7 +6909,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="67">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="522.9995" y="230.0001" width="240" height="36" />
+            <Position x="546.9995" y="266.0001" width="240" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6200,7 +6929,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="68">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="775.0002" y="206" width="72" height="60.00002" />
+            <Position x="799.0002" y="242" width="72" height="60.00002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6220,7 +6949,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="69">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="162.9996" y="673.9998" width="228" height="48" />
+            <Position x="186.9996" y="709.9998" width="228" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6240,7 +6969,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="70">
           <GuiSettings>
-            <Position x="174.9999" y="542.0005" />
+            <Position x="198.9999" y="578.0005" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6261,15 +6990,12 @@ Table=Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTas
               <DefaultAnnotationText />
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings Macro="Cleanse.yxmc" />
         </Node>
         <Node ToolID="71">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Transpose.Transpose">
-            <Position x="246.9997" y="542" />
+            <Position x="270.9997" y="578" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6315,7 +7041,7 @@ Table=Select CrimeProject.dbo.PoliceTaserUse16.* From CrimeProject.dbo.PoliceTas
         </Node>
         <Node ToolID="72">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="246.9996" y="578.0001" />
+            <Position x="270.9996" y="614.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6349,7 +7075,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area name] From CrimeProject.Geo.ForceA
         </Node>
         <Node ToolID="73">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AppendFields.AppendFields">
-            <Position x="330.9993" y="554.0001" />
+            <Position x="354.9993" y="590.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6374,7 +7100,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area name] From CrimeProject.Geo.ForceA
         </Node>
         <Node ToolID="74">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-            <Position x="390.9998" y="554.0001" />
+            <Position x="414.9998" y="590.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6416,7 +7142,7 @@ OR
         </Node>
         <Node ToolID="75">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-            <Position x="463" y="553.9999" />
+            <Position x="487" y="589.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6453,7 +7179,7 @@ AND
         </Node>
         <Node ToolID="76">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="606.9998" y="554.0001" />
+            <Position x="630.9998" y="590.0001" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6479,7 +7205,7 @@ AND
         </Node>
         <Node ToolID="77">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="535" y="554.0002" />
+            <Position x="559" y="590.0002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6499,7 +7225,7 @@ AND
         </Node>
         <Node ToolID="78">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Union.Union">
-            <Position x="750.9995" y="554" />
+            <Position x="774.9995" y="590" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6518,7 +7244,7 @@ AND
         </Node>
         <Node ToolID="79">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Sort.Sort">
-            <Position x="822.9996" y="554.0002" />
+            <Position x="846.9996" y="590.0002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6539,7 +7265,7 @@ Year - Ascending</DefaultAnnotationText>
         </Node>
         <Node ToolID="80">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
-            <Position x="679.0001" y="554.0003" />
+            <Position x="703.0001" y="590.0003" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6560,7 +7286,7 @@ Year - Ascending</DefaultAnnotationText>
         </Node>
         <Node ToolID="81">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-            <Position x="750.9996" y="637.9999" />
+            <Position x="774.9996" y="673.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6588,15 +7314,12 @@ Year - Ascending</DefaultAnnotationText>
 Table=Police.TaserUse</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
         </Node>
         <Node ToolID="82">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
-            <Position x="642.9995" y="637.9999" />
+            <Position x="666.9995" y="673.9999" />
           </GuiSettings>
           <Properties>
             <Configuration joinByRecordPos="False">
@@ -6631,7 +7354,7 @@ Table=Police.TaserUse</DefaultAnnotationText>
         </Node>
         <Node ToolID="83">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="570.9998" y="673.9998" />
+            <Position x="594.9998" y="709.9998" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6655,9 +7378,6 @@ Table=Police.TaserUse</DefaultAnnotationText>
 Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.[Area name] From CrimeProject.Geo.ForceArea</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="Area code" size="50" source="File: aka:Test|||Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.[Area name] From CrimeProject.Geo.ForceArea" type="V_String" />
@@ -6669,7 +7389,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
         </Node>
         <Node ToolID="86">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="462.9998" y="638" />
+            <Position x="486.9998" y="674" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6689,7 +7409,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
         </Node>
         <Node ToolID="87">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="438.9995" y="697.9997" width="132" height="36" />
+            <Position x="462.9995" y="733.9997" width="132" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6709,7 +7429,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
         </Node>
         <Node ToolID="88">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="535.0001" y="637.9999" />
+            <Position x="559.0001" y="673.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6729,7 +7449,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
         </Node>
         <Node ToolID="89">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="642.9998" y="697.9999" width="96" height="48" />
+            <Position x="666.9998" y="733.9999" width="96" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6749,7 +7469,7 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
         </Node>
         <Node ToolID="90">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="810.9998" y="649.9998" width="72" height="48" />
+            <Position x="834.9998" y="685.9998" width="72" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -6772,12 +7492,72 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
   </Nodes>
   <Connections>
     <Connection>
+      <Origin ToolID="292" Connection="Output" />
+      <Destination ToolID="293" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="292" Connection="Output" />
+      <Destination ToolID="294" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="293" Connection="Output" />
+      <Destination ToolID="296" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="294" Connection="Output" />
+      <Destination ToolID="295" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="295" Connection="Output" />
+      <Destination ToolID="297" Connection="Right" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="296" Connection="Output" />
+      <Destination ToolID="297" Connection="Left" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="297" Connection="Join" />
+      <Destination ToolID="302" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="298" Connection="Output" />
+      <Destination ToolID="299" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="299" Connection="Output" />
+      <Destination ToolID="300" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="300" Connection="Output" />
+      <Destination ToolID="301" Connection="Input" />
+    </Connection>
+    <Connection>
       <Origin ToolID="271" Connection="Output" />
       <Destination ToolID="272" Connection="Input" />
     </Connection>
     <Connection>
       <Origin ToolID="272" Connection="Output" />
       <Destination ToolID="274" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="277" Connection="Output" />
+      <Destination ToolID="278" Connection="Input2" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="278" Connection="Output26" />
+      <Destination ToolID="283" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="283" Connection="True" />
+      <Destination ToolID="284" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="282" Connection="Output" />
+      <Destination ToolID="290" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="284" Connection="Output" />
+      <Destination ToolID="282" Connection="Input" />
     </Connection>
     <Connection>
       <Origin ToolID="235" Connection="Output" />

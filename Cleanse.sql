@@ -127,8 +127,6 @@ GO
 
 	THERE ARE 43 FORCE AREAS SO ANYTHING WITH THESE SHOULD HAVE THIS MANY ROWS (at least by year or whatever)
 
-	INSERT primary key column in all tables (unless already present)
-
 	Add functionality to repeatedly run this sql file by using if statements to drop tables before re-making them
 
 */
