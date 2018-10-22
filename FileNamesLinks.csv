@@ -1,76 +1,77 @@
-Description,Link
-Full Crime Data (12/10 - 08/15),https://data.police.uk/data/archive/2015-08.zip
-Full Crime Data (08/15 - 07/18),https://data.police.uk/data/archive/2018-07.zip
-101 Call Handling,https://s3-eu-west-1.amazonaws.com/policeuk/call-handling/101_call_handling_Mar_2015.zip
-Uniform and equipment procurement costs data,https://www.police.uk/procurement/data.zip
-Forensic and other services procurement costs data,https://www.police.uk/procurement/services/data.zip
-Remuneration data,https://data.police.uk/static/files/remuneration-data-2015-16.csv
-Financial Reserves Data,https://s3-eu-west-1.amazonaws.com/policeuk/financial-reserves/financial_reserves_data.zip
-Force Boundaries,https://data.police.uk/data/boundaries/force_kmls.zip
-2011 LSOA Boundaries,http://www.ons.gov.uk/ons/external-links/social-media/g-m/lsoa-boundaries---full-resolution--extent-of-the-realm.html
-Neighbourhood boundaries July 2018,https://data.police.uk/data/boundaries/2018-07.zip
-Neighbourhood boundaries June 2018,https://data.police.uk/data/boundaries/2018-06.zip
-Neighbourhood boundaries May 2018,https://data.police.uk/data/boundaries/2018-05.zip
-Neighbourhood boundaries April 2018,https://data.police.uk/data/boundaries/2018-04.zip
-Neighbourhood boundaries March 2018,https://data.police.uk/data/boundaries/2018-03.zip
-Neighbourhood boundaries February 2018,https://data.police.uk/data/boundaries/2018-02.zip
-Neighbourhood boundaries January 2018,https://data.police.uk/data/boundaries/2018-01.zip
-Neighbourhood boundaries December 2017,https://data.police.uk/data/boundaries/2017-12.zip
-Neighbourhood boundaries November 2017,https://data.police.uk/data/boundaries/2017-11.zip
-Neighbourhood boundaries October 2017,https://data.police.uk/data/boundaries/2017-10.zip
-Neighbourhood boundaries September 2017,https://data.police.uk/data/boundaries/2017-09.zip
-Neighbourhood boundaries August 2017,https://data.police.uk/data/boundaries/2017-08.zip
-Neighbourhood boundaries July 2017,https://data.police.uk/data/boundaries/2017-07.zip
-Neighbourhood boundaries June 2017,https://data.police.uk/data/boundaries/2017-06.zip
-Neighbourhood boundaries May 2017,https://data.police.uk/data/boundaries/2017-05.zip
-Neighbourhood boundaries April 2017,https://data.police.uk/data/boundaries/2017-04.zip
-Neighbourhood boundaries March 2017,https://data.police.uk/data/boundaries/2017-03.zip
-Neighbourhood boundaries February 2017,https://data.police.uk/data/boundaries/2017-02.zip
-Neighbourhood boundaries January 2017,https://data.police.uk/data/boundaries/2017-01.zip
-Neighbourhood boundaries December 2016,https://data.police.uk/data/boundaries/2016-12.zip
-Neighbourhood boundaries November 2016,https://data.police.uk/data/boundaries/2016-11.zip
-Neighbourhood boundaries October 2016,https://data.police.uk/data/boundaries/2016-10.zip
-Neighbourhood boundaries September 2016,https://data.police.uk/data/boundaries/2016-09.zip
-Neighbourhood boundaries August 2016,https://data.police.uk/data/boundaries/2016-08.zip
-Neighbourhood boundaries July 2016,https://data.police.uk/data/boundaries/2016-07.zip
-Neighbourhood boundaries June 2016,https://data.police.uk/data/boundaries/2016-06.zip
-Neighbourhood boundaries May 2016,https://data.police.uk/data/boundaries/2016-05.zip
-Neighbourhood boundaries April 2016,https://data.police.uk/data/boundaries/2016-04.zip
-Neighbourhood boundaries March 2016,https://data.police.uk/data/boundaries/2016-03.zip
-Neighbourhood boundaries February 2016,https://data.police.uk/data/boundaries/2016-02.zip
-Neighbourhood boundaries January 2016,https://data.police.uk/data/boundaries/2016-01.zip
-Neighbourhood boundaries December 2015,https://data.police.uk/data/boundaries/2015-12.zip
-Neighbourhood boundaries November 2015,https://data.police.uk/data/boundaries/2015-11.zip
-Neighbourhood boundaries October 2015,https://data.police.uk/data/boundaries/2015-10.zip
-Neighbourhood boundaries September 2015,https://data.police.uk/data/boundaries/2015-09.zip
-Neighbourhood boundaries August 2015,https://data.police.uk/data/boundaries/2015-08.zip
-Deprivation Index Guidance,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/464430/English_Index_of_Multiple_Deprivation_2015_-_Guidance.pdf
-Index of Multiple Deprivation,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/467764/File_1_ID_2015_Index_of_Multiple_Deprivation.xlsx
-Domains of Deprivation,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/467765/File_2_ID_2015_Domains_of_deprivation.xlsx
-Supplementary Deprivation Indices (children and elderly),https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/467766/File_3_ID_2015_Supplementary_Indices_-_Income_Deprivation_Affecting_Children_Index_and_Income_Deprivation_Affecting_Older_People_Index.xlsx
-Sub-Domains of Deprivation,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/467767/File_4_ID_2015_Sub-domains_of_deprivation.xlsx
-Scores for indices of Deprivation,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/467768/File_5_ID_2015_Scores_for_the_Indices_of_Deprivation.xlsx
-Deprivation Population Denominators,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/467773/File_6_ID_2015_Population_denominators.xlsx
-All ranks deciles and scores for the indices of deprivation,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/467774/File_7_ID_2015_All_ranks__deciles_and_scores_for_the_Indices_of_Deprivation__and_population_denominators.csv
-Firearm and Shotgun Certificates 08-18,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/721167/firearm-shotgun-certificates-england-wales-march-2018-tables.ods
-Offences involving Firearms 02-17,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/crimeandjustice/datasets/offencesinvolvingtheuseofweaponsdatatables/yearendingmarch2017/offencesinvolvingtheuseofweaponstablesfinalcorrected.xls
-Drug deaths by locale,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/drugmisusedeathsbylocalauthority/current/localauthoritiesregistrations201517.xlsx
-Drug Seizure data,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/657809/seizures-drugs-mar2017-hosb2217-tables.ods
-NHS Drug Abuse Data 13-17,https://files.digital.nhs.uk/publication/a/o/drug-misu-eng-2017-tab.xlsx
-Police use of Tasers 2016,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/607748/police-use-of-conducted-energy-devices-2016.ods
-Police use of Tasers 2015,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/519763/police-use-of-taser-2015tabs.ods
-Police use of Tasers 2014,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/442680/police-use-of-taser-jandec2014-tabs.ods
-Police use of Tasers 2012-13,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/295041/police-use-of-taser-20122013-tabs.ods
-Police use of Tasers 2009-11,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/236652/police-use-of-taser-20092011-tabs.ods
-More Weapon Crime Statistics,http://researchbriefings.files.parliament.uk/documents/SN04304/CBPSN04304.download.xlsx
-Illicit drug use by demographics,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/728748/drug-misuse-1718-tables.xlsx
-Income and Inequality 2017,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/datasets/householddisposableincomeandinequality/financialyearending2017/hdiireferencetables201617.xlsx
-Income and Inequality 2016,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/datasets/householddisposableincomeandinequality/financialyearending2016/hdii201516workbookv1.xls
-Income and Inequality 2015,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/datasets/householddisposableincomeandinequality/financialyearending2015/hdii201415referencetablesv2tcm77433858.xls
-Population by LSOA 2016,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2016sape19dt11/sape19dt11mid2016lsoapopulationdensity.zip
-Population by LSOA 2015,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2015sape18dt11/sape18dt11mid2015lsoapopulationdensity.zip
-Population by LSOA 2014,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2014/rft-lsoa-density-table-2014.zip
-Population by LSOA 2013,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2013/rft-lsoa-density-table-2013.zip
-Population by LSOA 2012,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2012/rftmid2012soadensitytables.zip
-Population by LSOA 2011,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2011/rftmid2011soadensitytables.zip
-Area comparison table,http://geoportal.statistics.gov.uk/datasets/output-area-to-lsoa-to-msoa-to-local-authority-district-december-2017-lookup-with-area-classifications-in-great-britain/data?page=9
+0,Description,Link
+3,Area comparison table,http://geoportal.statistics.gov.uk/datasets/output-area-to-lsoa-to-msoa-to-local-authority-district-december-2017-lookup-with-area-classifications-in-great-britain/data?page=9
+4,More Weapon Crime Statistics,http://researchbriefings.files.parliament.uk/documents/SN04304/CBPSN04304.download.xlsx
+1,Force Boundaries,https://data.police.uk/data/boundaries/force_kmls.zip
+1,Full Crime Data (08/15 - 07/18),https://data.police.uk/data/archive/2018-07.zip
+1,Full Crime Data (12/10 - 08/15),https://data.police.uk/data/archive/2015-08.zip
+2,2011 LSOA Boundaries,http://www.ons.gov.uk/ons/external-links/social-media/g-m/lsoa-boundaries---full-resolution--extent-of-the-realm.html
+2,All ranks deciles and scores for the indices of deprivation,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/467774/File_7_ID_2015_All_ranks__deciles_and_scores_for_the_Indices_of_Deprivation__and_population_denominators.csv
+2,Deprivation Index Guidance,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/464430/English_Index_of_Multiple_Deprivation_2015_-_Guidance.pdf
+2,Drug deaths by locale,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/datasets/drugmisusedeathsbylocalauthority/current/localauthoritiesregistrations201517.xlsx
+2,Drug Seizure data,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/657809/seizures-drugs-mar2017-hosb2217-tables.ods
+2,Firearm and Shotgun Certificates 08-18,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/721167/firearm-shotgun-certificates-england-wales-march-2018-tables.ods
+2,Illicit drug use by demographics,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/728748/drug-misuse-1718-tables.xlsx
+2,Offences involving Firearms 02-17,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/crimeandjustice/datasets/offencesinvolvingtheuseofweaponsdatatables/yearendingmarch2017/offencesinvolvingtheuseofweaponstablesfinalcorrected.xls
+2,Police use of Tasers 2009-11,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/236652/police-use-of-taser-20092011-tabs.ods
+2,Police use of Tasers 2012-13,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/295041/police-use-of-taser-20122013-tabs.ods
+2,Police use of Tasers 2014,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/442680/police-use-of-taser-jandec2014-tabs.ods
+2,Police use of Tasers 2015,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/519763/police-use-of-taser-2015tabs.ods
+2,Police use of Tasers 2016,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/607748/police-use-of-conducted-energy-devices-2016.ods
+2,Population by LSOA 2011,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2011/rftmid2011soadensitytables.zip
+2,Population by LSOA 2012,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2012/rftmid2012soadensitytables.zip
+2,Population by LSOA 2013,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2013/rft-lsoa-density-table-2013.zip
+2,Population by LSOA 2014,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2014/rft-lsoa-density-table-2014.zip
+2,Population by LSOA 2015,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2015sape18dt11/sape18dt11mid2015lsoapopulationdensity.zip
+2,Population by LSOA 2016,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareapopulationdensity/mid2016sape19dt11/sape19dt11mid2016lsoapopulationdensity.zip
+5,NHS Drug Abuse Data 13-17,https://files.digital.nhs.uk/publication/a/o/drug-misu-eng-2017-tab.xlsx
+6,Welsh index of multiple deprivation,https://statswales.gov.wales/Download/File?fileId=422
+,101 Call Handling,https://s3-eu-west-1.amazonaws.com/policeuk/call-handling/101_call_handling_Mar_2015.zip
+,Deprivation Population Denominators,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/467773/File_6_ID_2015_Population_denominators.xlsx
+,Domains of Deprivation,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/467765/File_2_ID_2015_Domains_of_deprivation.xlsx
+,Financial Reserves Data,https://s3-eu-west-1.amazonaws.com/policeuk/financial-reserves/financial_reserves_data.zip
+,Forensic and other services procurement costs data,https://www.police.uk/procurement/services/data.zip
+,Income and Inequality 2015,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/datasets/householddisposableincomeandinequality/financialyearending2015/hdii201415referencetablesv2tcm77433858.xls
+,Income and Inequality 2016,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/datasets/householddisposableincomeandinequality/financialyearending2016/hdii201516workbookv1.xls
+,Income and Inequality 2017,https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/datasets/householddisposableincomeandinequality/financialyearending2017/hdiireferencetables201617.xlsx
+,Index of Multiple Deprivation,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/467764/File_1_ID_2015_Index_of_Multiple_Deprivation.xlsx
+,Neighbourhood boundaries April 2016,https://data.police.uk/data/boundaries/2016-04.zip
+,Neighbourhood boundaries April 2017,https://data.police.uk/data/boundaries/2017-04.zip
+,Neighbourhood boundaries April 2018,https://data.police.uk/data/boundaries/2018-04.zip
+,Neighbourhood boundaries August 2015,https://data.police.uk/data/boundaries/2015-08.zip
+,Neighbourhood boundaries August 2016,https://data.police.uk/data/boundaries/2016-08.zip
+,Neighbourhood boundaries August 2017,https://data.police.uk/data/boundaries/2017-08.zip
+,Neighbourhood boundaries December 2015,https://data.police.uk/data/boundaries/2015-12.zip
+,Neighbourhood boundaries December 2016,https://data.police.uk/data/boundaries/2016-12.zip
+,Neighbourhood boundaries December 2017,https://data.police.uk/data/boundaries/2017-12.zip
+,Neighbourhood boundaries February 2016,https://data.police.uk/data/boundaries/2016-02.zip
+,Neighbourhood boundaries February 2017,https://data.police.uk/data/boundaries/2017-02.zip
+,Neighbourhood boundaries February 2018,https://data.police.uk/data/boundaries/2018-02.zip
+,Neighbourhood boundaries January 2016,https://data.police.uk/data/boundaries/2016-01.zip
+,Neighbourhood boundaries January 2017,https://data.police.uk/data/boundaries/2017-01.zip
+,Neighbourhood boundaries January 2018,https://data.police.uk/data/boundaries/2018-01.zip
+,Neighbourhood boundaries July 2016,https://data.police.uk/data/boundaries/2016-07.zip
+,Neighbourhood boundaries July 2017,https://data.police.uk/data/boundaries/2017-07.zip
+,Neighbourhood boundaries July 2018,https://data.police.uk/data/boundaries/2018-07.zip
+,Neighbourhood boundaries June 2016,https://data.police.uk/data/boundaries/2016-06.zip
+,Neighbourhood boundaries June 2017,https://data.police.uk/data/boundaries/2017-06.zip
+,Neighbourhood boundaries June 2018,https://data.police.uk/data/boundaries/2018-06.zip
+,Neighbourhood boundaries March 2016,https://data.police.uk/data/boundaries/2016-03.zip
+,Neighbourhood boundaries March 2017,https://data.police.uk/data/boundaries/2017-03.zip
+,Neighbourhood boundaries March 2018,https://data.police.uk/data/boundaries/2018-03.zip
+,Neighbourhood boundaries May 2016,https://data.police.uk/data/boundaries/2016-05.zip
+,Neighbourhood boundaries May 2017,https://data.police.uk/data/boundaries/2017-05.zip
+,Neighbourhood boundaries May 2018,https://data.police.uk/data/boundaries/2018-05.zip
+,Neighbourhood boundaries November 2015,https://data.police.uk/data/boundaries/2015-11.zip
+,Neighbourhood boundaries November 2016,https://data.police.uk/data/boundaries/2016-11.zip
+,Neighbourhood boundaries November 2017,https://data.police.uk/data/boundaries/2017-11.zip
+,Neighbourhood boundaries October 2015,https://data.police.uk/data/boundaries/2015-10.zip
+,Neighbourhood boundaries October 2016,https://data.police.uk/data/boundaries/2016-10.zip
+,Neighbourhood boundaries October 2017,https://data.police.uk/data/boundaries/2017-10.zip
+,Neighbourhood boundaries September 2015,https://data.police.uk/data/boundaries/2015-09.zip
+,Neighbourhood boundaries September 2016,https://data.police.uk/data/boundaries/2016-09.zip
+,Neighbourhood boundaries September 2017,https://data.police.uk/data/boundaries/2017-09.zip
+,Remuneration data,https://data.police.uk/static/files/remuneration-data-2015-16.csv
+,Scores for indices of Deprivation,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/467768/File_5_ID_2015_Scores_for_the_Indices_of_Deprivation.xlsx
+,Sub-Domains of Deprivation,https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/467767/File_4_ID_2015_Sub-domains_of_deprivation.xlsx
+,Supplementary Deprivation Indices (children and elderly),https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/467766/File_3_ID_2015_Supplementary_Indices_-_Income_Deprivation_Affecting_Children_Index_and_Income_Deprivation_Affecting_Older_People_Index.xlsx
+,Uniform and equipment procurement costs data,https://www.police.uk/procurement/data.zip

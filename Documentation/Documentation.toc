@@ -1,0 +1,11 @@
+\contentsline {section}{\numberline {1}Intro/Brief}{2}{section.1}
+\contentsline {section}{\numberline {2}Aims/Goals/Hypothesis [AND OUTCOME]}{2}{section.2}
+\contentsline {section}{\numberline {3}Data Sources}{2}{section.3}
+\contentsline {section}{\numberline {4}Methodology}{3}{section.4}
+\contentsline {subsection}{\numberline {4.1}Engineering}{3}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Modelling}{4}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Analysis}{4}{subsection.4.3}
+\contentsline {section}{\numberline {5}Assumptions / Problems}{4}{section.5}
+\contentsline {section}{\numberline {6}Conclusions}{5}{section.6}
+\contentsline {section}{\numberline {7}References}{5}{section.7}
+\contentsline {section}{\numberline {8}Appendices (Code)}{6}{section.8}

@@ -1,0 +1,272 @@
+\documentclass{article}
+\usepackage[document]{ragged2e} % Remove justified text
+\usepackage{xcolor} % for RGB colors
+\usepackage[a4paper, total={7in, 9in}]{geometry} % Use wider portion of the page
+\usepackage{hyperref} % Set up href (and automatically link contents)
+\usepackage{setspace}
+\usepackage{fancyhdr}
+ 
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{George Claireaux}
+\rhead{Whole Lotta Gang Sh*t}
+\rfoot{Page \thepage}
+
+\usepackage{tgadventor}
+\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
+\usepackage[T1]{fontenc} % Change fonts
+
+% defining colors to use
+\definecolor{charcoal-black}{RGB}{55, 55, 54}
+\definecolor{electro-blue}{RGB}{38, 171, 242}
+\definecolor{electro-blue-dark}{RGB}{41, 142, 196}
+\definecolor{off-white}{RGB}{246, 246, 246}
+
+\hypersetup{ % Designate link colors
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=charcoal-black,
+    urlcolor=electro-blue-dark
+}
+\pagecolor{off-white}
+\setlength{\fboxrule}{0pt} %removing box outline
+
+% creating easy commands for dark background / electric blue text
+\newcommand{\titlebox}[1]{\par\noindent\colorbox{charcoal-black}
+{\sbox{0}{\centering\parbox{\dimexpr\textwidth+50\fboxsep\relax}{#1}}
+    \ifdim\dimexpr\ht0+\dp0<2cm 
+    \dp0\dimexpr2cm-\ht0\fi
+    \fbox{\usebox{0}}}}
+\newcommand{\sectionbox}[1]{\par\noindent\colorbox{charcoal-black}
+{\sbox{0}{\centering\parbox{\dimexpr\textwidth+35\fboxsep\relax}{#1}}
+    \ifdim\dimexpr\ht0+\dp0>0.5m 
+    \dp0\dimexpr1.2cm-\ht0\fi
+    \fbox{\usebox{0}}}}
+\newcommand{\subsectionbox}[1]{\par\noindent\colorbox{charcoal-black}
+{\centering\parbox{\dimexpr\textwidth+28\fboxsep\relax}{#1}}}
+    
+% margin changer function
+\newenvironment{changemargin}[2]{%
+\begin{list}{}{%
+\setlength{\leftmargin}{#1}%
+\setlength{\rightmargin}{#2}%
+\setlength{\listparindent}{\parindent}%
+\setlength{\itemindent}{\parindent}%
+\setlength{\parsep}{\parskip}%
+}%
+\item[]}{\end{list}}
+
+\begin{document}
+
+\begin{changemargin}{-4em}{-5em}
+\titlebox{\textsc{\color{electro-blue} \Huge \break \break \break Whole Lotta Gang Sh*t \Large a.k.a. guns and drugs}}
+\end{changemargin}
+
+%\pagenumbering{gobble} % Remove page numbers
+\date{} % Remove date
+%\hrulefill % Horizontal line
+
+\vspace{3em}\\
+{\setstretch{2}
+\tableofcontents
+}
+
+\pagebreak
+
+\color{charcoal-black}
+
+\begin{changemargin}{-4em}{-5em}
+\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em}  \section{Intro/Brief} }}
+\end{changemargin}
+FIRST TALK ABOUT THE BRIEF GIVEN 
+\linebreak
+THEN
+\linebreak
+GO ON TO EXPLAIN MY ANGLE AND WHAT I'M AIMING TO DO
+\linebreak \linebreak
+REFERENCE THE \emph{\href{https://www.amnesty.org.uk/press-releases/met-police-using-racially-discriminatory-gangs-matrix-database}{Amnesty report on met police gang matrix}} 
+AND TALK ABOUT ITS SHORTCOMINGS ETC
+
+\vspace{3em}
+
+\begin{changemargin}{-4em}{-5em}
+\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em} \section{Aims/Goals/Hypothesis [AND OUTCOME]} }}
+\end{changemargin}
+DETAIL MY AIMS AND GOALS IN TRYING TO IMPROVE ON THE GANG MATRIX AND ACCURATELY MAP UK (ENGLAND/WALES) GANG ACTIVITY
+\linebreak \linebreak
+GIVE A VERY CONCISE, PRECISE AND CLEAR OUTCOME OF MY INVESTIGATION AND WORK
+
+\vspace{3em}
+
+\begin{changemargin}{-4em}{-5em}
+\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em} \section{Data Sources} }}
+\end{changemargin}
+\vspace{1em}
+\begin{large} England/Wales Police Force Data \end{large}
+\linebreak
+\emph{\href{https://data.police.uk/}{data.police.uk}}
+\linebreak
+\begin{itemize} % Starts unordered (bullet point) list
+	\begin{small}
+	\item Detailed crime data
+	\item Geographic force boundaries
+	\end{small}
+\end{itemize}
+\vspace{1em}
+\begin{large} UK Government Data \end{large} 
+\linebreak
+\emph{\href{https://www.ons.gov.uk/}{gov.uk / ons.gov.uk}}
+\linebreak
+\begin{itemize} % Starts unordered (bullet point) list
+	\begin{small}
+	\item LSOA population data
+	\item Deprivation indices (England)
+	\item Firearm and shotgun ownership
+	\item Firearm offences
+	\item Police use of tasers
+	\item Police drug seizure data
+	\item Drug misuse data
+	\item Drug deaths data
+	\end{small}
+\end{itemize}
+\vspace{1em}
+\begin{large} UK Government GeoPortal Data \end{large} 
+\linebreak
+\emph{\href{http://geoportal.statistics.gov.uk/datasets/output-area-to-lsoa-to-msoa-to-local-authority-district-december-2017-lookup-with-area-classifications-in-great-britain?page=9}{geoportal.statistics.gov.uk}}
+\linebreak
+\begin{itemize} % Starts unordered (bullet point) list
+	\begin{small}
+	\item Area comparison table
+	\item 2011 LSOA boundaries
+	\end{small}
+\end{itemize}
+\vspace{1em}
+\begin{large} UK Parliament Data \end{large}
+\linebreak
+\emph{\href{https://researchbriefings.parliament.uk/ResearchBriefing/Summary/SN04304}{parliament.uk}}
+\linebreak
+\begin{itemize} % Starts unordered (bullet point) list
+	\begin{small}
+	\item Weapon crime statistics
+	\end{small}
+\end{itemize}
+\vspace{1em}
+\begin{large} NHS Data \end{large} 
+\linebreak
+\emph{\href{https://digital.nhs.uk/data-and-information/publications/statistical/statistics-on-drug-misuse/2017}{nhs.uk}}
+\linebreak
+\begin{itemize} % Starts unordered (bullet point) list
+	\begin{small}
+	\item NHS drug abuse data
+	\end{small}
+\end{itemize}
+\vspace{1em}
+\begin{large} Government of Wales Data \end{large} 
+\linebreak 
+\emph{\href{https://statswales.gov.wales/Catalogue/Community-Safety-and-Social-Inclusion/Welsh-Index-of-Multiple-Deprivation/WIMD-2014}{statswales.gov.wales}}
+\linebreak
+\begin{itemize} % Starts unordered (bullet point) list
+	\begin{small}
+	\item Deprivation indices (Wales)
+	\end{small}
+\end{itemize}
+
+\vspace{3em}
+
+\begin{changemargin}{-4em}{-5em}
+\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em} \section{Methodology} }}
+\end{changemargin}
+Bacon ipsum dolor amet esse eu ham, flank quis kevin labore consequat ground round porchetta corned beef pig chuck cupim duis. Aute fugiat jowl, cupim pariatur chicken et id sunt landjaeger nisi biltong short ribs. Elit duis consectetur ut in aliqua do spare ribs cow short ribs veniam beef chicken short loin. Enim consequat quis rump, strip steak t-bone beef salami. Biltong salami tenderloin cillum. Voluptate shankle drumstick pork beef ribs picanha aute ullamco ball tip jerky ad bacon in id.
+\linebreak \linebreak
+Quis ea veniam capicola shankle jowl pastrami mollit adipisicing ipsum. Alcatra leberkas tail, dolore veniam sausage pork shoulder porchetta. Nulla chuck consequat, pork loin tri-tip ball tip consectetur magna short loin landjaeger shankle salami. Esse corned beef beef pork chop ut short loin in et hamburger drumstick quis turkey id aute. Filet mignon boudin ut swine.
+
+	\vspace{3em}
+
+	\begin{changemargin}{-2em}{-5em}
+	\subsectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{15em} \subsection{Engineering} }}
+	\end{changemargin}
+	Bacon ipsum dolor amet esse eu ham, flank quis kevin labore consequat ground round porchetta corned beef pig chuck cupim duis. Aute fugiat jowl, cupim pariatur chicken et id sunt landjaeger nisi biltong short ribs. Elit duis consectetur ut in aliqua do spare ribs cow short ribs veniam beef chicken short loin. Enim consequat quis rump, strip steak t-bone beef salami. Biltong salami tenderloin cillum. Voluptate shankle drumstick pork beef ribs picanha aute ullamco ball tip jerky ad bacon in id.
+\linebreak \linebreak
+Quis ea veniam capicola shankle jowl pastrami mollit adipisicing ipsum. Alcatra leberkas tail, dolore veniam sausage pork shoulder porchetta. Nulla chuck consequat, pork loin tri-tip ball tip consectetur magna short loin landjaeger shankle salami. Esse corned beef beef pork chop ut short loin in et hamburger drumstick quis turkey id aute. Filet mignon boudin ut swine.
+
+	\vspace{3em}
+
+	\begin{changemargin}{-2em}{-5em}
+	\subsectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{15em} \subsection{Modelling} }}
+	\end{changemargin}
+	Bacon ipsum dolor amet esse eu ham, flank quis kevin labore consequat ground round porchetta corned beef pig chuck cupim duis. Aute fugiat jowl, cupim pariatur chicken et id sunt landjaeger nisi biltong short ribs. Elit duis consectetur ut in aliqua do spare ribs cow short ribs veniam beef chicken short loin. Enim consequat quis rump, strip steak t-bone beef salami. Biltong salami tenderloin cillum. Voluptate shankle drumstick pork beef ribs picanha aute ullamco ball tip jerky ad bacon in id.
+\linebreak \linebreak
+Quis ea veniam capicola shankle jowl pastrami mollit adipisicing ipsum. Alcatra leberkas tail, dolore veniam sausage pork shoulder porchetta. Nulla chuck consequat, pork loin tri-tip ball tip consectetur magna short loin landjaeger shankle salami. Esse corned beef beef pork chop ut short loin in et hamburger drumstick quis turkey id aute. Filet mignon boudin ut swine.
+
+	\vspace{3em}
+	
+	\begin{changemargin}{-2em}{-5em}
+	\subsectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{15em} \subsection{Analysis} }}
+	\end{changemargin}
+Bacon ipsum dolor amet esse eu ham, flank quis kevin labore consequat ground round porchetta corned beef pig chuck cupim duis. Aute fugiat jowl, cupim pariatur chicken et id sunt landjaeger nisi biltong short ribs. Elit duis consectetur ut in aliqua do spare ribs cow short ribs veniam beef chicken short loin. Enim consequat quis rump, strip steak t-bone beef salami. Biltong salami tenderloin cillum. Voluptate shankle drumstick pork beef ribs picanha aute ullamco ball tip jerky ad bacon in id.
+\linebreak \linebreak
+Quis ea veniam capicola shankle jowl pastrami mollit adipisicing ipsum. Alcatra leberkas tail, dolore veniam sausage pork shoulder porchetta. Nulla chuck consequat, pork loin tri-tip ball tip consectetur magna short loin landjaeger shankle salami. Esse corned beef beef pork chop ut short loin in et hamburger drumstick quis turkey id aute. Filet mignon boudin ut swine.
+
+\vspace{3em}
+
+\begin{changemargin}{-4em}{-5em}
+\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em} \section{Assumptions / Problems} }}
+\end{changemargin}
+Bacon ipsum dolor amet esse eu ham, flank quis kevin labore consequat ground round porchetta corned beef pig chuck cupim duis. Aute fugiat jowl, cupim pariatur chicken et id sunt landjaeger nisi biltong short ribs. Elit duis consectetur ut in aliqua do spare ribs cow short ribs veniam beef chicken short loin. Enim consequat quis rump, strip steak t-bone beef salami. Biltong salami tenderloin cillum. Voluptate shankle drumstick pork beef ribs picanha aute ullamco ball tip jerky ad bacon in id.
+\linebreak \linebreak
+Quis ea veniam capicola shankle jowl pastrami mollit adipisicing ipsum. Alcatra leberkas tail, dolore veniam sausage pork shoulder porchetta. Nulla chuck consequat, pork loin tri-tip ball tip consectetur magna short loin landjaeger shankle salami. Esse corned beef beef pork chop ut short loin in et hamburger drumstick quis turkey id aute. Filet mignon boudin ut swine.
+\linebreak \linebreak
+Salami kevin pastrami tempor, shoulder velit flank est nostrud ground round. Drumstick proident venison duis cillum aliqua. Salami meatball capicola picanha, shankle burgdoggen ut porchetta fatback nostrud andouille mollit aute veniam. Voluptate incididunt turducken tempor t-bone landjaeger dolore consequat reprehenderit enim mollit aute. Mollit swine cupidatat non, chuck brisket shank. Ham pork belly labore consectetur. Bacon sirloin corned beef id.
+\linebreak \linebreak
+Tail veniam incididunt chicken. Culpa fugiat venison, ut minim doner exercitation. Do pork belly lorem deserunt. Reprehenderit jowl jerky tempor ribeye consequat, in elit buffalo aliqua ground round occaecat. Deserunt ham brisket exercitation ham hock shank. Proident pastrami porchetta venison aliquip brisket.
+\linebreak \linebreak
+Elit ham hock bresaola est officia nisi, flank doner occaecat. Cupim duis ut non, in bacon picanha. Proident do meatball pancetta tempor strip steak. Ham hock deserunt esse ut. Ut aliqua biltong spare ribs ham hock, jowl pariatur occaecat dolore sint beef ribs. Alcatra pastrami mollit, ham eiusmod frankfurter ham hock labore fatback.
+
+\vspace{3em}
+
+\begin{changemargin}{-4em}{-5em}
+\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em} \section{Conclusions} }}
+\end{changemargin}
+Bacon ipsum dolor amet esse eu ham, flank quis kevin labore consequat ground round porchetta corned beef pig chuck cupim duis. Aute fugiat jowl, cupim pariatur chicken et id sunt landjaeger nisi biltong short ribs. Elit duis consectetur ut in aliqua do spare ribs cow short ribs veniam beef chicken short loin. Enim consequat quis rump, strip steak t-bone beef salami. Biltong salami tenderloin cillum. Voluptate shankle drumstick pork beef ribs picanha aute ullamco ball tip jerky ad bacon in id.
+\linebreak \linebreak
+Quis ea veniam capicola shankle jowl pastrami mollit adipisicing ipsum. Alcatra leberkas tail, dolore veniam sausage pork shoulder porchetta. Nulla chuck consequat, pork loin tri-tip ball tip consectetur magna short loin landjaeger shankle salami. Esse corned beef beef pork chop ut short loin in et hamburger drumstick quis turkey id aute. Filet mignon boudin ut swine.
+\linebreak \linebreak
+Salami kevin pastrami tempor, shoulder velit flank est nostrud ground round. Drumstick proident venison duis cillum aliqua. Salami meatball capicola picanha, shankle burgdoggen ut porchetta fatback nostrud andouille mollit aute veniam. Voluptate incididunt turducken tempor t-bone landjaeger dolore consequat reprehenderit enim mollit aute. Mollit swine cupidatat non, chuck brisket shank. Ham pork belly labore consectetur. Bacon sirloin corned beef id.
+\linebreak \linebreak
+Tail veniam incididunt chicken. Culpa fugiat venison, ut minim doner exercitation. Do pork belly lorem deserunt. Reprehenderit jowl jerky tempor ribeye consequat, in elit buffalo aliqua ground round occaecat. Deserunt ham brisket exercitation ham hock shank. Proident pastrami porchetta venison aliquip brisket.
+\linebreak \linebreak
+Elit ham hock bresaola est officia nisi, flank doner occaecat. Cupim duis ut non, in bacon picanha. Proident do meatball pancetta tempor strip steak. Ham hock deserunt esse ut. Ut aliqua biltong spare ribs ham hock, jowl pariatur occaecat dolore sint beef ribs. Alcatra pastrami mollit, ham eiusmod frankfurter ham hock labore fatback.
+
+\vspace{3em}
+
+\begin{changemargin}{-4em}{-5em}
+\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em} \section{References} }}
+\end{changemargin}
+Bacon ipsum dolor amet esse eu ham, flank quis kevin labore consequat ground round porchetta corned beef pig chuck cupim duis. Aute fugiat jowl, cupim pariatur chicken et id sunt landjaeger nisi biltong short ribs. Elit duis consectetur ut in aliqua do spare ribs cow short ribs veniam beef chicken short loin. Enim consequat quis rump, strip steak t-bone beef salami. Biltong salami tenderloin cillum. Voluptate shankle drumstick pork beef ribs picanha aute ullamco ball tip jerky ad bacon in id.
+\linebreak \linebreak
+Quis ea veniam capicola shankle jowl pastrami mollit adipisicing ipsum. Alcatra leberkas tail, dolore veniam sausage pork shoulder porchetta. Nulla chuck consequat, pork loin tri-tip ball tip consectetur magna short loin landjaeger shankle salami. Esse corned beef beef pork chop ut short loin in et hamburger drumstick quis turkey id aute. Filet mignon boudin ut swine.
+\linebreak \linebreak
+Salami kevin pastrami tempor, shoulder velit flank est nostrud ground round. Drumstick proident venison duis cillum aliqua. Salami meatball capicola picanha, shankle burgdoggen ut porchetta fatback nostrud andouille mollit aute veniam. Voluptate incididunt turducken tempor t-bone landjaeger dolore consequat reprehenderit enim mollit aute. Mollit swine cupidatat non, chuck brisket shank. Ham pork belly labore consectetur. Bacon sirloin corned beef id.
+\linebreak \linebreak
+Tail veniam incididunt chicken. Culpa fugiat venison, ut minim doner exercitation. Do pork belly lorem deserunt. Reprehenderit jowl jerky tempor ribeye consequat, in elit buffalo aliqua ground round occaecat. Deserunt ham brisket exercitation ham hock shank. Proident pastrami porchetta venison aliquip brisket.
+\linebreak \linebreak
+Elit ham hock bresaola est officia nisi, flank doner occaecat. Cupim duis ut non, in bacon picanha. Proident do meatball pancetta tempor strip steak. Ham hock deserunt esse ut. Ut aliqua biltong spare ribs ham hock, jowl pariatur occaecat dolore sint beef ribs. Alcatra pastrami mollit, ham eiusmod frankfurter ham hock labore fatback.
+
+\vspace{3em}
+
+\begin{changemargin}{-4em}{-5em}
+\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em} \section{Appendices (Code)} }}
+\end{changemargin}
+Bacon ipsum dolor amet esse eu ham, flank quis kevin labore consequat ground round porchetta corned beef pig chuck cupim duis. Aute fugiat jowl, cupim pariatur chicken et id sunt landjaeger nisi biltong short ribs. Elit duis consectetur ut in aliqua do spare ribs cow short ribs veniam beef chicken short loin. Enim consequat quis rump, strip steak t-bone beef salami. Biltong salami tenderloin cillum. Voluptate shankle drumstick pork beef ribs picanha aute ullamco ball tip jerky ad bacon in id.
+\linebreak \linebreak
+Quis ea veniam capicola shankle jowl pastrami mollit adipisicing ipsum. Alcatra leberkas tail, dolore veniam sausage pork shoulder porchetta. Nulla chuck consequat, pork loin tri-tip ball tip consectetur magna short loin landjaeger shankle salami. Esse corned beef beef pork chop ut short loin in et hamburger drumstick quis turkey id aute. Filet mignon boudin ut swine.
+\linebreak \linebreak
+Salami kevin pastrami tempor, shoulder velit flank est nostrud ground round. Drumstick proident venison duis cillum aliqua. Salami meatball capicola picanha, shankle burgdoggen ut porchetta fatback nostrud andouille mollit aute veniam. Voluptate incididunt turducken tempor t-bone landjaeger dolore consequat reprehenderit enim mollit aute. Mollit swine cupidatat non, chuck brisket shank. Ham pork belly labore consectetur. Bacon sirloin corned beef id.
+\linebreak \linebreak
+Tail veniam incididunt chicken. Culpa fugiat venison, ut minim doner exercitation. Do pork belly lorem deserunt. Reprehenderit jowl jerky tempor ribeye consequat, in elit buffalo aliqua ground round occaecat. Deserunt ham brisket exercitation ham hock shank. Proident pastrami porchetta venison aliquip brisket.
+\linebreak \linebreak
+Elit ham hock bresaola est officia nisi, flank doner occaecat. Cupim duis ut non, in bacon picanha. Proident do meatball pancetta tempor strip steak. Ham hock deserunt esse ut. Ut aliqua biltong spare ribs ham hock, jowl pariatur occaecat dolore sint beef ribs. Alcatra pastrami mollit, ham eiusmod frankfurter ham hock labore fatback.
+
+
+\end{document}
