@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <AlteryxDocument yxmdVer="2018.3">
   <Nodes>
-    <Node ToolID="291">
+    <Node ToolID="309">
       <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
-        <Position x="53.99998" y="246" width="170.7311" height="19" />
+        <Position x="317" y="46" width="673" height="363" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <Caption>YearlyRegionPivots</Caption>
+          <Caption>GunTableUnpivots</Caption>
           <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="25" />
-          <Disabled value="True" />
-          <Folded value="True" />
+          <Disabled value="False" />
+          <Folded value="False" />
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
@@ -19,15 +19,15 @@
         </Annotation>
       </Properties>
       <ChildNodes>
-        <Node ToolID="292">
+        <Node ToolID="310">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="91.99996" y="354.0001" />
+            <Position x="342" y="119.9997" />
           </GuiSettings>
           <Properties>
             <Configuration>
               <Passwords />
               <CachedCosmeticName />
-              <File RecordLimit="" FileFormat="23">aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion</File>
+              <File RecordLimit="" FileFormat="23">aka:Test|||Select Weapons.GunsAgeForceArea.* From Weapons.GunsAgeForceArea</File>
               <FormatSpecificOptions>
                 <PreSQLOnConfig>True</PreSQLOnConfig>
                 <ReadCentroids>False</ReadCentroids>
@@ -42,7 +42,7 @@
               <Name />
               <AnnotationText />
               <DefaultAnnotationText>aka:Test
-Table=Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion</DefaultAnnotationText>
+Table=Select Weapons.GunsAgeForceArea.* From Weapons.GunsAgeForceArea</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
             <Dependencies>
@@ -50,106 +50,178 @@ Table=Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion</DefaultAn
             </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
-                <Field name="Year" size="11" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="String" />
-                <Field name="Region" size="255" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="V_WString" />
-                <Field name="Region code" size="255" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="V_WString" />
-                <Field name="Gender" size="11" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="String" />
-                <Field name="Drug admissions (mental health)" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="Double" />
-                <Field name="Drug admissions (poisoning)" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="Double" />
+                <Field name="Year" source="File: aka:Test|||Select Weapons.GunsAgeForceArea.* From Weapons.GunsAgeForceArea" type="Int32" />
+                <Field name="Region" size="255" source="File: aka:Test|||Select Weapons.GunsAgeForceArea.* From Weapons.GunsAgeForceArea" type="V_WString" />
+                <Field name="Police force area" size="255" source="File: aka:Test|||Select Weapons.GunsAgeForceArea.* From Weapons.GunsAgeForceArea" type="V_WString" />
+                <Field name="Firearm certs 14-17" source="File: aka:Test|||Select Weapons.GunsAgeForceArea.* From Weapons.GunsAgeForceArea" type="Int32" />
+                <Field name="Firearm certs 18-34" source="File: aka:Test|||Select Weapons.GunsAgeForceArea.* From Weapons.GunsAgeForceArea" type="Int32" />
+                <Field name="Firearm certs 35-49" source="File: aka:Test|||Select Weapons.GunsAgeForceArea.* From Weapons.GunsAgeForceArea" type="Int32" />
+                <Field name="Firearm certs 50-64" source="File: aka:Test|||Select Weapons.GunsAgeForceArea.* From Weapons.GunsAgeForceArea" type="Int32" />
+                <Field name="Firearm certs 65+" source="File: aka:Test|||Select Weapons.GunsAgeForceArea.* From Weapons.GunsAgeForceArea" type="Int32" />
+                <Field name="Shotgun certs 0-13" source="File: aka:Test|||Select Weapons.GunsAgeForceArea.* From Weapons.GunsAgeForceArea" type="Int32" />
+                <Field name="Shotgun certs 14-17" source="File: aka:Test|||Select Weapons.GunsAgeForceArea.* From Weapons.GunsAgeForceArea" type="Int32" />
+                <Field name="Shotgun certs 18-34" source="File: aka:Test|||Select Weapons.GunsAgeForceArea.* From Weapons.GunsAgeForceArea" type="Int32" />
+                <Field name="Shotgun certs 35-49" source="File: aka:Test|||Select Weapons.GunsAgeForceArea.* From Weapons.GunsAgeForceArea" type="Int32" />
+                <Field name="Shotgun certs 50-64" source="File: aka:Test|||Select Weapons.GunsAgeForceArea.* From Weapons.GunsAgeForceArea" type="Int32" />
+                <Field name="Shotgun certs 65+" source="File: aka:Test|||Select Weapons.GunsAgeForceArea.* From Weapons.GunsAgeForceArea" type="Int32" />
               </RecordInfo>
             </MetaInfo>
           </Properties>
           <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
         </Node>
-        <Node ToolID="293">
-          <GuiSettings Plugin="AlteryxBasePluginsGui.CrossTab.CrossTab">
-            <Position x="175" y="322" />
+        <Node ToolID="311">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+            <Position x="342" y="263.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
-              <GroupFields>
+              <Passwords />
+              <CachedCosmeticName />
+              <File RecordLimit="" FileFormat="23">aka:Test|||Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea</File>
+              <FormatSpecificOptions>
+                <PreSQLOnConfig>True</PreSQLOnConfig>
+                <ReadCentroids>False</ReadCentroids>
+                <NoProgress>True</NoProgress>
+                <ReadUncommitted>False</ReadUncommitted>
+                <TableStyle>Quoted</TableStyle>
+                <PreSQL />
+                <PostSQL />
+              </FormatSpecificOptions>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>aka:Test
+Table=Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <Dependencies>
+              <Implicit />
+            </Dependencies>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Year" source="File: aka:Test|||Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea" type="Int32" />
+                <Field name="Region" size="255" source="File: aka:Test|||Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea" type="V_WString" />
+                <Field name="Police force area" size="255" source="File: aka:Test|||Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea" type="V_WString" />
+                <Field name="Female firearm certs" source="File: aka:Test|||Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea" type="Int32" />
+                <Field name="Male firearm certs" source="File: aka:Test|||Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea" type="Int32" />
+                <Field name="GenderNA firearm certs" source="File: aka:Test|||Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea" type="Int32" />
+                <Field name="Female shotgun certs" source="File: aka:Test|||Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea" type="Int32" />
+                <Field name="Male shotgun certs" source="File: aka:Test|||Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea" type="Int32" />
+                <Field name="GenderNA shotgun certs" source="File: aka:Test|||Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea" type="Int32" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
+        </Node>
+        <Node ToolID="312">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Transpose.Transpose">
+            <Position x="426" y="119.9999" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <ErrorWarn>Warn</ErrorWarn>
+              <KeyFields>
                 <Field field="Year" />
                 <Field field="Region" />
-                <Field field="Region code" />
-              </GroupFields>
-              <HeaderField field="Gender" />
-              <DataField field="Drug admissions (mental health)" />
-              <Methods>
-                <Method method="Sum" />
-              </Methods>
+                <Field field="Police force area" />
+              </KeyFields>
+              <DataFields>
+                <Field field="Year" selected="False" />
+                <Field field="Region" selected="False" />
+                <Field field="Police force area" selected="False" />
+                <Field field="Firearm certs 14-17" selected="True" />
+                <Field field="Firearm certs 18-34" selected="True" />
+                <Field field="Firearm certs 35-49" selected="True" />
+                <Field field="Firearm certs 50-64" selected="True" />
+                <Field field="Firearm certs 65+" selected="True" />
+                <Field field="Shotgun certs 0-13" selected="True" />
+                <Field field="Shotgun certs 14-17" selected="True" />
+                <Field field="Shotgun certs 18-34" selected="True" />
+                <Field field="Shotgun certs 35-49" selected="True" />
+                <Field field="Shotgun certs 50-64" selected="True" />
+                <Field field="Shotgun certs 65+" selected="True" />
+                <Field field="*Unknown" selected="True" />
+              </DataFields>
             </Configuration>
             <Annotation DisplayMode="0">
               <Name />
               <DefaultAnnotationText />
               <Left value="False" />
             </Annotation>
-            <MetaInfo connection="Output">
-              <RecordInfo>
-                <Field name="Year" size="11" source="CrossTab:Group:Sum:" type="String" />
-                <Field name="Region" size="255" source="CrossTab:Group:Sum:" type="V_WString" />
-                <Field name="Region code" size="255" source="CrossTab:Group:Sum:" type="V_WString" />
-                <Field name="Female" source="CrossTab:Header:Gender:Female:Sum:" type="Double" />
-                <Field name="Male" source="CrossTab:Header:Gender:Male:Sum:" type="Double" />
-              </RecordInfo>
-              <SortInfo>
-                <Field field="Year" order="Asc" />
-                <Field field="Region" order="Asc" />
-                <Field field="Region code" order="Asc" />
-              </SortInfo>
-            </MetaInfo>
           </Properties>
-          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxCrossTab" />
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTranspose" />
         </Node>
-        <Node ToolID="294">
-          <GuiSettings Plugin="AlteryxBasePluginsGui.CrossTab.CrossTab">
-            <Position x="175" y="382" />
+        <Node ToolID="313">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Transpose.Transpose">
+            <Position x="426" y="264" />
           </GuiSettings>
           <Properties>
             <Configuration>
-              <GroupFields>
+              <ErrorWarn>Warn</ErrorWarn>
+              <KeyFields>
                 <Field field="Year" />
                 <Field field="Region" />
-                <Field field="Region code" />
-              </GroupFields>
-              <HeaderField field="Gender" />
-              <DataField field="Drug admissions (poisoning)" />
-              <Methods>
-                <Method method="Sum" />
-              </Methods>
+                <Field field="Police force area" />
+              </KeyFields>
+              <DataFields>
+                <Field field="Year" selected="False" />
+                <Field field="Region" selected="False" />
+                <Field field="Police force area" selected="False" />
+                <Field field="Female firearm certs" selected="True" />
+                <Field field="Male firearm certs" selected="True" />
+                <Field field="GenderNA firearm certs" selected="True" />
+                <Field field="Female shotgun certs" selected="True" />
+                <Field field="Male shotgun certs" selected="True" />
+                <Field field="GenderNA shotgun certs" selected="True" />
+                <Field field="*Unknown" selected="True" />
+              </DataFields>
             </Configuration>
             <Annotation DisplayMode="0">
               <Name />
               <DefaultAnnotationText />
               <Left value="False" />
             </Annotation>
-            <MetaInfo connection="Output">
-              <RecordInfo>
-                <Field name="Year" size="11" source="CrossTab:Group:Sum:" type="String" />
-                <Field name="Region" size="255" source="CrossTab:Group:Sum:" type="V_WString" />
-                <Field name="Region code" size="255" source="CrossTab:Group:Sum:" type="V_WString" />
-                <Field name="Female" source="CrossTab:Header:Gender:Female:Sum:" type="Double" />
-                <Field name="Male" source="CrossTab:Header:Gender:Male:Sum:" type="Double" />
-              </RecordInfo>
-              <SortInfo>
-                <Field field="Year" order="Asc" />
-                <Field field="Region" order="Asc" />
-                <Field field="Region code" order="Asc" />
-              </SortInfo>
-            </MetaInfo>
           </Properties>
-          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxCrossTab" />
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTranspose" />
         </Node>
-        <Node ToolID="295">
+        <Node ToolID="314">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.TextToColumns.TextToColumns">
+            <Position x="498" y="119.9999" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Field>Name</Field>
+              <ErrorHandling>Ignore</ErrorHandling>
+              <RootName>Name</RootName>
+              <Delimeters value="s" />
+              <NumFields value="2" />
+              <Flags value="0" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextToColumns" />
+        </Node>
+        <Node ToolID="315">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="247" y="382" />
+            <Position x="570" y="120" />
           </GuiSettings>
           <Properties>
             <Configuration>
-              <OrderChanged value="False" />
+              <OrderChanged value="True" />
               <CommaDecimal value="False" />
               <SelectFields>
-                <SelectField field="Female" selected="True" rename="NHS admissions (drug poisoning female)" />
-                <SelectField field="Male" selected="True" rename="NHS admissions (drug poisoning male)" />
+                <SelectField field="Year" selected="True" />
+                <SelectField field="Police force area" selected="True" rename="Force area" />
+                <SelectField field="Name2" selected="True" rename="Age range" />
+                <SelectField field="Name1" selected="True" rename="Weapon type" />
+                <SelectField field="Value" selected="True" rename="Certificates on issue" />
+                <SelectField field="Region" selected="False" />
+                <SelectField field="Name" selected="False" />
                 <SelectField field="*Unknown" selected="True" />
               </SelectFields>
             </Configuration>
@@ -161,19 +233,125 @@ Table=Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion</DefaultAn
           </Properties>
           <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
         </Node>
-        <Node ToolID="296">
-          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="247" y="322" />
+        <Node ToolID="316">
+          <GuiSettings>
+            <Position x="642" y="120" />
           </GuiSettings>
           <Properties>
             <Configuration>
-              <OrderChanged value="False" />
-              <CommaDecimal value="False" />
-              <SelectFields>
-                <SelectField field="Female" selected="True" rename="NHS admissions (drug mental health female)" />
-                <SelectField field="Male" selected="True" rename="NHS admissions (drug mental health male)" />
-                <SelectField field="*Unknown" selected="True" />
-              </SelectFields>
+              <Value name="List Box (11)">"Year","Force area","Age range","Firearm type","Certificates on issue"</Value>
+              <Value name="Check Box (84)">False</Value>
+              <Value name="Check Box (117)">False</Value>
+              <Value name="Check Box (15)">True</Value>
+              <Value name="Check Box (109)">False</Value>
+              <Value name="Check Box (122)">False</Value>
+              <Value name="Check Box (53)">False</Value>
+              <Value name="Check Box (58)">False</Value>
+              <Value name="Check Box (70)">False</Value>
+              <Value name="Check Box (77)">False</Value>
+              <Value name="Drop Down (81)">upper</Value>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+            <Dependencies>
+              <Implicit />
+            </Dependencies>
+          </Properties>
+          <EngineSettings Macro="Cleanse.yxmc" />
+        </Node>
+        <Node ToolID="317">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+            <Position x="714" y="120" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FormulaFields>
+                <FormulaField expression="Left([Weapon type],7)" field="Weapon type" size="19" type="String" />
+              </FormulaFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText><![CDATA[Weapon type = Left([Weapon type],7)
+]]></DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+        </Node>
+        <Node ToolID="318">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+            <Position x="570" y="180" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Passwords />
+              <CachedCosmeticName />
+              <File RecordLimit="" FileFormat="23">aka:Test|||Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo</File>
+              <FormatSpecificOptions>
+                <PreSQLOnConfig>True</PreSQLOnConfig>
+                <ReadCentroids>False</ReadCentroids>
+                <NoProgress>True</NoProgress>
+                <ReadUncommitted>False</ReadUncommitted>
+                <TableStyle>Quoted</TableStyle>
+                <PreSQL />
+                <PostSQL />
+              </FormatSpecificOptions>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>aka:Test
+Table=Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <Dependencies>
+              <Implicit />
+            </Dependencies>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Force code" size="50" source="File: aka:Test|||Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo" type="V_String" />
+                <Field name="Force area" size="255" source="File: aka:Test|||Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
+        </Node>
+        <Node ToolID="320">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
+            <Position x="642" y="180" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <UniqueFields>
+                <Field field="Force code" />
+                <Field field="Force area" />
+              </UniqueFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>Unique: Force code, Force area</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxUnique" />
+        </Node>
+        <Node ToolID="322">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="786" y="192" width="84" height="48" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Add in Force Codes through external join</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
             </Configuration>
             <Annotation DisplayMode="0">
               <Name />
@@ -181,21 +359,18 @@ Table=Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion</DefaultAn
               <Left value="False" />
             </Annotation>
           </Properties>
-          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
         </Node>
-        <Node ToolID="297">
+        <Node ToolID="323">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
-            <Position x="319" y="358" />
+            <Position x="786" y="144" />
           </GuiSettings>
           <Properties>
             <Configuration joinByRecordPos="False">
               <JoinInfo connection="Left">
-                <Field field="Year" />
-                <Field field="Region code" />
+                <Field field="Force area" />
               </JoinInfo>
               <JoinInfo connection="Right">
-                <Field field="Year" />
-                <Field field="Region code" />
+                <Field field="Force area" />
               </JoinInfo>
               <SelectConfiguration>
                 <Configuration outputConnection="Join">
@@ -203,19 +378,12 @@ Table=Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion</DefaultAn
                   <CommaDecimal value="False" />
                   <SelectFields>
                     <SelectField field="Left_Year" selected="True" />
-                    <SelectField field="Left_Region" selected="True" />
-                    <SelectField field="Left_Region code" selected="True" />
-                    <SelectField field="Left_NHS admissions (drug mental health male)" selected="True" />
-                    <SelectField field="Left_NHS admissions (drug mental health female)" selected="True" />
-                    <SelectField field="Right_NHS admissions (drug poisoning male)" selected="True" />
-                    <SelectField field="Right_NHS admissions (drug poisoning female)" selected="True" />
-                    <SelectField field="Right_Year" selected="False" />
-                    <SelectField field="Right_Region" selected="False" />
-                    <SelectField field="Right_Region code" selected="False" />
-                    <SelectField field="Right_NHS admission (drug poisoning male)" selected="False" />
-                    <SelectField field="Right_NHS admission (drug poisoning female)" selected="False" />
-                    <SelectField field="Left_NHS admission (drug mental health male)" selected="False" />
-                    <SelectField field="Left_NHS admission (drug mental health female)" selected="False" />
+                    <SelectField field="Left_Force area" selected="True" />
+                    <SelectField field="Right_Force code" selected="True" />
+                    <SelectField field="Left_Age range" selected="True" />
+                    <SelectField field="Left_Weapon type" selected="True" />
+                    <SelectField field="Left_Certificates on issue" selected="True" />
+                    <SelectField field="Right_Force area" selected="False" />
                     <SelectField field="*Unknown" selected="True" />
                   </SelectFields>
                 </Configuration>
@@ -229,165 +397,34 @@ Table=Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion</DefaultAn
           </Properties>
           <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxJoin" />
         </Node>
-        <Node ToolID="298">
-          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="90.99979" y="554" />
+        <Node ToolID="324">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+            <Position x="714" y="180" />
           </GuiSettings>
           <Properties>
             <Configuration>
-              <Passwords />
-              <CachedCosmeticName />
-              <File RecordLimit="" FileFormat="23">aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData</File>
-              <FormatSpecificOptions>
-                <PreSQLOnConfig>True</PreSQLOnConfig>
-                <ReadCentroids>False</ReadCentroids>
-                <NoProgress>True</NoProgress>
-                <ReadUncommitted>False</ReadUncommitted>
-                <TableStyle>Quoted</TableStyle>
-                <PreSQL />
-                <PostSQL />
-              </FormatSpecificOptions>
+              <FormulaFields>
+                <FormulaField expression="IF Contains([Force area], 'City')&#xA;	THEN 'London, City of'&#xA;	ELSE [Force area]&#xA;ENDIF" field="Force area" size="255" type="V_WString" />
+              </FormulaFields>
             </Configuration>
             <Annotation DisplayMode="0">
               <Name />
               <AnnotationText />
-              <DefaultAnnotationText>aka:test2
-Table=Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData</DefaultAnnotationText>
-              <Left value="False" />
-            </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
-            <MetaInfo connection="Output">
-              <RecordInfo>
-                <Field name="Year" size="7" source="File: aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData" type="String" />
-                <Field name="Region" size="255" source="File: aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData" type="V_WString" />
-                <Field name="Region code" size="255" source="File: aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData" type="V_WString" />
-                <Field name="Drug" size="50" source="File: aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData" type="String" />
-                <Field name="Users (%)" source="File: aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData" type="Double" />
-              </RecordInfo>
-            </MetaInfo>
-          </Properties>
-          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
-        </Node>
-        <Node ToolID="299">
-          <GuiSettings Plugin="AlteryxBasePluginsGui.CrossTab.CrossTab">
-            <Position x="175" y="554" />
-          </GuiSettings>
-          <Properties>
-            <Configuration>
-              <GroupFields>
-                <Field field="Year" />
-                <Field field="Region" />
-                <Field field="Region code" />
-              </GroupFields>
-              <HeaderField field="Drug" />
-              <DataField field="Users (%)" />
-              <Methods>
-                <Method method="Avg" />
-              </Methods>
-            </Configuration>
-            <Annotation DisplayMode="0">
-              <Name />
-              <DefaultAnnotationText />
-              <Left value="False" />
-            </Annotation>
-            <MetaInfo connection="Output">
-              <RecordInfo>
-                <Field name="Year" size="7" source="CrossTab:Group:Avg:" type="String" />
-                <Field name="Region" size="255" source="CrossTab:Group:Avg:" type="V_WString" />
-                <Field name="Region code" size="255" source="CrossTab:Group:Avg:" type="V_WString" />
-                <Field name="Avg_Amphetamines" source="CrossTab:Header:Drug:Amphetamines:Avg:" type="Double" />
-                <Field name="Avg_Any_Class_A_drug" source="CrossTab:Header:Drug:Any Class A drug:Avg:" type="Double" />
-                <Field name="Avg_Any_drug" source="CrossTab:Header:Drug:Any drug:Avg:" type="Double" />
-                <Field name="Avg_Cannabis" source="CrossTab:Header:Drug:Cannabis:Avg:" type="Double" />
-                <Field name="Avg_Ecstasy" source="CrossTab:Header:Drug:Ecstasy:Avg:" type="Double" />
-                <Field name="Avg_Hallucinogens" source="CrossTab:Header:Drug:Hallucinogens:Avg:" type="Double" />
-                <Field name="Avg_Powder_cocaine" source="CrossTab:Header:Drug:Powder cocaine:Avg:" type="Double" />
-              </RecordInfo>
-              <SortInfo>
-                <Field field="Year" order="Asc" />
-                <Field field="Region" order="Asc" />
-                <Field field="Region code" order="Asc" />
-              </SortInfo>
-            </MetaInfo>
-          </Properties>
-          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxCrossTab" />
-        </Node>
-        <Node ToolID="300">
-          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="247" y="554" />
-          </GuiSettings>
-          <Properties>
-            <Configuration>
-              <OrderChanged value="True" />
-              <CommaDecimal value="False" />
-              <SelectFields>
-                <SelectField field="Year" selected="True" />
-                <SelectField field="Region" selected="True" />
-                <SelectField field="Region code" selected="True" />
-                <SelectField field="Avg_Any_drug" selected="True" rename="Drug users (% of pop)" />
-                <SelectField field="Avg_Cannabis" selected="True" rename="Cannabis users (% of pop)" />
-                <SelectField field="Avg_Any_Class_A_drug" selected="True" rename="Class A users (% of pop)" />
-                <SelectField field="Avg_Powder_cocaine" selected="True" rename="Cocaine users (% of pop)" />
-                <SelectField field="Avg_Ecstasy" selected="True" rename="Ecstasy users (% of pop)" />
-                <SelectField field="Avg_Amphetamines" selected="True" rename="Amphetamine users (% of pop)" />
-                <SelectField field="Avg_Hallucinogens" selected="True" rename="Hallucinogen users (% of pop)" />
-                <SelectField field="Female" selected="False" rename="NHS admissions (drug poisoning female)" />
-                <SelectField field="Male" selected="False" rename="NHS admissions (drug poisoning male)" />
-                <SelectField field="*Unknown" selected="True" />
-              </SelectFields>
-            </Configuration>
-            <Annotation DisplayMode="0">
-              <Name />
-              <DefaultAnnotationText />
+              <DefaultAnnotationText>Force area = IF Contains([Force area], 'City')
+	THEN 'London, City of'
+	ELSE [Fo...</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
           </Properties>
-          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
         </Node>
-        <Node ToolID="301">
+        <Node ToolID="325">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-            <Position x="331" y="554" />
+            <Position x="906" y="144" />
           </GuiSettings>
           <Properties>
             <Configuration>
-              <File MaxRecords="" FileFormat="23">aka:Test|||Drug.SurveyData</File>
-              <Passwords />
-              <FormatSpecificOptions>
-                <TransactionMessages>False</TransactionMessages>
-                <Geometry>False</Geometry>
-                <Projection />
-                <IgnoreDropTableSQLErrors>False</IgnoreDropTableSQLErrors>
-                <SpatialObjSize>8000</SpatialObjSize>
-                <OutputOption>Create</OutputOption>
-                <PostSQL />
-                <TransactionSize>10000</TransactionSize>
-                <TableStyle>Quoted</TableStyle>
-                <PreSQL />
-              </FormatSpecificOptions>
-              <MultiFile value="False" />
-            </Configuration>
-            <Annotation DisplayMode="0">
-              <Name />
-              <AnnotationText />
-              <DefaultAnnotationText>aka:Test
-Table=Drug.SurveyData</DefaultAnnotationText>
-              <Left value="False" />
-            </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
-          </Properties>
-          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
-        </Node>
-        <Node ToolID="302">
-          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-            <Position x="331" y="446" />
-          </GuiSettings>
-          <Properties>
-            <Configuration>
-              <File MaxRecords="" FileFormat="23">aka:Test|||Drug.AdmissionsNHSRegion</File>
+              <File MaxRecords="" FileFormat="23">aka:Test|||Supp.FirearmCertsByAge</File>
               <Passwords />
               <CachedCosmeticName />
               <FormatSpecificOptions>
@@ -408,7 +445,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
               <Name />
               <AnnotationText />
               <DefaultAnnotationText>aka:Test
-Table=Drug.AdmissionsNHSRegion</DefaultAnnotationText>
+Table=Supp.FirearmCertsByAge</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
             <Dependencies>
@@ -417,113 +454,373 @@ Table=Drug.AdmissionsNHSRegion</DefaultAnnotationText>
           </Properties>
           <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
         </Node>
-        <Node ToolID="303">
+        <Node ToolID="326">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="78.99994" y="410" width="60.00002" height="132" />
-          </GuiSettings>
-          <Properties>
-            <Configuration>
-              <Text>Pulling in data from SQL, this has already been cleaned but need to prep for dim table</Text>
-              <Font name="Arial" size="8.25" style="0" />
-              <TextColor name="Black" />
-              <FillColor name="White" />
-              <Shape shape="0" />
-              <Justification Justification="4" />
-            </Configuration>
-            <Annotation DisplayMode="0">
-              <Name />
-              <DefaultAnnotationText />
-              <Left value="False" />
-            </Annotation>
-          </Properties>
-        </Node>
-        <Node ToolID="304">
-          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="175" y="434" width="60" height="36" />
-          </GuiSettings>
-          <Properties>
-            <Configuration>
-              <Text>Pivoting gender</Text>
-              <Font name="Arial" size="8.25" style="0" />
-              <TextColor name="Black" />
-              <FillColor name="White" />
-              <Shape shape="0" />
-              <Justification Justification="4" />
-            </Configuration>
-            <Annotation DisplayMode="0">
-              <Name />
-              <DefaultAnnotationText />
-              <Left value="False" />
-            </Annotation>
-          </Properties>
-        </Node>
-        <Node ToolID="305">
-          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="175" y="518" width="60" height="36" />
-          </GuiSettings>
-          <Properties>
-            <Configuration>
-              <Text>Pivoting drug</Text>
-              <Font name="Arial" size="8.25" style="0" />
-              <TextColor name="Black" />
-              <FillColor name="White" />
-              <Shape shape="0" />
-              <Justification Justification="4" />
-            </Configuration>
-            <Annotation DisplayMode="0">
-              <Name />
-              <DefaultAnnotationText />
-              <Left value="False" />
-            </Annotation>
-          </Properties>
-        </Node>
-        <Node ToolID="306">
-          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="247" y="458" width="60.00003" height="72" />
-          </GuiSettings>
-          <Properties>
-            <Configuration>
-              <Text>Selecting and renaming required columns</Text>
-              <Font name="Arial" size="8.25" style="0" />
-              <TextColor name="Black" />
-              <FillColor name="White" />
-              <Shape shape="0" />
-              <Justification Justification="4" />
-            </Configuration>
-            <Annotation DisplayMode="0">
-              <Name />
-              <DefaultAnnotationText />
-              <Left value="False" />
-            </Annotation>
-          </Properties>
-        </Node>
-        <Node ToolID="307">
-          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="319" y="290" width="71" height="72" />
-          </GuiSettings>
-          <Properties>
-            <Configuration>
-              <Text>Joining drug poisoning and drug mental health</Text>
-              <Font name="Arial" size="8.25" style="0" />
-              <TextColor name="Black" />
-              <FillColor name="White" />
-              <Shape shape="0" />
-              <Justification Justification="4" />
-            </Configuration>
-            <Annotation DisplayMode="0">
-              <Name />
-              <DefaultAnnotationText />
-              <Left value="False" />
-            </Annotation>
-          </Properties>
-        </Node>
-        <Node ToolID="308">
-          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="342" y="510" width="48" height="36" />
+            <Position x="906" y="204" width="48" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
               <Text>Send to SQL</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="327">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+            <Position x="570" y="324" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Passwords />
+              <CachedCosmeticName />
+              <File RecordLimit="" FileFormat="23">aka:Test|||Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo</File>
+              <FormatSpecificOptions>
+                <PreSQLOnConfig>True</PreSQLOnConfig>
+                <ReadCentroids>False</ReadCentroids>
+                <NoProgress>True</NoProgress>
+                <ReadUncommitted>False</ReadUncommitted>
+                <TableStyle>Quoted</TableStyle>
+                <PreSQL />
+                <PostSQL />
+              </FormatSpecificOptions>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>aka:Test
+Table=Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Force code" size="50" source="File: aka:Test|||Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo" type="V_String" />
+                <Field name="Force area" size="255" source="File: aka:Test|||Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo" type="V_WString" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
+        </Node>
+        <Node ToolID="328">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
+            <Position x="642" y="324" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <UniqueFields>
+                <Field field="Force code" />
+                <Field field="Force area" />
+              </UniqueFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>Unique: Force code, Force area</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxUnique" />
+        </Node>
+        <Node ToolID="329">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="786" y="336" width="84" height="48" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Add in Force Codes through external join</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="330">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.TextToColumns.TextToColumns">
+            <Position x="498" y="263.9999" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Field>Name</Field>
+              <ErrorHandling>Ignore</ErrorHandling>
+              <RootName>Name</RootName>
+              <Delimeters value=" " />
+              <NumFields value="2" />
+              <Flags value="0" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextToColumns" />
+        </Node>
+        <Node ToolID="331">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="570" y="264" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="True" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="Year" selected="True" />
+                <SelectField field="Police force area" selected="True" rename="Force area" />
+                <SelectField field="Name1" selected="True" rename="Gender" />
+                <SelectField field="Name2" selected="True" rename="Weapon type" />
+                <SelectField field="Value" selected="True" rename="Certificates on issue" />
+                <SelectField field="Region" selected="False" />
+                <SelectField field="Name" selected="False" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="333">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+            <Position x="714" y="264" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FormulaFields>
+                <FormulaField expression="IF Contains([Gender], 'NA')&#xA;	THEN 'Unknown'&#xA;	ELSE [Gender]&#xA;ENDIF" field="Gender" size="22" type="String" />
+              </FormulaFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText><![CDATA[Gender = IF Contains([Gender], 'NA')
+	THEN 'Unknown'
+	ELSE [Gender]
+ENDIF
+]]></DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+        </Node>
+        <Node ToolID="334">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
+            <Position x="786" y="288" />
+          </GuiSettings>
+          <Properties>
+            <Configuration joinByRecordPos="False">
+              <JoinInfo connection="Left">
+                <Field field="Force area" />
+              </JoinInfo>
+              <JoinInfo connection="Right">
+                <Field field="Force area" />
+              </JoinInfo>
+              <SelectConfiguration>
+                <Configuration outputConnection="Join">
+                  <OrderChanged value="True" />
+                  <CommaDecimal value="False" />
+                  <SelectFields>
+                    <SelectField field="Left_Year" selected="True" />
+                    <SelectField field="Left_Force area" selected="True" />
+                    <SelectField field="Right_Force code" selected="True" />
+                    <SelectField field="Left_Age range" selected="True" />
+                    <SelectField field="Left_Weapon type" selected="True" />
+                    <SelectField field="Left_Certificates on issue" selected="True" />
+                    <SelectField field="Right_Force area" selected="False" />
+                    <SelectField field="Left_Gender" selected="True" />
+                    <SelectField field="*Unknown" selected="True" />
+                  </SelectFields>
+                </Configuration>
+              </SelectConfiguration>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxJoin" />
+        </Node>
+        <Node ToolID="335">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+            <Position x="714" y="324" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FormulaFields>
+                <FormulaField expression="IF Contains([Force area], 'City')&#xA;	THEN 'London, City of'&#xA;	ELSE [Force area]&#xA;ENDIF" field="Force area" size="255" type="V_WString" />
+              </FormulaFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>Force area = IF Contains([Force area], 'City')
+	THEN 'London, City of'
+	ELSE [Fo...</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+        </Node>
+        <Node ToolID="336">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="906" y="288" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="23">aka:Test|||Supp.FirearmCertsByGender</File>
+              <Passwords />
+              <FormatSpecificOptions>
+                <TransactionMessages>False</TransactionMessages>
+                <Geometry>False</Geometry>
+                <Projection />
+                <IgnoreDropTableSQLErrors>False</IgnoreDropTableSQLErrors>
+                <SpatialObjSize>8000</SpatialObjSize>
+                <OutputOption>Overwrite</OutputOption>
+                <PostSQL />
+                <TransactionSize>10000</TransactionSize>
+                <TableStyle>Quoted</TableStyle>
+                <PreSQL />
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>aka:Test
+Table=Supp.FirearmCertsByGender</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <Dependencies>
+              <Implicit />
+            </Dependencies>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="337">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="906" y="348" width="48" height="36" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Send to SQL</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="338">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
+            <Position x="642" y="264" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <FormulaFields>
+                <FormulaField expression="TitleCase([Weapon type])" field="Weapon type" size="22" type="String" />
+              </FormulaFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText><![CDATA[Weapon type = TitleCase([Weapon type])
+]]></DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxFormula" />
+        </Node>
+        <Node ToolID="339">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="342" y="180" width="59.99997" height="72.00003" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Bring in pre-pivoted tables from SQL</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="340">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="414" y="192" width="72" height="35.99998" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Unpivot (transpose)</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="341">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="498" y="180" width="60" height="71.99998" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Split up firearm type from age / gender</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="342">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="582" y="90" width="192" height="34" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Selecting/Renaming required columns, cleansing and fixing values</Text>
               <Font name="Arial" size="8.25" style="0" />
               <TextColor name="Black" />
               <FillColor name="White" />
@@ -843,9 +1140,6 @@ Table=Geo.DeprivationRanksLSOA</DefaultAnnotationText>
 Table=Select WalesDeprivationRanksLSOA.* From WalesDeprivationRanksLSOA</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
             <MetaInfo connection="Output">
               <RecordInfo>
                 <Field name="F1" size="255" source="File: aka:Test|||Select WalesDeprivationRanksLSOA.* From WalesDeprivationRanksLSOA" type="V_WString" />
@@ -886,9 +1180,6 @@ Table=Select WalesDeprivationRanksLSOA.* From WalesDeprivationRanksLSOA</Default
               <DefaultAnnotationText />
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings Macro="Cleanse.yxmc" />
         </Node>
@@ -1125,9 +1416,6 @@ Table=Select WalesDeprivationRanksLSOA.* From WalesDeprivationRanksLSOA</Default
 Table=Geo.WalesDeprivationRanksLSOA</DefaultAnnotationText>
               <Left value="False" />
             </Annotation>
-            <Dependencies>
-              <Implicit />
-            </Dependencies>
           </Properties>
           <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
         </Node>
@@ -1975,7 +2263,7 @@ Table=Geo.PopulationLSOA</DefaultAnnotationText>
     </Node>
     <Node ToolID="210">
       <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
-        <Position x="54" y="126" width="122.6759" height="19" />
+        <Position x="54.00003" y="126" width="122.6759" height="19" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -2082,7 +2370,7 @@ Table=Temp.GeoLSOA</DefaultAnnotationText>
         </Node>
         <Node ToolID="225">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="79.00002" y="230" width="84" height="48" />
+            <Position x="79.00004" y="230" width="84" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2652,7 +2940,7 @@ Table=Drug.DeathByArea</DefaultAnnotationText>
     </Node>
     <Node ToolID="193">
       <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
-        <Position x="54" y="102" width="155.4074" height="19" />
+        <Position x="53.99997" y="102" width="155.4074" height="19" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -2670,7 +2958,7 @@ Table=Drug.DeathByArea</DefaultAnnotationText>
       <ChildNodes>
         <Node ToolID="194">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="80.00002" y="178.0001" />
+            <Position x="80.00004" y="178.0002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2750,7 +3038,7 @@ Table=Select DrugSurveyData.* From DrugSurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="196">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Filter.Filter">
-            <Position x="229" y="182.0003" />
+            <Position x="229" y="182.0004" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -2958,7 +3246,7 @@ Table=Select Geo.RegionToLSOA.[Region code], Geo.RegionToLSOA.[Region name] From
         </Node>
         <Node ToolID="204">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="463" y="180.0003" />
+            <Position x="462.9999" y="180.0003" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3034,7 +3322,7 @@ Table=Select Geo.RegionToLSOA.[Region code], Geo.RegionToLSOA.[Region name] From
         </Node>
         <Node ToolID="207">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="235" y="314.0002" />
+            <Position x="235" y="314.0003" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3054,7 +3342,7 @@ Table=Select Geo.RegionToLSOA.[Region code], Geo.RegionToLSOA.[Region name] From
         </Node>
         <Node ToolID="208">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="319" y="314.0002" />
+            <Position x="319" y="314.0003" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3110,7 +3398,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="214">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="78.99998" y="146" width="60" height="36.00002" />
+            <Position x="78.99997" y="146.0001" width="60" height="36.00002" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3230,7 +3518,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="220">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="463" y="146" width="96" height="35.99997" />
+            <Position x="462.9999" y="146" width="96" height="35.99997" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3250,7 +3538,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="221">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="151" y="374.0001" width="60" height="35.99997" />
+            <Position x="151.0001" y="374.0001" width="60" height="35.99997" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3270,7 +3558,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="222">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="235" y="374" width="60" height="35.99997" />
+            <Position x="235" y="373.9999" width="60" height="35.99997" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -3290,7 +3578,7 @@ Table=Drug.SurveyData</DefaultAnnotationText>
         </Node>
         <Node ToolID="223">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="307" y="362" width="72" height="48" />
+            <Position x="306.9999" y="361.9999" width="72" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -7489,47 +7777,613 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
         </Node>
       </ChildNodes>
     </Node>
+    <Node ToolID="291">
+      <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
+        <Position x="54.00003" y="246" width="170.7311" height="19" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Caption>YearlyRegionPivots</Caption>
+          <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="25" />
+          <Disabled value="True" />
+          <Folded value="True" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <ChildNodes>
+        <Node ToolID="292">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+            <Position x="92.00003" y="354.0001" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Passwords />
+              <CachedCosmeticName />
+              <File RecordLimit="" FileFormat="23">aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion</File>
+              <FormatSpecificOptions>
+                <PreSQLOnConfig>True</PreSQLOnConfig>
+                <ReadCentroids>False</ReadCentroids>
+                <NoProgress>True</NoProgress>
+                <ReadUncommitted>False</ReadUncommitted>
+                <TableStyle>Quoted</TableStyle>
+                <PreSQL />
+                <PostSQL />
+              </FormatSpecificOptions>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>aka:Test
+Table=Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Year" size="11" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="String" />
+                <Field name="Region" size="255" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="V_WString" />
+                <Field name="Region code" size="255" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="V_WString" />
+                <Field name="Gender" size="11" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="String" />
+                <Field name="Drug admissions (mental health)" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="Double" />
+                <Field name="Drug admissions (poisoning)" source="File: aka:Test|||Select Temp.AdmissionsNHSRegion.* From Temp.AdmissionsNHSRegion" type="Double" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
+        </Node>
+        <Node ToolID="293">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.CrossTab.CrossTab">
+            <Position x="175" y="322" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <GroupFields>
+                <Field field="Year" />
+                <Field field="Region" />
+                <Field field="Region code" />
+              </GroupFields>
+              <HeaderField field="Gender" />
+              <DataField field="Drug admissions (mental health)" />
+              <Methods>
+                <Method method="Sum" />
+              </Methods>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Year" size="11" source="CrossTab:Group:Sum:" type="String" />
+                <Field name="Region" size="255" source="CrossTab:Group:Sum:" type="V_WString" />
+                <Field name="Region code" size="255" source="CrossTab:Group:Sum:" type="V_WString" />
+                <Field name="Female" source="CrossTab:Header:Gender:Female:Sum:" type="Double" />
+                <Field name="Male" source="CrossTab:Header:Gender:Male:Sum:" type="Double" />
+              </RecordInfo>
+              <SortInfo>
+                <Field field="Year" order="Asc" />
+                <Field field="Region" order="Asc" />
+                <Field field="Region code" order="Asc" />
+              </SortInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxCrossTab" />
+        </Node>
+        <Node ToolID="294">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.CrossTab.CrossTab">
+            <Position x="175" y="382" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <GroupFields>
+                <Field field="Year" />
+                <Field field="Region" />
+                <Field field="Region code" />
+              </GroupFields>
+              <HeaderField field="Gender" />
+              <DataField field="Drug admissions (poisoning)" />
+              <Methods>
+                <Method method="Sum" />
+              </Methods>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Year" size="11" source="CrossTab:Group:Sum:" type="String" />
+                <Field name="Region" size="255" source="CrossTab:Group:Sum:" type="V_WString" />
+                <Field name="Region code" size="255" source="CrossTab:Group:Sum:" type="V_WString" />
+                <Field name="Female" source="CrossTab:Header:Gender:Female:Sum:" type="Double" />
+                <Field name="Male" source="CrossTab:Header:Gender:Male:Sum:" type="Double" />
+              </RecordInfo>
+              <SortInfo>
+                <Field field="Year" order="Asc" />
+                <Field field="Region" order="Asc" />
+                <Field field="Region code" order="Asc" />
+              </SortInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxCrossTab" />
+        </Node>
+        <Node ToolID="295">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="247" y="382" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="Female" selected="True" rename="NHS admissions (drug poisoning female)" />
+                <SelectField field="Male" selected="True" rename="NHS admissions (drug poisoning male)" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="296">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="247" y="322" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="False" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="Female" selected="True" rename="NHS admissions (drug mental health female)" />
+                <SelectField field="Male" selected="True" rename="NHS admissions (drug mental health male)" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="297">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
+            <Position x="319" y="358" />
+          </GuiSettings>
+          <Properties>
+            <Configuration joinByRecordPos="False">
+              <JoinInfo connection="Left">
+                <Field field="Year" />
+                <Field field="Region code" />
+              </JoinInfo>
+              <JoinInfo connection="Right">
+                <Field field="Year" />
+                <Field field="Region code" />
+              </JoinInfo>
+              <SelectConfiguration>
+                <Configuration outputConnection="Join">
+                  <OrderChanged value="True" />
+                  <CommaDecimal value="False" />
+                  <SelectFields>
+                    <SelectField field="Left_Year" selected="True" />
+                    <SelectField field="Left_Region" selected="True" />
+                    <SelectField field="Left_Region code" selected="True" />
+                    <SelectField field="Left_NHS admissions (drug mental health male)" selected="True" />
+                    <SelectField field="Left_NHS admissions (drug mental health female)" selected="True" />
+                    <SelectField field="Right_NHS admissions (drug poisoning male)" selected="True" />
+                    <SelectField field="Right_NHS admissions (drug poisoning female)" selected="True" />
+                    <SelectField field="Right_Year" selected="False" />
+                    <SelectField field="Right_Region" selected="False" />
+                    <SelectField field="Right_Region code" selected="False" />
+                    <SelectField field="Right_NHS admission (drug poisoning male)" selected="False" />
+                    <SelectField field="Right_NHS admission (drug poisoning female)" selected="False" />
+                    <SelectField field="Left_NHS admission (drug mental health male)" selected="False" />
+                    <SelectField field="Left_NHS admission (drug mental health female)" selected="False" />
+                    <SelectField field="*Unknown" selected="True" />
+                  </SelectFields>
+                </Configuration>
+              </SelectConfiguration>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxJoin" />
+        </Node>
+        <Node ToolID="298">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
+            <Position x="90.99985" y="554" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Passwords />
+              <CachedCosmeticName />
+              <File RecordLimit="" FileFormat="23">aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData</File>
+              <FormatSpecificOptions>
+                <PreSQLOnConfig>True</PreSQLOnConfig>
+                <ReadCentroids>False</ReadCentroids>
+                <NoProgress>True</NoProgress>
+                <ReadUncommitted>False</ReadUncommitted>
+                <TableStyle>Quoted</TableStyle>
+                <PreSQL />
+                <PostSQL />
+              </FormatSpecificOptions>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>aka:test2
+Table=Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Year" size="7" source="File: aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData" type="String" />
+                <Field name="Region" size="255" source="File: aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData" type="V_WString" />
+                <Field name="Region code" size="255" source="File: aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData" type="V_WString" />
+                <Field name="Drug" size="50" source="File: aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData" type="String" />
+                <Field name="Users (%)" source="File: aka:test2|||Select CrimeProject.Temp.SurveyData.* From CrimeProject.Temp.SurveyData" type="Double" />
+              </RecordInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileInput" />
+        </Node>
+        <Node ToolID="299">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.CrossTab.CrossTab">
+            <Position x="175.0001" y="554" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <GroupFields>
+                <Field field="Year" />
+                <Field field="Region" />
+                <Field field="Region code" />
+              </GroupFields>
+              <HeaderField field="Drug" />
+              <DataField field="Users (%)" />
+              <Methods>
+                <Method method="Avg" />
+              </Methods>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+            <MetaInfo connection="Output">
+              <RecordInfo>
+                <Field name="Year" size="7" source="CrossTab:Group:Avg:" type="String" />
+                <Field name="Region" size="255" source="CrossTab:Group:Avg:" type="V_WString" />
+                <Field name="Region code" size="255" source="CrossTab:Group:Avg:" type="V_WString" />
+                <Field name="Avg_Amphetamines" source="CrossTab:Header:Drug:Amphetamines:Avg:" type="Double" />
+                <Field name="Avg_Any_Class_A_drug" source="CrossTab:Header:Drug:Any Class A drug:Avg:" type="Double" />
+                <Field name="Avg_Any_drug" source="CrossTab:Header:Drug:Any drug:Avg:" type="Double" />
+                <Field name="Avg_Cannabis" source="CrossTab:Header:Drug:Cannabis:Avg:" type="Double" />
+                <Field name="Avg_Ecstasy" source="CrossTab:Header:Drug:Ecstasy:Avg:" type="Double" />
+                <Field name="Avg_Hallucinogens" source="CrossTab:Header:Drug:Hallucinogens:Avg:" type="Double" />
+                <Field name="Avg_Powder_cocaine" source="CrossTab:Header:Drug:Powder cocaine:Avg:" type="Double" />
+              </RecordInfo>
+              <SortInfo>
+                <Field field="Year" order="Asc" />
+                <Field field="Region" order="Asc" />
+                <Field field="Region code" order="Asc" />
+              </SortInfo>
+            </MetaInfo>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxCrossTab" />
+        </Node>
+        <Node ToolID="300">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
+            <Position x="247" y="554" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <OrderChanged value="True" />
+              <CommaDecimal value="False" />
+              <SelectFields>
+                <SelectField field="Year" selected="True" />
+                <SelectField field="Region" selected="True" />
+                <SelectField field="Region code" selected="True" />
+                <SelectField field="Avg_Any_drug" selected="True" rename="Drug users (% of pop)" />
+                <SelectField field="Avg_Cannabis" selected="True" rename="Cannabis users (% of pop)" />
+                <SelectField field="Avg_Any_Class_A_drug" selected="True" rename="Class A users (% of pop)" />
+                <SelectField field="Avg_Powder_cocaine" selected="True" rename="Cocaine users (% of pop)" />
+                <SelectField field="Avg_Ecstasy" selected="True" rename="Ecstasy users (% of pop)" />
+                <SelectField field="Avg_Amphetamines" selected="True" rename="Amphetamine users (% of pop)" />
+                <SelectField field="Avg_Hallucinogens" selected="True" rename="Hallucinogen users (% of pop)" />
+                <SelectField field="Female" selected="False" rename="NHS admissions (drug poisoning female)" />
+                <SelectField field="Male" selected="False" rename="NHS admissions (drug poisoning male)" />
+                <SelectField field="*Unknown" selected="True" />
+              </SelectFields>
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxSelect" />
+        </Node>
+        <Node ToolID="301">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="331" y="554" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="23">aka:Test|||Drug.SurveyData</File>
+              <Passwords />
+              <FormatSpecificOptions>
+                <TransactionMessages>False</TransactionMessages>
+                <Geometry>False</Geometry>
+                <Projection />
+                <IgnoreDropTableSQLErrors>False</IgnoreDropTableSQLErrors>
+                <SpatialObjSize>8000</SpatialObjSize>
+                <OutputOption>Create</OutputOption>
+                <PostSQL />
+                <TransactionSize>10000</TransactionSize>
+                <TableStyle>Quoted</TableStyle>
+                <PreSQL />
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>aka:Test
+Table=Drug.SurveyData</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="302">
+          <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
+            <Position x="331" y="446" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <File MaxRecords="" FileFormat="23">aka:Test|||Drug.AdmissionsNHSRegion</File>
+              <Passwords />
+              <CachedCosmeticName />
+              <FormatSpecificOptions>
+                <TransactionMessages>False</TransactionMessages>
+                <Geometry>False</Geometry>
+                <Projection />
+                <IgnoreDropTableSQLErrors>False</IgnoreDropTableSQLErrors>
+                <SpatialObjSize>8000</SpatialObjSize>
+                <OutputOption>Overwrite</OutputOption>
+                <PostSQL />
+                <TransactionSize>10000</TransactionSize>
+                <TableStyle>Quoted</TableStyle>
+                <PreSQL />
+              </FormatSpecificOptions>
+              <MultiFile value="False" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <AnnotationText />
+              <DefaultAnnotationText>aka:Test
+Table=Drug.AdmissionsNHSRegion</DefaultAnnotationText>
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+          <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxDbFileOutput" />
+        </Node>
+        <Node ToolID="303">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="79" y="410" width="60.00002" height="132" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Pulling in data from SQL, this has already been cleaned but need to prep for dim table</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="304">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="175" y="434" width="60" height="36" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Pivoting gender</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="305">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="175" y="518" width="60" height="36" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Pivoting drug</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="306">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="247.0001" y="458" width="60.00003" height="72" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Selecting and renaming required columns</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="307">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="319" y="290" width="71" height="72" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Joining drug poisoning and drug mental health</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+        <Node ToolID="308">
+          <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
+            <Position x="342" y="510" width="48" height="36" />
+          </GuiSettings>
+          <Properties>
+            <Configuration>
+              <Text>Send to SQL</Text>
+              <Font name="Arial" size="8.25" style="0" />
+              <TextColor name="Black" />
+              <FillColor name="White" />
+              <Shape shape="0" />
+              <Justification Justification="4" />
+            </Configuration>
+            <Annotation DisplayMode="0">
+              <Name />
+              <DefaultAnnotationText />
+              <Left value="False" />
+            </Annotation>
+          </Properties>
+        </Node>
+      </ChildNodes>
+    </Node>
   </Nodes>
   <Connections>
     <Connection>
-      <Origin ToolID="292" Connection="Output" />
-      <Destination ToolID="293" Connection="Input" />
+      <Origin ToolID="310" Connection="Output" />
+      <Destination ToolID="312" Connection="Input" />
     </Connection>
     <Connection>
-      <Origin ToolID="292" Connection="Output" />
-      <Destination ToolID="294" Connection="Input" />
+      <Origin ToolID="311" Connection="Output" />
+      <Destination ToolID="313" Connection="Input" />
     </Connection>
     <Connection>
-      <Origin ToolID="293" Connection="Output" />
-      <Destination ToolID="296" Connection="Input" />
+      <Origin ToolID="312" Connection="Output" />
+      <Destination ToolID="314" Connection="Input" />
     </Connection>
     <Connection>
-      <Origin ToolID="294" Connection="Output" />
-      <Destination ToolID="295" Connection="Input" />
+      <Origin ToolID="313" Connection="Output" />
+      <Destination ToolID="330" Connection="Input" />
     </Connection>
     <Connection>
-      <Origin ToolID="295" Connection="Output" />
-      <Destination ToolID="297" Connection="Right" />
+      <Origin ToolID="314" Connection="Output" />
+      <Destination ToolID="315" Connection="Input" />
     </Connection>
     <Connection>
-      <Origin ToolID="296" Connection="Output" />
-      <Destination ToolID="297" Connection="Left" />
+      <Origin ToolID="315" Connection="Output" />
+      <Destination ToolID="316" Connection="Input2" />
     </Connection>
     <Connection>
-      <Origin ToolID="297" Connection="Join" />
-      <Destination ToolID="302" Connection="Input" />
+      <Origin ToolID="316" Connection="Output26" />
+      <Destination ToolID="317" Connection="Input" />
     </Connection>
     <Connection>
-      <Origin ToolID="298" Connection="Output" />
-      <Destination ToolID="299" Connection="Input" />
+      <Origin ToolID="317" Connection="Output" />
+      <Destination ToolID="323" Connection="Left" />
     </Connection>
     <Connection>
-      <Origin ToolID="299" Connection="Output" />
-      <Destination ToolID="300" Connection="Input" />
+      <Origin ToolID="324" Connection="Output" />
+      <Destination ToolID="323" Connection="Right" />
     </Connection>
     <Connection>
-      <Origin ToolID="300" Connection="Output" />
-      <Destination ToolID="301" Connection="Input" />
+      <Origin ToolID="318" Connection="Output" />
+      <Destination ToolID="320" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="320" Connection="Unique" />
+      <Destination ToolID="324" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="323" Connection="Join" />
+      <Destination ToolID="325" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="327" Connection="Output" />
+      <Destination ToolID="328" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="328" Connection="Unique" />
+      <Destination ToolID="335" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="330" Connection="Output" />
+      <Destination ToolID="331" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="331" Connection="Output" />
+      <Destination ToolID="338" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="333" Connection="Output" />
+      <Destination ToolID="334" Connection="Left" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="335" Connection="Output" />
+      <Destination ToolID="334" Connection="Right" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="334" Connection="Join" />
+      <Destination ToolID="336" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="338" Connection="Output" />
+      <Destination ToolID="333" Connection="Input" />
     </Connection>
     <Connection>
       <Origin ToolID="271" Connection="Output" />
@@ -8118,6 +8972,46 @@ Table=Select CrimeProject.Geo.ForceArea.[Area code], CrimeProject.Geo.ForceArea.
     <Connection>
       <Origin ToolID="86" Connection="Output" />
       <Destination ToolID="88" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="292" Connection="Output" />
+      <Destination ToolID="293" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="292" Connection="Output" />
+      <Destination ToolID="294" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="293" Connection="Output" />
+      <Destination ToolID="296" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="294" Connection="Output" />
+      <Destination ToolID="295" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="295" Connection="Output" />
+      <Destination ToolID="297" Connection="Right" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="296" Connection="Output" />
+      <Destination ToolID="297" Connection="Left" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="297" Connection="Join" />
+      <Destination ToolID="302" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="298" Connection="Output" />
+      <Destination ToolID="299" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="299" Connection="Output" />
+      <Destination ToolID="300" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="300" Connection="Output" />
+      <Destination ToolID="301" Connection="Input" />
     </Connection>
   </Connections>
   <Properties>

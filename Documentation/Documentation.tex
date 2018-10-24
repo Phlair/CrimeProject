@@ -5,45 +5,51 @@
 \usepackage{hyperref} % Set up href (and automatically link contents)
 \usepackage{setspace}
 \usepackage{fancyhdr}
- 
+
 \pagestyle{fancy}
-\fancyhf{}
-\lhead{George Claireaux}
-\rhead{Whole Lotta Gang Sh*t}
-\rfoot{Page \thepage}
+\fancyhf{\color{charcoal-black}}
+\lhead{\color{charcoal-black} George Claireaux}
+\rhead{\color{charcoal-black} Whole Lotta Gang Sh*t}
+\rfoot{\color{charcoal-black} Page \thepage}
 
 \usepackage{tgadventor}
 \renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
 \usepackage[T1]{fontenc} % Change fonts
 
 % defining colors to use
-\definecolor{charcoal-black}{RGB}{55, 55, 54}
+\definecolor{blue-black}{RGB}{16, 23, 30}
+\definecolor{charcoal-black}{RGB}{23, 23, 23}
+\definecolor{dark-black}{RGB}{10, 10, 10}
 \definecolor{electro-blue}{RGB}{38, 171, 242}
 \definecolor{electro-blue-dark}{RGB}{41, 142, 196}
 \definecolor{off-white}{RGB}{246, 246, 246}
+\definecolor{more-off-white}{RGB}{230, 230, 230}
 
 \hypersetup{ % Designate link colors
     colorlinks,
-    citecolor=black,
-    filecolor=black,
+    citecolor=charcoal-black,
+    filecolor=charcoal-black,
     linkcolor=charcoal-black,
     urlcolor=electro-blue-dark
 }
-\pagecolor{off-white}
+\pagecolor{more-off-white}
 \setlength{\fboxrule}{0pt} %removing box outline
 
+% Contents title font colour
+\renewcommand{\contentsname}{\textcolor{charcoal-black}{Contents}}
+
 % creating easy commands for dark background / electric blue text
-\newcommand{\titlebox}[1]{\par\noindent\colorbox{charcoal-black}
+\newcommand{\titlebox}[1]{\par\noindent\colorbox{blue-black}
 {\sbox{0}{\centering\parbox{\dimexpr\textwidth+50\fboxsep\relax}{#1}}
     \ifdim\dimexpr\ht0+\dp0<2cm 
     \dp0\dimexpr2cm-\ht0\fi
     \fbox{\usebox{0}}}}
-\newcommand{\sectionbox}[1]{\par\noindent\colorbox{charcoal-black}
+\newcommand{\sectionbox}[1]{\par\noindent\colorbox{blue-black}
 {\sbox{0}{\centering\parbox{\dimexpr\textwidth+35\fboxsep\relax}{#1}}
     \ifdim\dimexpr\ht0+\dp0>0.5m 
     \dp0\dimexpr1.2cm-\ht0\fi
     \fbox{\usebox{0}}}}
-\newcommand{\subsectionbox}[1]{\par\noindent\colorbox{charcoal-black}
+\newcommand{\subsectionbox}[1]{\par\noindent\colorbox{blue-black}
 {\centering\parbox{\dimexpr\textwidth+28\fboxsep\relax}{#1}}}
     
 % margin changer function
