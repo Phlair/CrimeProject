@@ -1,0 +1,27 @@
+Violence&Sexual Sheet (DONE)
+[violence and sexual crimes] VS [lsoa deprivation ranks]
+	Carries over region value for crimes and dep ranks
+	filterable by force area by selecting singular/multiple on main map
+	filterable by LSOA by selecting singular/multiple on main map
+
+	Carries over year value for crimes (also make sure outcomeflag=True)
+	i.e. need to fix deprivation ranks as they don't have years (auto because used my fixednumber from before)
+
+	Explain Wales in instructions (has its own ranks seperate to England)
+
+
+Weapons Sheet (DONE)
+[Firearm offences] VS [licensed firearms/dealers]
+	Carries over year and region values for both
+	filterable by selecting singular/multiple on main map
+		will need to (MAYBE) write a special catch for granular selector that turns LSOA choice back into Region
+
+	
+
+EXTRA
+---
+Test every single possible combination of filter choices to error check and to help write instructions
+---
+Label/colours/fonts everything correctly (formatting)
+---
+Enrich all the sheets with tooltips to utilise all/some of my extra data

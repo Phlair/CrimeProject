@@ -3,14 +3,14 @@
   <Nodes>
     <Node ToolID="309">
       <GuiSettings Plugin="AlteryxGuiToolkit.ToolContainer.ToolContainer">
-        <Position x="317" y="46" width="673" height="363" />
+        <Position x="54" y="270" width="165.6339" height="19" />
       </GuiSettings>
       <Properties>
         <Configuration>
           <Caption>GunTableUnpivots</Caption>
           <Style TextColor="#314c4a" FillColor="#ecf2f2" BorderColor="#314c4a" Transparency="25" Margin="25" />
-          <Disabled value="False" />
-          <Folded value="False" />
+          <Disabled value="True" />
+          <Folded value="True" />
         </Configuration>
         <Annotation DisplayMode="0">
           <Name />
@@ -21,7 +21,7 @@
       <ChildNodes>
         <Node ToolID="310">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="342" y="119.9997" />
+            <Position x="79.00001" y="343.9997" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -71,7 +71,7 @@ Table=Select Weapons.GunsAgeForceArea.* From Weapons.GunsAgeForceArea</DefaultAn
         </Node>
         <Node ToolID="311">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="342" y="263.9999" />
+            <Position x="79.00012" y="487.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -116,7 +116,7 @@ Table=Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea</Def
         </Node>
         <Node ToolID="312">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Transpose.Transpose">
-            <Position x="426" y="119.9999" />
+            <Position x="163" y="343.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -154,7 +154,7 @@ Table=Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea</Def
         </Node>
         <Node ToolID="313">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Transpose.Transpose">
-            <Position x="426" y="264" />
+            <Position x="163" y="488" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -187,7 +187,7 @@ Table=Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea</Def
         </Node>
         <Node ToolID="314">
           <GuiSettings Plugin="AlteryxBasePluginsGui.TextToColumns.TextToColumns">
-            <Position x="498" y="119.9999" />
+            <Position x="235" y="343.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -208,7 +208,7 @@ Table=Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea</Def
         </Node>
         <Node ToolID="315">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="570" y="120" />
+            <Position x="307" y="344" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -235,7 +235,7 @@ Table=Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea</Def
         </Node>
         <Node ToolID="316">
           <GuiSettings>
-            <Position x="642" y="120" />
+            <Position x="379" y="344" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -264,7 +264,7 @@ Table=Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea</Def
         </Node>
         <Node ToolID="317">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="714" y="120" />
+            <Position x="451" y="344" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -284,7 +284,7 @@ Table=Select Weapons.GunsGenderForceArea.* From Weapons.GunsGenderForceArea</Def
         </Node>
         <Node ToolID="318">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="570" y="180" />
+            <Position x="307" y="404" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -322,7 +322,7 @@ Table=Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo</DefaultAnn
         </Node>
         <Node ToolID="320">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
-            <Position x="642" y="180" />
+            <Position x="379" y="404" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -342,7 +342,7 @@ Table=Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo</DefaultAnn
         </Node>
         <Node ToolID="322">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="786" y="192" width="84" height="48" />
+            <Position x="523" y="416" width="84" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -362,7 +362,7 @@ Table=Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo</DefaultAnn
         </Node>
         <Node ToolID="323">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
-            <Position x="786" y="144" />
+            <Position x="523" y="368" />
           </GuiSettings>
           <Properties>
             <Configuration joinByRecordPos="False">
@@ -399,7 +399,7 @@ Table=Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo</DefaultAnn
         </Node>
         <Node ToolID="324">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="714" y="180" />
+            <Position x="451" y="404" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -420,7 +420,7 @@ Table=Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo</DefaultAnn
         </Node>
         <Node ToolID="325">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-            <Position x="906" y="144" />
+            <Position x="643" y="368" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -456,7 +456,7 @@ Table=Supp.FirearmCertsByAge</DefaultAnnotationText>
         </Node>
         <Node ToolID="326">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="906" y="204" width="48" height="36" />
+            <Position x="643.0001" y="428" width="48" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -476,7 +476,7 @@ Table=Supp.FirearmCertsByAge</DefaultAnnotationText>
         </Node>
         <Node ToolID="327">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileInput.DbFileInput">
-            <Position x="570" y="324" />
+            <Position x="307" y="548" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -511,7 +511,7 @@ Table=Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo</DefaultAnn
         </Node>
         <Node ToolID="328">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Unique.Unique">
-            <Position x="642" y="324" />
+            <Position x="379" y="548" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -531,7 +531,7 @@ Table=Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo</DefaultAnn
         </Node>
         <Node ToolID="329">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="786" y="336" width="84" height="48" />
+            <Position x="523" y="560" width="84" height="48" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -551,7 +551,7 @@ Table=Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo</DefaultAnn
         </Node>
         <Node ToolID="330">
           <GuiSettings Plugin="AlteryxBasePluginsGui.TextToColumns.TextToColumns">
-            <Position x="498" y="263.9999" />
+            <Position x="235" y="487.9999" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -572,7 +572,7 @@ Table=Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo</DefaultAnn
         </Node>
         <Node ToolID="331">
           <GuiSettings Plugin="AlteryxBasePluginsGui.AlteryxSelect.AlteryxSelect">
-            <Position x="570" y="264" />
+            <Position x="307" y="488" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -599,7 +599,7 @@ Table=Select Dim.Geo.[Force code], Dim.Geo.[Force area] From Dim.Geo</DefaultAnn
         </Node>
         <Node ToolID="333">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="714" y="264" />
+            <Position x="451" y="488" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -622,7 +622,7 @@ ENDIF
         </Node>
         <Node ToolID="334">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Join.Join">
-            <Position x="786" y="288" />
+            <Position x="523" y="512" />
           </GuiSettings>
           <Properties>
             <Configuration joinByRecordPos="False">
@@ -660,7 +660,7 @@ ENDIF
         </Node>
         <Node ToolID="335">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="714" y="324" />
+            <Position x="451" y="548" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -681,7 +681,7 @@ ENDIF
         </Node>
         <Node ToolID="336">
           <GuiSettings Plugin="AlteryxBasePluginsGui.DbFileOutput.DbFileOutput">
-            <Position x="906" y="288" />
+            <Position x="643" y="512" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -716,7 +716,7 @@ Table=Supp.FirearmCertsByGender</DefaultAnnotationText>
         </Node>
         <Node ToolID="337">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="906" y="348" width="48" height="36" />
+            <Position x="643.0001" y="572" width="48" height="36" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -736,7 +736,7 @@ Table=Supp.FirearmCertsByGender</DefaultAnnotationText>
         </Node>
         <Node ToolID="338">
           <GuiSettings Plugin="AlteryxBasePluginsGui.Formula.Formula">
-            <Position x="642" y="264" />
+            <Position x="379" y="488" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -756,7 +756,7 @@ Table=Supp.FirearmCertsByGender</DefaultAnnotationText>
         </Node>
         <Node ToolID="339">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="342" y="180" width="59.99997" height="72.00003" />
+            <Position x="78.99998" y="404" width="59.99997" height="72.00003" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -776,7 +776,7 @@ Table=Supp.FirearmCertsByGender</DefaultAnnotationText>
         </Node>
         <Node ToolID="340">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="414" y="192" width="72" height="35.99998" />
+            <Position x="151" y="416" width="72" height="35.99998" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -796,7 +796,7 @@ Table=Supp.FirearmCertsByGender</DefaultAnnotationText>
         </Node>
         <Node ToolID="341">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="498" y="180" width="60" height="71.99998" />
+            <Position x="235" y="404" width="60" height="71.99998" />
           </GuiSettings>
           <Properties>
             <Configuration>
@@ -816,7 +816,7 @@ Table=Supp.FirearmCertsByGender</DefaultAnnotationText>
         </Node>
         <Node ToolID="342">
           <GuiSettings Plugin="AlteryxGuiToolkit.TextBox.TextBox">
-            <Position x="582" y="90" width="192" height="34" />
+            <Position x="319" y="314" width="192" height="34" />
           </GuiSettings>
           <Properties>
             <Configuration>
