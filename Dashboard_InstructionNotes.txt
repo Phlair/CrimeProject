@@ -1,0 +1,54 @@
+MainInstructions
+MAYBE I want this to be slightly dynamic based on selections (e.g. granular switch, crimefilter)
+	
+	Overview/Explanation (What are we showing)
+
+	Explain each MAIN filter in regards to main map
+		Year (easy)
+		Minimap (easy)
+		GranularSwitch - Geo LoD (needs renaming)
+		CrimeFilter - Talk about effect on map and also how this determines lower graph
+		HigherThanSwitch - Filtering out lower levels of crime (needs renaming)
+
+	Explain selecting/hovering on the map itself (including tooltip info)
+
+	Point out any erroneous combinations / problems [Need to find these and put here]
+		'Weapons' in 2012/2013 includes public disorder
+			due to change in police naming of categories
+		Can select all regions on map... I don't want this but can't stop it so point it out
+			e.g. 'It's possible for the regions to accidentally select all...
+				if this happens, just click a single region on the minimap'
+		Force Area (granularSwitch) expands outside region, explain this
+			e.g. 'force areas don't line up perfectly to regions'
+
+
+DynamicInstructions
+MAYBE I want this to be even more dynamic for certain charts based on selections 
+	(e.g. granular switch for deprivation graphs)
+
+	Overview/Explanation (What are we showing)
+		Drugs
+			Switch variables on RIGHT axis as POINTS
+				Deaths/Hospitalisations per drug user
+			LEFT axis showing as BARS
+				Number of Police Drug Seizures
+		Violence & sexual crime
+			Wales ranked seperately to England by government of Wales
+
+
+	Describe LoD / links with map above (like selecting and stuff)
+
+	Explain linked filters (no need to explain apart from its own special ones)
+	
+	Point out any erroneous combinations / problems [Need to find these and put here]
+		Drugs
+			No Hospitalisation points for 2012-13, starts at 14
+			No showing London (too much of an outlier) and no Wales (no data)
+		Weapons
+			Force Area selection expands outside region
+			Important to explain how this messes with stuff (Metropolitan Police)
+				... and how to fix it (via map or point selection)
+			Sometimes LABELS for force areas don't show up to avoid overlap
+				... just point this out, tell them to hover or whatever
+			NO TASER INCIDENTS for 2017
+				.. point this out, no data
