@@ -1,5 +1,6 @@
 MainInstructions
-MAYBE I want this to be slightly dynamic based on selections (e.g. granular switch, crimefilter)
+MAYBE I want this to be slightly dynamic
+	e.g. dropdown for each of the following sections
 	
 	Overview/Explanation (What are we showing)
 
@@ -20,11 +21,11 @@ MAYBE I want this to be slightly dynamic based on selections (e.g. granular swit
 				if this happens, just click a single region on the minimap'
 		Force Area (granularSwitch) expands outside region, explain this
 			e.g. 'force areas don't line up perfectly to regions'
+		LSOAs not displaying properly on Tableau Public
 
 
 DynamicInstructions
-MAYBE I want this to be even more dynamic for certain charts based on selections 
-	(e.g. granular switch for deprivation graphs)
+Double dynamic, two different options for each
 
 	Overview/Explanation (What are we showing)
 		Drugs

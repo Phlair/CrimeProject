@@ -1,13 +1,27 @@
-DASHBOARD
-	create floating sections to label the chart axes using textual slides that appear on cue	
+DASHBOARD --- done-diddly-un ---
+	create floating sections to label the chart axes using textual sheets that appear on cue
+
+PUBLIC (just mention this issue in instructions/documentation/email)
+	for some reason, choosing LSOA on granular switch highlights the map and makes the selection go strange
+		Seems to be fine with London... but nowhere else?
+		I uploaded with London selected, going to try uploading with every region selected (ALL)
+			Didn't work... 'an error occured while attempting to save the workbook' 
+			CannotCreateTransactionException
+			Problem with over 10million rows??? (maybe)
+		SHAVING OFF THE ROWS (below 10mil) DIDN'T FIX
+	Aga had similar issue, apparently just fixed itself eventually... great!!!
 
 
 EXTRA
----
+--- done-diddly-un ---
 Test every single possible combination of filter choices to error check and to help write instructions
----
+
+--- done-diddly-un ---
 Write instructions
----
+
+--- done-diddly-un ---
 Label/colours/fonts everything correctly (formatting)
----
-Enrich all the sheets with tooltips to utilise all/some of my extra data
+
+--- done-diddly-un ---
+FIX TOOLTIPS 
+	Also enrich the tooltips to utilise all/some of my extra data

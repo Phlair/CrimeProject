@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.10.24)  24 OCT 2018 17:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2018.10.24)  26 OCT 2018 19:50
 entering extended mode
 **./Documentation.tex
 (Documentation.tex
@@ -259,6 +259,256 @@ s
 \f@nch@O@olf=\skip65
 \f@nch@O@orf=\skip66
 )
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphic
+x.sty"
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\graphic
+s.sty"
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics\trig.st
+y"
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\graphics-cfg\gra
+phics.cfg"
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+)
+\Gin@req@height=\dimen116
+\Gin@req@width=\dimen117
+)
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\animate\animate.
+sty"
+Package: animate 2018/08/22 PDF animations from files and inline graphics
+
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\xkeyval\xkeyval.
+sty"
+Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
+
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\generic\xkeyval\xkeyva
+l.tex"
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\generic\xkeyval\xkvuti
+ls.tex"
+\XKV@toks=\toks17
+\XKV@tempa@toks=\toks18
+)
+\XKV@depth=\count102
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\ifthen.sty"
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\ifdraft
+.sty"
+Package: ifdraft 2016/05/16 v1.4 Detect class options draft and final (HO)
+)
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tools\calc.sty"
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count103
+\calc@Bcount=\count104
+\calc@Adimen=\dimen118
+\calc@Bdimen=\dimen119
+\calc@Askip=\skip67
+\calc@Bskip=\skip68
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count105
+\calc@Cskip=\skip69
+)
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\media9\pdfbase.s
+ty"
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\l3kernel\expl3.s
+ty"
+Package: expl3 2018-10-19 L3 programming layer (loader) 
+
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\l3kernel\expl3-c
+ode.tex"
+Package: expl3 2018-10-19 L3 programming layer (code)
+\c_max_int=\count106
+\l_tmpa_int=\count107
+\l_tmpb_int=\count108
+\g_tmpa_int=\count109
+\g_tmpb_int=\count110
+\g__kernel_prg_map_int=\count111
+\c_log_iow=\count112
+\l_iow_line_count_int=\count113
+\l__iow_line_target_int=\count114
+\l__iow_one_indent_int=\count115
+\l__iow_indent_int=\count116
+\c_zero_dim=\dimen120
+\c_max_dim=\dimen121
+\l_tmpa_dim=\dimen122
+\l_tmpb_dim=\dimen123
+\g_tmpa_dim=\dimen124
+\g_tmpb_dim=\dimen125
+\c_zero_skip=\skip70
+\c_max_skip=\skip71
+\l_tmpa_skip=\skip72
+\l_tmpb_skip=\skip73
+\g_tmpa_skip=\skip74
+\g_tmpb_skip=\skip75
+\c_zero_muskip=\muskip11
+\c_max_muskip=\muskip12
+\l_tmpa_muskip=\muskip13
+\l_tmpb_muskip=\muskip14
+\g_tmpa_muskip=\muskip15
+\g_tmpb_muskip=\muskip16
+\l_keys_choice_int=\count117
+\l__intarray_loop_int=\count118
+\c__intarray_sp_dim=\dimen126
+\g__intarray_font_int=\count119
+\c__fp_leading_shift_int=\count120
+\c__fp_middle_shift_int=\count121
+\c__fp_trailing_shift_int=\count122
+\c__fp_big_leading_shift_int=\count123
+\c__fp_big_middle_shift_int=\count124
+\c__fp_big_trailing_shift_int=\count125
+\c__fp_Bigg_leading_shift_int=\count126
+\c__fp_Bigg_middle_shift_int=\count127
+\c__fp_Bigg_trailing_shift_int=\count128
+\c__kernel_randint_max_int=\count129
+\g__fp_array_int=\count130
+\l__fp_array_loop_int=\count131
+\l__sort_length_int=\count132
+\l__sort_min_int=\count133
+\l__sort_top_int=\count134
+\l__sort_max_int=\count135
+\l__sort_true_max_int=\count136
+\l__sort_block_int=\count137
+\l__sort_begin_int=\count138
+\l__sort_end_int=\count139
+\l__sort_A_int=\count140
+\l__sort_B_int=\count141
+\l__sort_C_int=\count142
+\l__tl_analysis_normal_int=\count143
+\l__tl_analysis_index_int=\count144
+\l__tl_analysis_nesting_int=\count145
+\l__tl_analysis_type_int=\count146
+\l__regex_internal_a_int=\count147
+\l__regex_internal_b_int=\count148
+\l__regex_internal_c_int=\count149
+\l__regex_balance_int=\count150
+\l__regex_group_level_int=\count151
+\l__regex_mode_int=\count152
+\c__regex_cs_in_class_mode_int=\count153
+\c__regex_cs_mode_int=\count154
+\l__regex_catcodes_int=\count155
+\l__regex_default_catcodes_int=\count156
+\c__regex_catcode_D_int=\count157
+\c__regex_catcode_S_int=\count158
+\c__regex_catcode_L_int=\count159
+\c__regex_catcode_O_int=\count160
+\c__regex_catcode_A_int=\count161
+\c__regex_all_catcodes_int=\count162
+\l__regex_show_lines_int=\count163
+\l__regex_min_state_int=\count164
+\l__regex_max_state_int=\count165
+\l__regex_left_state_int=\count166
+\l__regex_right_state_int=\count167
+\l__regex_capturing_group_int=\count168
+\l__regex_min_pos_int=\count169
+\l__regex_max_pos_int=\count170
+\l__regex_curr_pos_int=\count171
+\l__regex_start_pos_int=\count172
+\l__regex_success_pos_int=\count173
+\l__regex_curr_char_int=\count174
+\l__regex_curr_catcode_int=\count175
+\l__regex_last_char_int=\count176
+\l__regex_case_changed_char_int=\count177
+\l__regex_curr_state_int=\count178
+\l__regex_step_int=\count179
+\l__regex_min_active_int=\count180
+\l__regex_max_active_int=\count181
+\l__regex_replacement_csnames_int=\count182
+\l__regex_match_count_int=\count183
+\l__regex_min_submatch_int=\count184
+\l__regex_submatch_int=\count185
+\l__regex_zeroth_submatch_int=\count186
+\g__regex_trace_regex_int=\count187
+\c_empty_box=\box26
+\l_tmpa_box=\box27
+\l_tmpb_box=\box28
+\g_tmpa_box=\box29
+\g_tmpb_box=\box30
+\l__box_top_dim=\dimen127
+\l__box_bottom_dim=\dimen128
+\l__box_left_dim=\dimen129
+\l__box_right_dim=\dimen130
+\l__box_top_new_dim=\dimen131
+\l__box_bottom_new_dim=\dimen132
+\l__box_left_new_dim=\dimen133
+\l__box_right_new_dim=\dimen134
+\l__box_internal_box=\box31
+\l__coffin_internal_box=\box32
+\l__coffin_internal_dim=\dimen135
+\l__coffin_offset_x_dim=\dimen136
+\l__coffin_offset_y_dim=\dimen137
+\l__coffin_x_dim=\dimen138
+\l__coffin_y_dim=\dimen139
+\l__coffin_x_prime_dim=\dimen140
+\l__coffin_y_prime_dim=\dimen141
+\c_empty_coffin=\box33
+\l__coffin_aligned_coffin=\box34
+\l__coffin_aligned_internal_coffin=\box35
+\l_tmpa_coffin=\box36
+\l_tmpb_coffin=\box37
+\l__coffin_display_coffin=\box38
+\l__coffin_display_coord_coffin=\box39
+\l__coffin_display_pole_coffin=\box40
+\l__coffin_display_offset_dim=\dimen142
+\l__coffin_display_x_dim=\dimen143
+\l__coffin_display_y_dim=\dimen144
+\g__file_internal_ior=\read1
+\l__coffin_bounding_shift_dim=\dimen145
+\l__coffin_left_corner_dim=\dimen146
+\l__coffin_right_corner_dim=\dimen147
+\l__coffin_bottom_corner_dim=\dimen148
+\l__coffin_top_corner_dim=\dimen149
+\l__coffin_scaled_total_height_dim=\dimen150
+\l__coffin_scaled_width_dim=\dimen151
+\l__seq_internal_a_int=\count188
+\l__seq_internal_b_int=\count189
+)
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\l3kernel\l3pdfmo
+de.def"
+File: l3pdfmode.def 2018-10-19 v L3 Experimental driver: PDF mode
+\l__driver_color_stack_int=\count190
+))
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\l3packages\l3key
+s2e\l3keys2e.sty"
+Package: l3keys2e 2018-10-17 LaTeX2e option processing using LaTeX3 keys
+)
+Package: pdfbase 2018/06/07 v0.24 driver independent access to low-level PDF fe
+atures
+\g_pbs_page_int=\count191
+\g_pbs_oc_int=\count192
+)
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\ocgx2\ocgbase.st
+y"
+Package: ocgbase 2018/06/07 v0.14 support package for ocgx2.sty
+\g_ocgbase_nd_int=\count193
+)
+\@anim@box=\box41
+\@anim@measbox=\box42
+\@anim@tmpdima=\dimen152
+\@anim@tmpdimb=\dimen153
+\@anim@num=\count194
+\@anim@curframe=\count195
+\@anim@curframe@zb=\count196
+\@anim@resizeflags=\count197
+\@anim@skipfram=\count198
+\@anim@mulframecnt=\count199
+\@anim@@tmlnfile=\read2
+\@anim@tmpcnt=\count266
+\c@@anim@ltxcnt=\count267
+\@anim@curlayer=\count268
+\@anim@lineno=\count269
+\@anim@curfield=\count270
+\@anim@@resizeflags=\count271
+)
 ("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tex-gyre\tgadven
 tor.sty"
 Package: tgadventor 2009/09/10 v1.2 TeX Gyre Adventor as default sans serif fam
@@ -271,49 +521,64 @@ Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
 File: t1enc.def 2017/04/05 v2.0i Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
 ))
-Package hyperref Info: Option `colorlinks' set `true' on input line 34.
-\GPT@outputbox=\box26
+Package hyperref Info: Option `colorlinks' set `true' on input line 36.
+\GPT@outputbox=\box43
  (Documentation.aux)
 \openout1 = `Documentation.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Try loading font information for T1+qag on input line 66.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Try loading font information for T1+qag on input line 68.
 
 ("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\tex-gyre\t1qag.f
 d"
 File: t1qag.fd 2009/09/25 v1.2 font definition file for T1/qag
 )
-Package ragged2e Info: ABD: executing \RaggedRight on input line 66.
+Package ragged2e Info: ABD: executing \RaggedRight on input line 68.
  ABD: EverySelectfont initializing macros
-LaTeX Info: Redefining \selectfont on input line 66.
+LaTeX Info: Redefining \selectfont on input line 68.
 
 ("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\context\base\supp-pdf.
 mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count102
-\scratchdimen=\dimen116
-\scratchbox=\box27
-\nofMPsegments=\count103
-\nofMParguments=\count104
-\everyMPshowfont=\toks17
-\MPscratchCnt=\count105
-\MPscratchDim=\dimen117
-\MPnumerator=\count106
-\makeMPintoPDFobject=\count107
-\everyMPtoPDFconversion=\toks18
+\scratchcounter=\count272
+\scratchdimen=\dimen154
+\scratchbox=\box44
+\nofMPsegments=\count273
+\nofMParguments=\count274
+\everyMPshowfont=\toks19
+\MPscratchCnt=\count275
+\MPscratchDim=\dimen155
+\MPnumerator=\count276
+\makeMPintoPDFobject=\count277
+\everyMPtoPDFconversion=\toks20
+)
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\epstopd
+f-base.sty"
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\oberdiek\grfext.
+sty"
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
 )
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -349,8 +614,8 @@ mkii"
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\AtBeginShipoutBox=\box28
-Package hyperref Info: Link coloring ON on input line 66.
+\AtBeginShipoutBox=\box45
+Package hyperref Info: Link coloring ON on input line 68.
 
 ("C:\Users\Student\AppData\Local\Programs\MiKTeX 2.9\tex\latex\hyperref\nameref
 .sty"
@@ -360,36 +625,36 @@ Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 tlestring.sty"
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count108
+\c@section@level=\count278
 )
-LaTeX Info: Redefining \ref on input line 66.
-LaTeX Info: Redefining \pageref on input line 66.
-LaTeX Info: Redefining \nameref on input line 66.
+LaTeX Info: Redefining \ref on input line 68.
+LaTeX Info: Redefining \pageref on input line 68.
+LaTeX Info: Redefining \nameref on input line 68.
  (Documentation.out) (Documentation.out)
 \@outlinefile=\write3
 \openout3 = `Documentation.out'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 69--69
+Underfull \hbox (badness 10000) in paragraph at lines 71--71
 [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 69--69
+Underfull \hbox (badness 10000) in paragraph at lines 71--71
  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 69--69
+Underfull \hbox (badness 10000) in paragraph at lines 71--71
  
  []
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 69.
+(Font)              <7> on input line 71.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 69.
+(Font)              <5> on input line 71.
 
-Overfull \hbox (74.77pt too wide) in paragraph at lines 69--70
+Overfull \hbox (74.77pt too wide) in paragraph at lines 71--72
 [][][][][][][]  
  []
 
@@ -400,7 +665,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.76 \vspace{3em}\\
+l.78 \vspace{3em}\\
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -416,7 +681,7 @@ or  <return>  to continue without it.
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    m
-l.86 ...em} \hspace{5em}  \section{Intro/Brief} }}
+l.88 ...em} \hspace{5em}  \section{Intro/Brief} }}
                                                   
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -426,34 +691,65 @@ delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
 
-Overfull \hbox (41.92001pt too wide) in paragraph at lines 86--87
+Overfull \hbox (41.92001pt too wide) in paragraph at lines 88--89
 [][][][][][][]  
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 88--96
-\T1/qag/m/n/10 FIRST TALK ABOUT THE BRIEF GIVEN 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 88--96
+<./images/10.png, id=67, 319.94531pt x 195.73125pt>
+File: ./images/10.png Graphic file (type png)
+<use ./images/10.png>
+Package pdftex.def Info: ./images/10.png  used on input line 92.
+(pdftex.def)             Requested size: 319.94452pt x 195.73076pt.
+ <./images/10.png> <a0,fr0>
+<./images/11.png, id=77, 319.94531pt x 195.73125pt>
+File: ./images/11.png Graphic file (type png)
+<use ./images/11.png>
+Package pdftex.def Info: ./images/11.png  used on input line 92.
+(pdftex.def)             Requested size: 319.94452pt x 195.73076pt.
+ <./images/11.png> <a0,fr1>
+<./images/12.png, id=86, 319.94531pt x 195.73125pt>
+File: ./images/12.png Graphic file (type png)
+<use ./images/12.png>
+Package pdftex.def Info: ./images/12.png  used on input line 92.
+(pdftex.def)             Requested size: 319.94452pt x 195.73076pt.
+ <./images/12.png>
+<a0,fr2>
+<./images/13.png, id=95, 319.94531pt x 195.73125pt>
+File: ./images/13.png Graphic file (type png)
+<use ./images/13.png>
+Package pdftex.def Info: ./images/13.png  used on input line 92.
+(pdftex.def)             Requested size: 319.94452pt x 195.73076pt.
+ <./images/13.png> <a0,fr3>
+<./images/14.png, id=104, 319.94531pt x 195.73125pt>
+File: ./images/14.png Graphic file (type png)
+<use ./images/14.png>
+Package pdftex.def Info: ./images/14.png  used on input line 92.
+(pdftex.def)             Requested size: 319.94452pt x 195.73076pt.
+ <./images/14.png> <a0,fr4>
+<./images/15.png, id=113, 319.94531pt x 195.73125pt>
+File: ./images/15.png Graphic file (type png)
+<use ./images/15.png>
+Package pdftex.def Info: ./images/15.png  used on input line 92.
+(pdftex.def)             Requested size: 319.94452pt x 195.73076pt.
+ <./images/15.png> <a0,fr5>
+Underfull \hbox (badness 10000) in paragraph at lines 91--102
 \T1/qag/m/n/10 THEN 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 88--96
+Underfull \hbox (badness 10000) in paragraph at lines 91--102
 \T1/qag/m/n/10 GO ON TO EX-PLAIN MY AN-GLE AND WHAT I'M AIM-ING TO DO 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 88--96
+Underfull \hbox (badness 10000) in paragraph at lines 91--102
  
  []
 
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    m
-l.100 ...n{Aims/Goals/Hypothesis [AND OUTCOME]} }}
+l.106 ...n{Aims/Goals/Hypothesis [AND OUTCOME]} }}
                                                   
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -463,24 +759,24 @@ delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
 
-Overfull \hbox (41.92001pt too wide) in paragraph at lines 100--101
+Overfull \hbox (41.92001pt too wide) in paragraph at lines 106--107
 [][][][][][][]  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 102--105
+Underfull \hbox (badness 10000) in paragraph at lines 108--111
 \T1/qag/m/n/10 (ENG-LAND/WALES) GANG AC-TIV-ITY 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 102--105
+Underfull \hbox (badness 10000) in paragraph at lines 108--111
  
  []
 
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    m
-l.109 ...m} \hspace{5em} \section{Data Sources} }}
+l.115 ...m} \hspace{5em} \section{Data Sources} }}
                                                   
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -490,112 +786,112 @@ delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
 
-Overfull \hbox (41.92001pt too wide) in paragraph at lines 109--110
+Overfull \hbox (41.92001pt too wide) in paragraph at lines 115--116
 [][][][][][][]  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 112--116
+Underfull \hbox (badness 10000) in paragraph at lines 118--122
 \T1/qag/m/n/12 England/Wales Po-lice Force Data  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 112--116
+Underfull \hbox (badness 10000) in paragraph at lines 118--122
 [][]\T1/qag/m/it/10 data.police.uk[][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 112--116
+Underfull \hbox (badness 10000) in paragraph at lines 118--122
  
  []
 
-LaTeX Font Info:    Try loading font information for OMS+qag on input line 118.
+LaTeX Font Info:    Try loading font information for OMS+qag on input line 124.
 
-LaTeX Font Info:    No file OMSqag.fd. on input line 118.
+LaTeX Font Info:    No file OMSqag.fd. on input line 124.
 
 LaTeX Font Warning: Font shape `OMS/qag/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbullet' on input line 118.
+(Font)              for symbol `textbullet' on input line 124.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 123--127
+Underfull \hbox (badness 10000) in paragraph at lines 129--133
 \T1/qag/m/n/12 UK Gov-ern-ment Data  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 123--127
+Underfull \hbox (badness 10000) in paragraph at lines 129--133
 [][]\T1/qag/m/it/10 gov.uk / ons.gov.uk[][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 123--127
- 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 140--144
-\T1/qag/m/n/12 UK Gov-ern-ment Geo-Por-tal Data  
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 140--144
-[][]\T1/qag/m/it/10 geo-por-tal.statistics.gov.uk[][] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 140--144
+Underfull \hbox (badness 10000) in paragraph at lines 129--133
  
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 151--155
+Underfull \hbox (badness 10000) in paragraph at lines 146--150
+\T1/qag/m/n/12 UK Gov-ern-ment Geo-Por-tal Data  
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 146--150
+[][]\T1/qag/m/it/10 geo-por-tal.statistics.gov.uk[][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 146--150
+ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 157--161
 \T1/qag/m/n/12 UK Par-lia-ment Data  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 151--155
+Underfull \hbox (badness 10000) in paragraph at lines 157--161
 [][]\T1/qag/m/it/10 par-lia-ment.uk[][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 151--155
+Underfull \hbox (badness 10000) in paragraph at lines 157--161
  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 161--165
+Underfull \hbox (badness 10000) in paragraph at lines 167--171
 \T1/qag/m/n/12 NHS Data  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 161--165
+Underfull \hbox (badness 10000) in paragraph at lines 167--171
 [][]\T1/qag/m/it/10 nhs.uk[][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 161--165
+Underfull \hbox (badness 10000) in paragraph at lines 167--171
  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 171--175
+Underfull \hbox (badness 10000) in paragraph at lines 177--181
 \T1/qag/m/n/12 Government of Wales Data  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 171--175
+Underfull \hbox (badness 10000) in paragraph at lines 177--181
 [][]\T1/qag/m/it/10 statswales.gov.wales[][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 171--175
+Underfull \hbox (badness 10000) in paragraph at lines 177--181
  
  []
 
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    m
-l.184 ...em} \hspace{5em} \section{Methodology} }}
+l.190 ...em} \hspace{5em} \section{Methodology} }}
                                                   
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -605,137 +901,137 @@ delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
 
-Overfull \hbox (41.92001pt too wide) in paragraph at lines 184--185
+Overfull \hbox (41.92001pt too wide) in paragraph at lines 190--191
 [][][][][][][]  
  []
 
 
-Overfull \hbox (2.45967pt too wide) in paragraph at lines 186--189
+Overfull \hbox (2.45967pt too wide) in paragraph at lines 192--195
 \T1/qag/m/n/10 Bacon ip-sum do-lor amet esse eu ham, flank quis kevin la-bore c
 on-se-quat ground round porchetta corned 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 186--189
+Underfull \hbox (badness 10000) in paragraph at lines 192--195
 \T1/qag/m/n/10 shankle drum-stick pork beef ribs pi-canha aute ul-lamco ball ti
 p jerky ad ba-con in id. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 186--189
+Underfull \hbox (badness 10000) in paragraph at lines 192--195
  
  []
 
 
-Overfull \hbox (7.93968pt too wide) in paragraph at lines 186--189
+Overfull \hbox (7.93968pt too wide) in paragraph at lines 192--195
 \T1/qag/m/n/10 niam sausage pork shoul-der porchetta. Nulla chuck con-se-quat, 
 pork loin tri-tip ball tip con-secte-tur magna 
  []
 
 
-Overfull \hbox (3.84976pt too wide) in paragraph at lines 186--189
+Overfull \hbox (3.84976pt too wide) in paragraph at lines 192--195
 \T1/qag/m/n/10 short loin land-jaeger shankle salami. Esse corned beef beef por
 k chop ut short loin in et ham-burger drum- 
  []
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 193--194
-[][][][][][][]  
- []
-
-
-Overfull \hbox (2.45967pt too wide) in paragraph at lines 195--198
-\T1/qag/m/n/10 Bacon ip-sum do-lor amet esse eu ham, flank quis kevin la-bore c
-on-se-quat ground round porchetta corned 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 195--198
-\T1/qag/m/n/10 shankle drum-stick pork beef ribs pi-canha aute ul-lamco ball ti
-p jerky ad ba-con in id. 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 195--198
- 
- []
-
-
-Overfull \hbox (7.93968pt too wide) in paragraph at lines 195--198
-\T1/qag/m/n/10 niam sausage pork shoul-der porchetta. Nulla chuck con-se-quat, 
-pork loin tri-tip ball tip con-secte-tur magna 
- []
-
-
-Overfull \hbox (3.84976pt too wide) in paragraph at lines 195--198
-\T1/qag/m/n/10 short loin land-jaeger shankle salami. Esse corned beef beef por
-k chop ut short loin in et ham-burger drum- 
- []
-
-
-Overfull \hbox (20.0pt too wide) in paragraph at lines 202--203
+Overfull \hbox (20.0pt too wide) in paragraph at lines 199--200
 [][][][][][][]  
  []
 
 [3]
-Overfull \hbox (2.45967pt too wide) in paragraph at lines 204--207
+Overfull \hbox (2.45967pt too wide) in paragraph at lines 201--204
 \T1/qag/m/n/10 Bacon ip-sum do-lor amet esse eu ham, flank quis kevin la-bore c
 on-se-quat ground round porchetta corned 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 204--207
+Underfull \hbox (badness 10000) in paragraph at lines 201--204
 \T1/qag/m/n/10 shankle drum-stick pork beef ribs pi-canha aute ul-lamco ball ti
 p jerky ad ba-con in id. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 204--207
+Underfull \hbox (badness 10000) in paragraph at lines 201--204
  
  []
 
 
-Overfull \hbox (7.93968pt too wide) in paragraph at lines 204--207
+Overfull \hbox (7.93968pt too wide) in paragraph at lines 201--204
 \T1/qag/m/n/10 niam sausage pork shoul-der porchetta. Nulla chuck con-se-quat, 
 pork loin tri-tip ball tip con-secte-tur magna 
  []
 
 
-Overfull \hbox (3.84976pt too wide) in paragraph at lines 204--207
+Overfull \hbox (3.84976pt too wide) in paragraph at lines 201--204
 \T1/qag/m/n/10 short loin land-jaeger shankle salami. Esse corned beef beef por
 k chop ut short loin in et ham-burger drum- 
  []
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 211--212
+Overfull \hbox (20.0pt too wide) in paragraph at lines 208--209
 [][][][][][][]  
  []
 
 
-Overfull \hbox (2.45967pt too wide) in paragraph at lines 213--216
+Overfull \hbox (2.45967pt too wide) in paragraph at lines 210--213
 \T1/qag/m/n/10 Bacon ip-sum do-lor amet esse eu ham, flank quis kevin la-bore c
 on-se-quat ground round porchetta corned 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 213--216
+Underfull \hbox (badness 10000) in paragraph at lines 210--213
 \T1/qag/m/n/10 shankle drum-stick pork beef ribs pi-canha aute ul-lamco ball ti
 p jerky ad ba-con in id. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 213--216
+Underfull \hbox (badness 10000) in paragraph at lines 210--213
  
  []
 
 
-Overfull \hbox (7.93968pt too wide) in paragraph at lines 213--216
+Overfull \hbox (7.93968pt too wide) in paragraph at lines 210--213
 \T1/qag/m/n/10 niam sausage pork shoul-der porchetta. Nulla chuck con-se-quat, 
 pork loin tri-tip ball tip con-secte-tur magna 
  []
 
 
-Overfull \hbox (3.84976pt too wide) in paragraph at lines 213--216
+Overfull \hbox (3.84976pt too wide) in paragraph at lines 210--213
+\T1/qag/m/n/10 short loin land-jaeger shankle salami. Esse corned beef beef por
+k chop ut short loin in et ham-burger drum- 
+ []
+
+
+Overfull \hbox (20.0pt too wide) in paragraph at lines 217--218
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (2.45967pt too wide) in paragraph at lines 219--222
+\T1/qag/m/n/10 Bacon ip-sum do-lor amet esse eu ham, flank quis kevin la-bore c
+on-se-quat ground round porchetta corned 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 219--222
+\T1/qag/m/n/10 shankle drum-stick pork beef ribs pi-canha aute ul-lamco ball ti
+p jerky ad ba-con in id. 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 219--222
+ 
+ []
+
+
+Overfull \hbox (7.93968pt too wide) in paragraph at lines 219--222
+\T1/qag/m/n/10 niam sausage pork shoul-der porchetta. Nulla chuck con-se-quat, 
+pork loin tri-tip ball tip con-secte-tur magna 
+ []
+
+
+Overfull \hbox (3.84976pt too wide) in paragraph at lines 219--222
 \T1/qag/m/n/10 short loin land-jaeger shankle salami. Esse corned beef beef por
 k chop ut short loin in et ham-burger drum- 
  []
@@ -743,7 +1039,7 @@ k chop ut short loin in et ham-burger drum-
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    m
-l.220 ...{5em} \section{Assumptions / Problems} }}
+l.226 ...{5em} \section{Assumptions / Problems} }}
                                                   
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -753,154 +1049,71 @@ delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
 
-Overfull \hbox (41.92001pt too wide) in paragraph at lines 220--221
+Overfull \hbox (41.92001pt too wide) in paragraph at lines 226--227
 [][][][][][][]  
- []
-
-
-Overfull \hbox (2.45967pt too wide) in paragraph at lines 222--231
-\T1/qag/m/n/10 Bacon ip-sum do-lor amet esse eu ham, flank quis kevin la-bore c
-on-se-quat ground round porchetta corned 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 222--231
-\T1/qag/m/n/10 shankle drum-stick pork beef ribs pi-canha aute ul-lamco ball ti
-p jerky ad ba-con in id. 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 222--231
- 
- []
-
-
-Overfull \hbox (7.93968pt too wide) in paragraph at lines 222--231
-\T1/qag/m/n/10 niam sausage pork shoul-der porchetta. Nulla chuck con-se-quat, 
-pork loin tri-tip ball tip con-secte-tur magna 
- []
-
-
-Overfull \hbox (3.84976pt too wide) in paragraph at lines 222--231
-\T1/qag/m/n/10 short loin land-jaeger shankle salami. Esse corned beef beef por
-k chop ut short loin in et ham-burger drum- 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 222--231
-\T1/qag/m/n/10 stick quis turkey id aute. Filet mignon boudin ut swine. 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 222--231
- 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 222--231
-\T1/qag/m/n/10 la-bore con-secte-tur. Ba-con sir-loin corned beef id. 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 222--231
- 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 222--231
-\T1/qag/m/n/10 brisket. 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 222--231
- 
- []
-
-
-Overfull \hbox (15.25983pt too wide) in paragraph at lines 222--231
-\T1/qag/m/n/10 Elit ham hock bre-saola est of-fi-cia nisi, flank doner oc-cae-c
-at. Cu-pim duis ut non, in ba-con pi-canha. Proident 
  []
 
 [4]
-! Illegal unit of measure (pt inserted).
-<to be read again> 
-                   m
-l.235 ...em} \hspace{5em} \section{Conclusions} }}
-                                                  
-Dimensions can be in units of em, ex, in, pt, pc,
-cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
-I'll assume that you meant to say pt, for printer's points.
-To recover gracefully from this error, it's best to
-delete the erroneous units; e.g., type `2' to delete
-two letters. (See Chapter 27 of The TeXbook.)
-
-
-Overfull \hbox (41.92001pt too wide) in paragraph at lines 235--236
-[][][][][][][]  
- []
-
-
-Overfull \hbox (2.45967pt too wide) in paragraph at lines 237--246
+Overfull \hbox (2.45967pt too wide) in paragraph at lines 228--237
 \T1/qag/m/n/10 Bacon ip-sum do-lor amet esse eu ham, flank quis kevin la-bore c
 on-se-quat ground round porchetta corned 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 237--246
+Underfull \hbox (badness 10000) in paragraph at lines 228--237
 \T1/qag/m/n/10 shankle drum-stick pork beef ribs pi-canha aute ul-lamco ball ti
 p jerky ad ba-con in id. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 237--246
+Underfull \hbox (badness 10000) in paragraph at lines 228--237
  
  []
 
 
-Overfull \hbox (7.93968pt too wide) in paragraph at lines 237--246
+Overfull \hbox (7.93968pt too wide) in paragraph at lines 228--237
 \T1/qag/m/n/10 niam sausage pork shoul-der porchetta. Nulla chuck con-se-quat, 
 pork loin tri-tip ball tip con-secte-tur magna 
  []
 
 
-Overfull \hbox (3.84976pt too wide) in paragraph at lines 237--246
+Overfull \hbox (3.84976pt too wide) in paragraph at lines 228--237
 \T1/qag/m/n/10 short loin land-jaeger shankle salami. Esse corned beef beef por
 k chop ut short loin in et ham-burger drum- 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 237--246
+Underfull \hbox (badness 10000) in paragraph at lines 228--237
 \T1/qag/m/n/10 stick quis turkey id aute. Filet mignon boudin ut swine. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 237--246
+Underfull \hbox (badness 10000) in paragraph at lines 228--237
  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 237--246
+Underfull \hbox (badness 10000) in paragraph at lines 228--237
 \T1/qag/m/n/10 la-bore con-secte-tur. Ba-con sir-loin corned beef id. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 237--246
+Underfull \hbox (badness 10000) in paragraph at lines 228--237
  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 237--246
+Underfull \hbox (badness 10000) in paragraph at lines 228--237
 \T1/qag/m/n/10 brisket. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 237--246
+Underfull \hbox (badness 10000) in paragraph at lines 228--237
  
  []
 
 
-Overfull \hbox (15.25983pt too wide) in paragraph at lines 237--246
+Overfull \hbox (15.25983pt too wide) in paragraph at lines 228--237
 \T1/qag/m/n/10 Elit ham hock bre-saola est of-fi-cia nisi, flank doner oc-cae-c
 at. Cu-pim duis ut non, in ba-con pi-canha. Proident 
  []
@@ -908,7 +1121,7 @@ at. Cu-pim duis ut non, in ba-con pi-canha. Proident
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    m
-l.250 ...1em} \hspace{5em} \section{References} }}
+l.241 ...em} \hspace{5em} \section{Conclusions} }}
                                                   
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -918,71 +1131,71 @@ delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
 
-Overfull \hbox (41.92001pt too wide) in paragraph at lines 250--251
+Overfull \hbox (41.92001pt too wide) in paragraph at lines 241--242
 [][][][][][][]  
  []
 
 
-Overfull \hbox (2.45967pt too wide) in paragraph at lines 252--261
+Overfull \hbox (2.45967pt too wide) in paragraph at lines 243--252
 \T1/qag/m/n/10 Bacon ip-sum do-lor amet esse eu ham, flank quis kevin la-bore c
 on-se-quat ground round porchetta corned 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 252--261
+Underfull \hbox (badness 10000) in paragraph at lines 243--252
 \T1/qag/m/n/10 shankle drum-stick pork beef ribs pi-canha aute ul-lamco ball ti
 p jerky ad ba-con in id. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 252--261
+Underfull \hbox (badness 10000) in paragraph at lines 243--252
  
  []
 
 
-Overfull \hbox (7.93968pt too wide) in paragraph at lines 252--261
+Overfull \hbox (7.93968pt too wide) in paragraph at lines 243--252
 \T1/qag/m/n/10 niam sausage pork shoul-der porchetta. Nulla chuck con-se-quat, 
 pork loin tri-tip ball tip con-secte-tur magna 
  []
 
 
-Overfull \hbox (3.84976pt too wide) in paragraph at lines 252--261
+Overfull \hbox (3.84976pt too wide) in paragraph at lines 243--252
 \T1/qag/m/n/10 short loin land-jaeger shankle salami. Esse corned beef beef por
 k chop ut short loin in et ham-burger drum- 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 252--261
+Underfull \hbox (badness 10000) in paragraph at lines 243--252
 \T1/qag/m/n/10 stick quis turkey id aute. Filet mignon boudin ut swine. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 252--261
+Underfull \hbox (badness 10000) in paragraph at lines 243--252
  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 252--261
+Underfull \hbox (badness 10000) in paragraph at lines 243--252
 \T1/qag/m/n/10 la-bore con-secte-tur. Ba-con sir-loin corned beef id. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 252--261
+Underfull \hbox (badness 10000) in paragraph at lines 243--252
  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 252--261
+Underfull \hbox (badness 10000) in paragraph at lines 243--252
 \T1/qag/m/n/10 brisket. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 252--261
+Underfull \hbox (badness 10000) in paragraph at lines 243--252
  
  []
 
 
-Overfull \hbox (15.25983pt too wide) in paragraph at lines 252--261
+Overfull \hbox (15.25983pt too wide) in paragraph at lines 243--252
 \T1/qag/m/n/10 Elit ham hock bre-saola est of-fi-cia nisi, flank doner oc-cae-c
 at. Cu-pim duis ut non, in ba-con pi-canha. Proident 
  []
@@ -991,7 +1204,7 @@ at. Cu-pim duis ut non, in ba-con pi-canha. Proident
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    m
-l.265 ...space{5em} \section{Appendices (Code)} }}
+l.256 ...1em} \hspace{5em} \section{References} }}
                                                   
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -1001,98 +1214,180 @@ delete the erroneous units; e.g., type `2' to delete
 two letters. (See Chapter 27 of The TeXbook.)
 
 
-Overfull \hbox (41.92001pt too wide) in paragraph at lines 265--266
+Overfull \hbox (41.92001pt too wide) in paragraph at lines 256--257
 [][][][][][][]  
  []
 
 
-Overfull \hbox (2.45967pt too wide) in paragraph at lines 267--276
+Overfull \hbox (2.45967pt too wide) in paragraph at lines 258--267
 \T1/qag/m/n/10 Bacon ip-sum do-lor amet esse eu ham, flank quis kevin la-bore c
 on-se-quat ground round porchetta corned 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 267--276
+Underfull \hbox (badness 10000) in paragraph at lines 258--267
 \T1/qag/m/n/10 shankle drum-stick pork beef ribs pi-canha aute ul-lamco ball ti
 p jerky ad ba-con in id. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 267--276
+Underfull \hbox (badness 10000) in paragraph at lines 258--267
  
  []
 
 
-Overfull \hbox (7.93968pt too wide) in paragraph at lines 267--276
+Overfull \hbox (7.93968pt too wide) in paragraph at lines 258--267
 \T1/qag/m/n/10 niam sausage pork shoul-der porchetta. Nulla chuck con-se-quat, 
 pork loin tri-tip ball tip con-secte-tur magna 
  []
 
 
-Overfull \hbox (3.84976pt too wide) in paragraph at lines 267--276
+Overfull \hbox (3.84976pt too wide) in paragraph at lines 258--267
 \T1/qag/m/n/10 short loin land-jaeger shankle salami. Esse corned beef beef por
 k chop ut short loin in et ham-burger drum- 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 267--276
+Underfull \hbox (badness 10000) in paragraph at lines 258--267
 \T1/qag/m/n/10 stick quis turkey id aute. Filet mignon boudin ut swine. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 267--276
+Underfull \hbox (badness 10000) in paragraph at lines 258--267
  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 267--276
+Underfull \hbox (badness 10000) in paragraph at lines 258--267
 \T1/qag/m/n/10 la-bore con-secte-tur. Ba-con sir-loin corned beef id. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 267--276
+Underfull \hbox (badness 10000) in paragraph at lines 258--267
  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 267--276
+Underfull \hbox (badness 10000) in paragraph at lines 258--267
 \T1/qag/m/n/10 brisket. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 267--276
+Underfull \hbox (badness 10000) in paragraph at lines 258--267
  
  []
 
 
-Overfull \hbox (15.25983pt too wide) in paragraph at lines 267--276
+Overfull \hbox (15.25983pt too wide) in paragraph at lines 258--267
+\T1/qag/m/n/10 Elit ham hock bre-saola est of-fi-cia nisi, flank doner oc-cae-c
+at. Cu-pim duis ut non, in ba-con pi-canha. Proident 
+ []
+
+! Illegal unit of measure (pt inserted).
+<to be read again> 
+                   m
+l.271 ...space{5em} \section{Appendices (Code)} }}
+                                                  
+Dimensions can be in units of em, ex, in, pt, pc,
+cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
+I'll assume that you meant to say pt, for printer's points.
+To recover gracefully from this error, it's best to
+delete the erroneous units; e.g., type `2' to delete
+two letters. (See Chapter 27 of The TeXbook.)
+
+
+Overfull \hbox (41.92001pt too wide) in paragraph at lines 271--272
+[][][][][][][]  
+ []
+
+
+Overfull \hbox (2.45967pt too wide) in paragraph at lines 273--282
+\T1/qag/m/n/10 Bacon ip-sum do-lor amet esse eu ham, flank quis kevin la-bore c
+on-se-quat ground round porchetta corned 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 273--282
+\T1/qag/m/n/10 shankle drum-stick pork beef ribs pi-canha aute ul-lamco ball ti
+p jerky ad ba-con in id. 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 273--282
+ 
+ []
+
+
+Overfull \hbox (7.93968pt too wide) in paragraph at lines 273--282
+\T1/qag/m/n/10 niam sausage pork shoul-der porchetta. Nulla chuck con-se-quat, 
+pork loin tri-tip ball tip con-secte-tur magna 
+ []
+
+
+Overfull \hbox (3.84976pt too wide) in paragraph at lines 273--282
+\T1/qag/m/n/10 short loin land-jaeger shankle salami. Esse corned beef beef por
+k chop ut short loin in et ham-burger drum- 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 273--282
+\T1/qag/m/n/10 stick quis turkey id aute. Filet mignon boudin ut swine. 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 273--282
+ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 273--282
+\T1/qag/m/n/10 la-bore con-secte-tur. Ba-con sir-loin corned beef id. 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 273--282
+ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 273--282
+\T1/qag/m/n/10 brisket. 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 273--282
+ 
+ []
+
+
+Overfull \hbox (15.25983pt too wide) in paragraph at lines 273--282
 \T1/qag/m/n/10 Elit ham hock bre-saola est of-fi-cia nisi, flank doner oc-cae-c
 at. Cu-pim duis ut non, in ba-con pi-canha. Proident 
  []
 
 [6]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 278.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 284.
  [7]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 278.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 284.
  (Documentation.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 278.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 278.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 284.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 284.
 Package rerunfilecheck Info: File `Documentation.out' has not changed.
 (rerunfilecheck)             Checksum: 49EC7B376C8DA331C88C3A3A4446441B;599.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 278.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 284.
  ) 
 Here is how much of TeX's memory you used:
- 6207 strings out of 492970
- 91662 string characters out of 3125705
- 194035 words of memory out of 3000000
- 10022 multiletter control sequences out of 15000+200000
- 35360 words of font info for 27 fonts, out of 3000000 for 9000
+ 16406 strings out of 492970
+ 286721 string characters out of 3125705
+ 374109 words of memory out of 3000000
+ 20141 multiletter control sequences out of 15000+200000
+ 564058 words of font info for 37 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 28i,12n,43p,543b,481s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 48i,12n,65p,544b,491s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/Student/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/tex-gyre/
 q-ec.enc}{C:/Users/Student/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/te
 x-gyre/q-ec-sc.enc}<C:/Users/Student/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
@@ -1100,9 +1395,9 @@ pe1/public/amsfonts/cm/cmsy9.pfb><C:/Users/Student/AppData/Local/Programs/MiKTe
 X 2.9/fonts/type1/public/tex-gyre/qagb.pfb><C:/Users/Student/AppData/Local/Prog
 rams/MiKTeX 2.9/fonts/type1/public/tex-gyre/qagr.pfb><C:/Users/Student/AppData/
 Local/Programs/MiKTeX 2.9/fonts/type1/public/tex-gyre/qagri.pfb>
-Output written on Documentation.pdf (7 pages, 143552 bytes).
+Output written on Documentation.pdf (7 pages, 883383 bytes).
 PDF statistics:
- 125 PDF objects out of 1000 (max. 8388607)
+ 185 PDF objects out of 1000 (max. 8388607)
  20 named destinations out of 1000 (max. 500000)
- 89 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 239 words of extra memory for PDF output out of 10000 (max. 10000000)
 
