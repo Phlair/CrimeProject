@@ -1,0 +1,995 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{USE} \PYG{n}{CrimeProject}
+\PYG{k}{GO}
+
+\PYG{c+cm}{/* Cleansing to\PYGZhy{}dos}
+
+\PYG{c+cm}{	Spatial Data Tables}
+\PYG{c+cm}{		LSOAs and Police Force Areas}
+\PYG{c+cm}{		QGIS to convert .shp files on British system to .csv in World co\PYGZhy{}ordinates}
+\PYG{c+cm}{			Import to SQL}
+\PYG{c+cm}{		SQL Cleansing}
+\PYG{c+cm}{			Convert Well\PYGZhy{}Known\PYGZhy{}Text into SQL geog polygons}
+\PYG{c+cm}{			Remove unwanted columns (e.g. Welsh variants of area names)}
+\PYG{c+cm}{				Also rename columns to fit conventions applied in other tables}
+\PYG{c+cm}{		We can then use these to insert a correct Force Area and LSOA column into police. tables}
+
+\PYG{c+cm}{	AreaCompare table}
+\PYG{c+cm}{		Just keep LSOA and Region columns as this is what it\PYGZsq{}s needed for}
+\PYG{c+cm}{		Adding in relationship between force area and regions obtained from FirearmDealersForceArea}
+\PYG{c+cm}{	}
+\PYG{c+cm}{	PoliceCrimeData Tables}
+\PYG{c+cm}{		StopSearch}
+\PYG{c+cm}{			Unnecessary columns:	Policing operation, }
+\PYG{c+cm}{									Ethnicities (purposely avoiding this for my project),}
+\PYG{c+cm}{									Outcome linked to object of search,}
+\PYG{c+cm}{									Removal of more than just outer clothing}
+\PYG{c+cm}{			Cleansing:	Create Geom points from Long/Lat}
+\PYG{c+cm}{						Make [Date] into proper datetime}
+\PYG{c+cm}{						Alter [Age Range] values to mimic style from elsewhere}
+\PYG{c+cm}{						Group up some of the [Object of search] for easier comparison}
+\PYG{c+cm}{		Street}
+\PYG{c+cm}{			Unnecessary columns:	[Reported by] and [Falls within] are always equal so just use either AS \PYGZsq{}Area\PYGZsq{}}
+\PYG{c+cm}{									Location (just describes which road, we already have precise co\PYGZhy{}ords)}
+\PYG{c+cm}{									Context}
+\PYG{c+cm}{			Cleansing:	Fix shifted columns (thanks to erroneous commas in [Location])}
+\PYG{c+cm}{							In a CTE, shift these columns back in the right cases (WHERE [LSOA code] like \PYGZsq{}\PYGZpc{}\PYGZdq{}\PYGZsq{})}
+\PYG{c+cm}{							And then build the clean table from that fixed CTE}
+\PYG{c+cm}{						Remove unwanted [Crime Type] that don\PYGZsq{}t relate to weapons/drugs/serious gangs:}
+\PYG{c+cm}{							Anti\PYGZhy{}social behaviour, Bicycle theft, Burglary, Criminal damage and arson,}
+\PYG{c+cm}{							Other crime, Other theft, Public order, Shoplifting, Vehicle crime}
+\PYG{c+cm}{							(THIS MAKES THE TABLE SMALL ENOUGH TO MANAGE)}
+\PYG{c+cm}{						Create Geom points from Long/Lat}
+
+\PYG{c+cm}{	Spatialisation of PoliceCrimeData Tables}
+\PYG{c+cm}{		Using the GeoPoints created for every instance of crime}
+\PYG{c+cm}{			intersect on LSOA and Force polys to create new columns within the Police. tables}
+\PYG{c+cm}{				Street already has Area but with different strings (e.g. \PYGZsq{}Cumbria Constabulary\PYGZsq{} rather than \PYGZsq{}Cumbria\PYGZsq{})}
+\PYG{c+cm}{					Going to recreate this by intersecting on the GeoPoint}
+\PYG{c+cm}{				Street also already has LSOA with correct data values}
+\PYG{c+cm}{					Could run some small intersect queries (TOP) to check that my polys line up to this data}
+\PYG{c+cm}{				StopSearch only has long/lat and thus GeoPoints}
+\PYG{c+cm}{					Need to run intersects to create two new columns}
+\PYG{c+cm}{						One for LSOA and one for ForceArea}
+\PYG{c+cm}{		(((Might need to batch these as STIntersects is rather CPU intensive)))}
+\PYG{c+cm}{			(((Once this is done, however, there is no more need for Geog operations and we will have lovely data to analyse)))}
+\PYG{c+cm}{		TURNS OUT... spatial index was the answer, uses B\PYGZhy{}Trees to index Geog points and Intersect more efficiently}
+
+
+\PYG{c+cm}{	Firearm/Shotgun Tables [!= FIREARM OFFENCE TABLES]}
+\PYG{c+cm}{		These all have summed rows for areas (e.g. England/England and Wales)}
+\PYG{c+cm}{			These should be removed}
+\PYG{c+cm}{		Firearm/Shotgun Certificates and FirearmDealers has 2 or 3 Granted/Refused rows. }
+\PYG{c+cm}{			In firearm, these correlate to New Applications/Renewal Applications/Variation of Certificate }
+\PYG{c+cm}{			In shotgun, these correlate to New Applications/Renewal Applications}
+\PYG{c+cm}{			In Dealers, these correlate to Previously unregistered/Previously registered}
+\PYG{c+cm}{			Columns should be renamed to reflect this}
+\PYG{c+cm}{		FirearmsGenderForceArea has 2 sets of triple duplicated rows}
+\PYG{c+cm}{			Total/Females/Males/Gender not known = Firearm Certs/Shotgun Certs/Firearm and\PYGZhy{}or shotgun certs}
+\PYG{c+cm}{			Total/[Age Brackets] = Firearm Certs/Shotgun Certs/Firearm and\PYGZhy{}or shotgun certs}
+\PYG{c+cm}{			Columns should be renamed to reflect this}
+
+\PYG{c+cm}{	Firearm Offence Tables}
+\PYG{c+cm}{		These tables are absolutely cancerous, deep chemo required!!!}
+\PYG{c+cm}{			Should be relatively obvious by looking at table / Excel docs}
+
+\PYG{c+cm}{	Bladed Offence Tables}
+\PYG{c+cm}{		Not quite as bad as Firearm but still need some cleaning, should be obvious by looking at tables}
+\PYG{c+cm}{		Years on force area table:}
+\PYG{c+cm}{			08/09, 09/10, 10/11, 11/12, 12/13, 13/14, 14/15, 15/16, 16/17}
+
+\PYG{c+cm}{	Taser Tables}
+\PYG{c+cm}{		Imported as 09\PYGZhy{}13, then individual table for each year, need to collate into one big table with date column}
+\PYG{c+cm}{			In 14 only final 3 columns are necessary (others are breaking down by how taser was used, unneccesary)}
+\PYG{c+cm}{			In 15 and 16, data is broken up by discharge and non\PYGZhy{}discharge, use both TOTAL columns}
+\PYG{c+cm}{			Also, as with most force area groupings there are \PYGZdq{}total rows\PYGZdq{} for wider areas so watch out!}
+\PYG{c+cm}{		NOTE: these numbers are incidents involving a taser (not necessarily discharge)}
+\PYG{c+cm}{		NOTE: the year in the table name is ending year of data (may be more than 1 years worth)}
+
+\PYG{c+cm}{	DrugDeathByArea Table}
+\PYG{c+cm}{		Alteryx, not much to do here}
+
+\PYG{c+cm}{	DrugSeizures Tables}
+\PYG{c+cm}{		Snapshot table is based on just year 2016/17}
+\PYG{c+cm}{			includes a total column for each drug class}
+\PYG{c+cm}{			also includes final unnamed column which is \PYGZsq{}Unknown\PYGZsq{} (i.e. unknown drug)}
+
+\PYG{c+cm}{	DrugAdmissionsNHS Tables}
+\PYG{c+cm}{		In column groups of 6 for each year}
+\PYG{c+cm}{			Order: 16/17, 15/16, 14/15, 13/14}
+\PYG{c+cm}{			Repeated 3 columns, first is the actual admissions for All persons/Male/Female}
+\PYG{c+cm}{				Then the same per 100,000 population}
+
+\PYG{c+cm}{	DrugSurveyData Table}
+\PYG{c+cm}{		Values are \PYGZdq{}Proportion of 16 to 59 year olds reporting use of drugs in the specified year\PYGZdq{}}
+\PYG{c+cm}{			These are therefore percentages of total participants surveyed}
+\PYG{c+cm}{		Broken down by different drugs}
+\PYG{c+cm}{			These are currently listed as their own row above the area data so need to fix this}
+
+\PYG{c+cm}{	DeprivationIndices Table}
+\PYG{c+cm}{		Ignore \PYGZsq{}Score\PYGZsq{} columns unless there is a specific index we really want to explore}
+\PYG{c+cm}{			then look up the meaning of the score online/in spreadsheet}
+\PYG{c+cm}{		Ranking goes in order of 1 = Most deprived/Worst, i.e. higher is \PYGZsq{}better\PYGZsq{}}
+
+\PYG{c+cm}{	PopulationByLSOA Tables}
+\PYG{c+cm}{		Imported by seperate years (data is from mid\PYGZhy{}specified year)}
+\PYG{c+cm}{			 Need to insert column for date and collate into single table}
+\PYG{c+cm}{		In the earliest data (11), actual population numbers need to be derived}
+\PYG{c+cm}{			Data given is \PYGZsq{}Area(sq km)\PYGZsq{} and \PYGZsq{}pop per sq km\PYGZsq{} so this is very easy}
+
+\PYG{c+cm}{	CHECK EVERY ORIGINAL DOCUMENT IN CASE VALUES ARE NOT EXACT}
+\PYG{c+cm}{	e.g. Column title = \PYGZsq{}Deaths\PYGZsq{}, but it\PYGZsq{}s actually deaths per 100,000 or something}
+
+\PYG{c+cm}{	Check everything for (unwanted) duplicates}
+\PYG{c+cm}{	ALSO check everything for area total rows, such as the different Yorkshires grouped as Yorkshire and the Humber}
+\PYG{c+cm}{		These totals should be removed}
+
+\PYG{c+cm}{	Sort into Schemas}
+
+\PYG{c+cm}{	THERE ARE 43 FORCE AREAS SO ANYTHING WITH THESE SHOULD HAVE THIS MANY ROWS (at least by year or whatever)}
+
+\PYG{c+cm}{	Add functionality to repeatedly run this sql file by using if statements to drop tables before re\PYGZhy{}making them}
+
+\PYG{c+cm}{*/}
+
+\PYG{c+cm}{/* Creating some extra schema to store uncleansed tables, temp tables and also any trash */}
+\PYG{k}{Create} \PYG{k}{schema} \PYG{p}{[}\PYG{n}{Dirty}\PYG{p}{]}
+\PYG{k}{GO}
+\PYG{k}{Create} \PYG{k}{schema} \PYG{p}{[}\PYG{n}{Temp}\PYG{p}{]}
+\PYG{k}{GO}
+\PYG{k}{Create} \PYG{k}{schema} \PYG{p}{[}\PYG{n}{Trash}\PYG{p}{]}
+\PYG{k}{GO}
+
+\PYG{c+cm}{/*\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+cm}{   Spatial tables cleanse}
+\PYG{c+cm}{\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}*/}
+\PYG{k}{CREATE} \PYG{k}{schema} \PYG{p}{[}\PYG{n}{Geo}\PYG{p}{]}
+\PYG{k}{GO}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Force Area polys (43 Force Areas)}
+\PYG{p}{;}\PYG{k}{with} \PYG{n}{makevalids} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} cte to build the polys from text and MakeValid()}
+\PYG{k}{as} \PYG{p}{(}
+	\PYG{k}{SELECT}
+		\PYG{k}{CASE}
+			\PYG{k}{WHEN} \PYG{n}{WKT} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}\PYGZdq{}MULTI\PYGZpc{}\PYGZsq{}} \PYG{k}{THEN}
+					\PYG{p}{(}\PYG{n}{geography}\PYG{p}{::}\PYG{n}{STMPolyFromText}\PYG{p}{(}\PYG{k}{REPLACE}\PYG{p}{(}\PYG{n}{WKT}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}\PYGZdq{}\PYGZsq{}}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),} \PYG{l+m+mi}{4326}\PYG{p}{).}\PYG{n}{MakeValid}\PYG{p}{())}
+			\PYG{k}{ELSE}	\PYG{p}{(}\PYG{n}{geography}\PYG{p}{::}\PYG{n}{STPolyFromText}\PYG{p}{(}\PYG{k}{REPLACE}\PYG{p}{(}\PYG{n}{WKT}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}\PYGZdq{}\PYGZsq{}}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),} \PYG{l+m+mi}{4326}\PYG{p}{).}\PYG{n}{MakeValid}\PYG{p}{())}
+		\PYG{k}{END} \PYG{k}{as} \PYG{n}{poly}\PYG{p}{,}
+		\PYG{o}{*}
+	\PYG{k}{FROM} \PYG{n}{ForceAreaFinal}
+	\PYG{p}{)}
+\PYG{k}{select}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Selecting only desired columns and renaming to be consistent with other tables}
+	\PYG{n}{pfa16cd} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Area} \PYG{n}{code}\PYG{p}{]}
+	\PYG{p}{,}\PYG{n}{pfa16nm} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Area} \PYG{n}{name}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CASE} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} This is checking to see if we need to ReorientObject(), for some reason some of the polys are broken and some aren\PYGZsq{}t}
+		\PYG{k}{WHEN} \PYG{n}{poly}\PYG{p}{.}\PYG{n}{EnvelopeAngle}\PYG{p}{()} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{180} \PYG{k}{THEN} \PYG{n}{poly}
+		\PYG{k}{ELSE} \PYG{n}{poly}\PYG{p}{.}\PYG{n}{ReorientObject}\PYG{p}{()}
+	 \PYG{k}{END} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Geo} \PYG{n}{poly}\PYG{p}{]}
+	 \PYG{c+cm}{/* Going to do area in Alteryx in the interests of speed}
+\PYG{c+cm}{	,round(([Geo poly].STArea())/1000000,6) AS [Area (sq.km)] \PYGZhy{}\PYGZhy{} Calculating Force area (square kilometres) */}
+\PYG{k}{INTO} \PYG{n}{Geo}\PYG{p}{.}\PYG{n}{ForceArea} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Put into a table for comparison down the line}
+\PYG{k}{FROM} \PYG{n}{makevalids}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} LSOA polys (34,753 LSOAs)}
+\PYG{p}{;}\PYG{k}{with} \PYG{n}{makevalids2} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} cte to build the polys from text and MakeValid()}
+\PYG{k}{as} \PYG{p}{(}
+	\PYG{k}{SELECT}
+		\PYG{p}{(}\PYG{n}{geography}\PYG{p}{::}\PYG{n}{STMPolyFromText}\PYG{p}{(}\PYG{k}{REPLACE}\PYG{p}{(}\PYG{n}{WKT}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}\PYGZdq{}\PYGZsq{}}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}\PYG{p}{),} \PYG{l+m+mi}{4326}\PYG{p}{).}\PYG{n}{MakeValid}\PYG{p}{())} \PYG{k}{as} \PYG{n}{poly}\PYG{p}{,}
+		\PYG{o}{*}
+	\PYG{k}{FROM} \PYG{n}{dirty}\PYG{p}{.}\PYG{n}{LSOAFinal}
+	\PYG{p}{)}
+\PYG{p}{,}\PYG{n}{deletedupes} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} have to run a cte with ROW\PYGZus{}NUMBER since DISTINCT isn\PYGZsq{}t allowed on Geog}
+\PYG{k}{as} \PYG{p}{(}
+	\PYG{k}{select}
+		\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Selecting only desired columns and renaming to be consistent with other tables}
+		 \PYG{n}{lsoa11cd} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{LSOA} \PYG{n}{code}\PYG{p}{]}
+		\PYG{p}{,}\PYG{n}{lsoa11nm} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{LSOA} \PYG{n}{name}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{CASE} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} This is checking to see if we need to ReorientObject()}
+			\PYG{c+c1}{\PYGZhy{}\PYGZhy{} for some reason some of the polys are broken and some aren\PYGZsq{}t}
+			\PYG{k}{WHEN} \PYG{n}{poly}\PYG{p}{.}\PYG{n}{EnvelopeAngle}\PYG{p}{()} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{180} \PYG{k}{THEN} \PYG{n}{poly}
+			\PYG{k}{ELSE} \PYG{n}{poly}\PYG{p}{.}\PYG{n}{ReorientObject}\PYG{p}{()}
+		 \PYG{k}{END} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Geo} \PYG{n}{poly}\PYG{p}{]}
+		\PYG{p}{,}\PYG{n}{ROW\PYGZus{}NUMBER}\PYG{p}{()} \PYG{n}{over} \PYG{p}{(}\PYG{n}{partition} \PYG{k}{by} \PYG{n}{lsoa11cd} \PYG{k}{order} \PYG{k}{by} \PYG{p}{(}\PYG{k}{SELECT} \PYG{l+m+mi}{1}\PYG{p}{))} \PYG{k}{As} \PYG{n}{rowN}
+	\PYG{k}{FROM} \PYG{n}{makevalids2}
+\PYG{p}{)}
+\PYG{k}{SELECT}
+	\PYG{p}{[}\PYG{n}{LSOA} \PYG{n}{code}\PYG{p}{]}
+	\PYG{p}{,[}\PYG{n}{LSOA} \PYG{n}{name}\PYG{p}{]}
+	\PYG{p}{,[}\PYG{n}{Geo} \PYG{n}{poly}\PYG{p}{]}
+	\PYG{c+cm}{/* Going to do area in Alteryx in the interests of speed}
+\PYG{c+cm}{	,round(([Geo poly].STArea())/1000000,6) AS [Area (sq.km)] \PYGZhy{}\PYGZhy{} Calculating LSOA area (square kilometres) */}
+\PYG{k}{INTO} \PYG{n}{Geo}\PYG{p}{.}\PYG{n}{LSOA} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Putting into table for comparisons down the line}
+\PYG{k}{FROM} \PYG{n}{deletedupes}
+\PYG{k}{WHERE} \PYG{n}{rown}\PYG{o}{=}\PYG{l+m+mi}{1}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{ForceAreaFinal}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{LSOAFinal}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Joining Alteryx calculated areas into Geo tables}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{temp} \PYG{n}{TRANSFER} \PYG{n}{Geo}\PYG{p}{.}\PYG{n}{ForceArea}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{temp} \PYG{n}{TRANSFER} \PYG{n}{Geo}\PYG{p}{.}\PYG{n}{LSOA}
+\PYG{k}{SELECT} 
+	 \PYG{n}{fa}\PYG{p}{.}\PYG{n}{id}
+	\PYG{p}{,}\PYG{n}{fa}\PYG{p}{.[}\PYG{n}{Area} \PYG{n}{name}\PYG{p}{]}
+	\PYG{p}{,}\PYG{n}{fa}\PYG{p}{.[}\PYG{n}{Area} \PYG{n}{code}\PYG{p}{]}
+	\PYG{p}{,}\PYG{n}{round}\PYG{p}{(}\PYG{n}{gfa}\PYG{p}{.[}\PYG{n}{Area} \PYG{p}{(}\PYG{n}{sqkm}\PYG{p}{)],}\PYG{l+m+mi}{2}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Area} \PYG{p}{(}\PYG{n}{sqkm}\PYG{p}{)]}\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Taking area (square kilometres) and inserting}
+	\PYG{p}{,}\PYG{n}{fa}\PYG{p}{.[}\PYG{n}{Geo} \PYG{n}{poly}\PYG{p}{]}
+\PYG{k}{INTO} \PYG{n}{geo}\PYG{p}{.}\PYG{n}{ForceArea}
+\PYG{k}{FROM} \PYG{n}{temp}\PYG{p}{.}\PYG{n}{ForceArea} \PYG{n}{fa}
+\PYG{k}{JOIN} \PYG{n}{temp}\PYG{p}{.}\PYG{n}{GeoForceArea} \PYG{n}{gfa}
+	\PYG{k}{on} \PYG{n}{fa}\PYG{p}{.}\PYG{n}{id} \PYG{o}{=} \PYG{n}{gfa}\PYG{p}{.}\PYG{n}{id}
+\PYG{k}{SELECT} 
+	 \PYG{n}{l}\PYG{p}{.}\PYG{n}{id}
+	\PYG{p}{,}\PYG{n}{l}\PYG{p}{.[}\PYG{n}{LSOA} \PYG{n}{name}\PYG{p}{]}
+	\PYG{p}{,}\PYG{n}{l}\PYG{p}{.[}\PYG{n}{lsoa} \PYG{n}{code}\PYG{p}{]}
+	\PYG{p}{,}\PYG{n}{round}\PYG{p}{(}\PYG{n}{gl}\PYG{p}{.[}\PYG{n}{Area} \PYG{p}{(}\PYG{n}{sqkm}\PYG{p}{)],}\PYG{l+m+mi}{6}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Area} \PYG{p}{(}\PYG{n}{sqkm}\PYG{p}{)]}\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Taking area (square kilometres) and inserting}
+	\PYG{p}{,}\PYG{n}{l}\PYG{p}{.[}\PYG{n}{Geo} \PYG{n}{poly}\PYG{p}{]}
+\PYG{k}{INTO} \PYG{n}{geo}\PYG{p}{.}\PYG{n}{LSOA}
+\PYG{k}{FROM} \PYG{n}{temp}\PYG{p}{.}\PYG{n}{LSOA} \PYG{n}{l}
+\PYG{k}{JOIN} \PYG{n}{temp}\PYG{p}{.}\PYG{n}{GeoLSOA} \PYG{n}{gl}
+	\PYG{k}{on} \PYG{n}{l}\PYG{p}{.}\PYG{n}{id} \PYG{o}{=} \PYG{n}{gl}\PYG{p}{.}\PYG{n}{id}
+
+
+\PYG{c+cm}{/*\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+cm}{    PoliceCrimeData tables cleanse}
+\PYG{c+cm}{\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}*/}
+\PYG{k}{CREATE} \PYG{k}{SCHEMA} \PYG{p}{[}\PYG{n}{Police}\PYG{p}{]}
+\PYG{k}{GO}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Stop and Search}
+\PYG{k}{SELECT}
+	 \PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Longitude}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{float}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Longitude}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Latitude}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{float}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Latitude}\PYG{p}{]}
+	\PYG{p}{,}\PYG{n}{geography}\PYG{p}{::}\PYG{n}{STPointFromText}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}POINT(\PYGZsq{}} \PYG{o}{+} \PYG{k}{cast}\PYG{p}{([}\PYG{n}{Longitude}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{varchar}\PYG{p}{)}
+		\PYG{o}{+} \PYG{l+s+s1}{\PYGZsq{} \PYGZsq{}} \PYG{o}{+} \PYG{k}{cast}\PYG{p}{([}\PYG{n}{Latitude}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{varchar}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s1}{\PYGZsq{})\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{4326}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Geo} \PYG{n}{point}\PYG{p}{]} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Creating Geo\PYGZhy{}points from Long/Lat}
+	\PYG{p}{,[}\PYG{k}{Type}\PYG{p}{]} \PYG{k}{as} \PYG{p}{[}\PYG{k}{Search} \PYG{k}{type}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{(}\PYG{k}{Cast}\PYG{p}{([}\PYG{n+nb}{Date}\PYG{p}{]}\PYG{k}{as} \PYG{n}{datetime2}\PYG{p}{)} \PYG{k}{as} \PYG{n}{smalldatetime}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{DateTimestamp}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Part} \PYG{k}{of} \PYG{n}{a} \PYG{n}{policing} \PYG{k}{operation}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{bit}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Police} \PYG{k}{operation}\PYG{p}{]}
+	\PYG{p}{,}\PYG{n}{Gender}
+	\PYG{p}{,}\PYG{k}{CASE}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{Age} \PYG{n}{range}\PYG{p}{]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}under 10\PYGZsq{}} \PYG{k}{THEN} \PYG{l+s+s1}{\PYGZsq{}0\PYGZhy{}10\PYGZsq{}}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{Age} \PYG{n}{range}\PYG{p}{]} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}over 34\PYGZsq{}} \PYG{k}{THEN} \PYG{l+s+s1}{\PYGZsq{}34+\PYGZsq{}}
+		\PYG{k}{ELSE} \PYG{p}{[}\PYG{n}{Age} \PYG{n}{range}\PYG{p}{]}
+	\PYG{k}{END} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Age} \PYG{n}{range}\PYG{p}{]}
+	\PYG{p}{,}\PYG{n}{legislation}
+	\PYG{p}{,}\PYG{k}{CASE}
+        \PYG{k}{WHEN} \PYG{p}{[}\PYG{k}{Object} \PYG{k}{of} \PYG{k}{search}\PYG{p}{]} \PYG{k}{IN} \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Article for use in theft\PYGZsq{}}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}Stolen goods\PYGZsq{}}\PYG{p}{)}
+            \PYG{k}{THEN} \PYG{l+s+s1}{\PYGZsq{}Theft\PYGZsq{}}
+        \PYG{k}{WHEN} \PYG{p}{[}\PYG{k}{Object} \PYG{k}{of} \PYG{k}{search}\PYG{p}{]} \PYG{k}{IN} \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Controlled drugs\PYGZsq{}}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}Psychoactive substances\PYGZsq{}}\PYG{p}{)}
+            \PYG{k}{THEN} \PYG{l+s+s1}{\PYGZsq{}Drugs\PYGZsq{}}
+        \PYG{k}{WHEN} \PYG{p}{[}\PYG{k}{Object} \PYG{k}{of} \PYG{k}{search}\PYG{p}{]} \PYG{k}{IN} \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Crossbows\PYGZsq{}}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}Offensive weapons\PYGZsq{}}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}Anything to threaten or harm anyone\PYGZsq{}}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}Firearms\PYGZsq{}}\PYG{p}{)}
+            \PYG{k}{THEN} \PYG{l+s+s1}{\PYGZsq{}Weapons\PYGZsq{}}
+        \PYG{k}{WHEN} \PYG{p}{[}\PYG{k}{Object} \PYG{k}{of} \PYG{k}{search}\PYG{p}{]} \PYG{k}{IN} \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Articles for use in criminal damage\PYGZsq{}}\PYG{p}{)}
+            \PYG{k}{THEN} \PYG{l+s+s1}{\PYGZsq{}Criminal damage\PYGZsq{}}
+        \PYG{k}{ELSE} \PYG{p}{[}\PYG{k}{Object} \PYG{k}{of} \PYG{k}{search}\PYG{p}{]}
+     \PYG{k}{END} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{Object} \PYG{k}{of} \PYG{k}{search}\PYG{p}{]}
+	\PYG{p}{,}\PYG{n}{Outcome}
+\PYG{k}{INTO} \PYG{n}{Police}\PYG{p}{.}\PYG{n}{CrimeDataStopSearch}
+\PYG{k}{FROM} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{PoliceCrimeDataStopSearch}
+
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Street}
+\PYG{p}{;}\PYG{k}{with} \PYG{n}{FixShift} \PYG{k}{AS} \PYG{p}{(} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} creating a cte to fix shifted columns and only return desired columns}
+\PYG{k}{SELECT}
+	\PYG{p}{[}\PYG{n}{Crime} \PYG{n}{ID}\PYG{p}{]} 
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{(}\PYG{k}{left}\PYG{p}{([}\PYG{k}{Month}\PYG{p}{],}\PYG{l+m+mi}{4}\PYG{p}{)} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{as} \PYG{p}{[}\PYG{k}{Year}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{(}\PYG{k}{right}\PYG{p}{([}\PYG{k}{Month}\PYG{p}{],}\PYG{l+m+mi}{2}\PYG{p}{)} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{as} \PYG{p}{[}\PYG{k}{Month}\PYG{p}{]}
+	\PYG{p}{,[}\PYG{n}{Falls} \PYG{n}{within}\PYG{p}{]} \PYG{k}{as} \PYG{p}{[}\PYG{n}{Area}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Longitude}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{float}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Longitude}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Latitude}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{float}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Latitude}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CASE}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{LSOA} \PYG{n}{code}\PYG{p}{]} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}\PYGZpc{}\PYGZdq{}\PYGZsq{}}
+			\PYG{k}{THEN} \PYG{p}{[}\PYG{n}{LSOA} \PYG{n}{name}\PYG{p}{]}
+		\PYG{k}{ELSE} \PYG{p}{[}\PYG{n}{LSOA} \PYG{n}{code}\PYG{p}{]}
+	 \PYG{k}{END} \PYG{k}{as} \PYG{p}{[}\PYG{n}{LSOA} \PYG{n}{code}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CASE}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{LSOA} \PYG{n}{code}\PYG{p}{]} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}\PYGZpc{}\PYGZdq{}\PYGZsq{}}
+			\PYG{k}{THEN} \PYG{p}{[}\PYG{n}{Crime} \PYG{k}{type}\PYG{p}{]}
+		\PYG{k}{ELSE} \PYG{p}{[}\PYG{n}{LSOA} \PYG{n}{name}\PYG{p}{]}
+	 \PYG{k}{END} \PYG{k}{as} \PYG{p}{[}\PYG{n}{LSOA} \PYG{n}{name}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CASE}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{LSOA} \PYG{n}{code}\PYG{p}{]} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}\PYGZpc{}\PYGZdq{}\PYGZsq{}}
+			\PYG{k}{THEN} \PYG{p}{[}\PYG{k}{Last} \PYG{n}{outcome} \PYG{n}{category}\PYG{p}{]}
+		\PYG{k}{ELSE} \PYG{p}{[}\PYG{n}{Crime} \PYG{k}{type}\PYG{p}{]}
+	 \PYG{k}{END} \PYG{k}{as} \PYG{p}{[}\PYG{n}{Crime} \PYG{k}{type}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CASE}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{LSOA} \PYG{n}{code}\PYG{p}{]} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}\PYGZpc{}\PYGZdq{}\PYGZsq{}}
+			\PYG{k}{THEN} \PYG{p}{[}\PYG{n}{Context}\PYG{p}{]}
+		\PYG{k}{ELSE} \PYG{p}{[}\PYG{k}{Last} \PYG{n}{outcome} \PYG{n}{category}\PYG{p}{]}
+	 \PYG{k}{END} \PYG{k}{as} \PYG{p}{[}\PYG{k}{Last} \PYG{n}{outcome} \PYG{n}{category}\PYG{p}{]}
+\PYG{k}{FROM} \PYG{n}{PoliceCrimeDataStreet}
+\PYG{p}{)}
+\PYG{k}{SELECT} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Selecting from our fixed cte only rows with desired [Crime type]}
+	\PYG{o}{*}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Inserting this into a holding table so I don\PYGZsq{}t have to keep running this 4 minute query}
+\PYG{k}{INTO} \PYG{n}{temp}\PYG{p}{.}\PYG{n}{PoliceCrimeStreet}
+\PYG{k}{FROM} \PYG{n}{FixShift}
+\PYG{k}{WHERE} \PYG{l+m+mi}{1}\PYG{o}{=}\PYG{l+m+mi}{1}
+\PYG{k}{AND} \PYG{p}{[}\PYG{n}{Crime} \PYG{k}{type}\PYG{p}{]} \PYG{o}{!=} \PYG{l+s+s1}{\PYGZsq{}Anti\PYGZhy{}social behaviour\PYGZsq{}} \PYG{k}{AND} \PYG{p}{[}\PYG{n}{Crime} \PYG{k}{type}\PYG{p}{]} \PYG{o}{!=} \PYG{l+s+s1}{\PYGZsq{}Bicycle theft\PYGZsq{}}
+\PYG{k}{AND} \PYG{p}{[}\PYG{n}{Crime} \PYG{k}{type}\PYG{p}{]} \PYG{o}{!=} \PYG{l+s+s1}{\PYGZsq{}Burglary\PYGZsq{}} \PYG{k}{AND} \PYG{p}{[}\PYG{n}{Crime} \PYG{k}{type}\PYG{p}{]} \PYG{o}{!=} \PYG{l+s+s1}{\PYGZsq{}Criminal damage and arson\PYGZsq{}}
+\PYG{k}{AND} \PYG{p}{[}\PYG{n}{Crime} \PYG{k}{type}\PYG{p}{]} \PYG{o}{!=} \PYG{l+s+s1}{\PYGZsq{}Other crime\PYGZsq{}} \PYG{k}{AND} \PYG{p}{[}\PYG{n}{Crime} \PYG{k}{type}\PYG{p}{]} \PYG{o}{!=} \PYG{l+s+s1}{\PYGZsq{}Other theft\PYGZsq{}}
+\PYG{k}{AND} \PYG{p}{[}\PYG{n}{Crime} \PYG{k}{type}\PYG{p}{]} \PYG{o}{!=} \PYG{l+s+s1}{\PYGZsq{}Public order\PYGZsq{}} \PYG{k}{AND} \PYG{p}{[}\PYG{n}{Crime} \PYG{k}{type}\PYG{p}{]} \PYG{o}{!=} \PYG{l+s+s1}{\PYGZsq{}Shoplifting\PYGZsq{}}
+\PYG{k}{AND} \PYG{p}{[}\PYG{n}{Crime} \PYG{k}{type}\PYG{p}{]} \PYG{o}{!=} \PYG{l+s+s1}{\PYGZsq{}Vehicle crime\PYGZsq{}} \PYG{k}{AND} \PYG{p}{[}\PYG{n}{Crime} \PYG{k}{type}\PYG{p}{]} \PYG{k}{IS} \PYG{k}{NOT} \PYG{k}{NULL}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Final cleansing of Street data (creating geom points and removing crimes with NULL locations)}
+\PYG{k}{SELECT} 
+	\PYG{o}{*}
+	\PYG{p}{,}\PYG{n}{geography}\PYG{p}{::}\PYG{n}{STPointFromText}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}POINT(\PYGZsq{}} \PYG{o}{+} \PYG{k}{cast}\PYG{p}{([}\PYG{n}{Longitude}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{varchar}\PYG{p}{)}
+		\PYG{o}{+} \PYG{l+s+s1}{\PYGZsq{} \PYGZsq{}} \PYG{o}{+} \PYG{k}{cast}\PYG{p}{([}\PYG{n}{Latitude}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{varchar}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s1}{\PYGZsq{})\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{4326}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Geo} \PYG{n}{point}\PYG{p}{]}
+\PYG{k}{INTO} \PYG{n}{Police}\PYG{p}{.}\PYG{n}{CrimeDataStreet}
+\PYG{k}{FROM} \PYG{n}{temp}\PYG{p}{.}\PYG{n}{PoliceCrimeDataStreet}
+\PYG{k}{WHERE} \PYG{n}{Longitude} \PYG{k}{IS} \PYG{k}{NOT} \PYG{k}{NULL}
+
+\PYG{c+cm}{/* THIS IS ALMOST 100\PYGZpc{} ALREADY CONTAINED WITHIN \PYGZsq{}Street\PYGZsq{} TABLE SO UNNECESSARY}
+\PYG{c+cm}{\PYGZhy{}\PYGZhy{} Outcomes}
+\PYG{c+cm}{;with FixShift2 AS ( \PYGZhy{}\PYGZhy{} creating a cte to fix shifted columns and only return desired columns}
+\PYG{c+cm}{SELECT}
+\PYG{c+cm}{	[Crime ID] }
+\PYG{c+cm}{	,CAST(left([Month],4) as int) as [Year]}
+\PYG{c+cm}{	,CAST(right([Month],2) as int) as [Month]}
+\PYG{c+cm}{	,[Falls within] as [Area]}
+\PYG{c+cm}{	,CAST([Longitude] as float) AS [Longitude]}
+\PYG{c+cm}{	,CAST([Latitude] as float) AS [Latitude]}
+\PYG{c+cm}{	,CASE}
+\PYG{c+cm}{		WHEN [LSOA code] like \PYGZsq{}\PYGZpc{}\PYGZdq{}\PYGZsq{}}
+\PYG{c+cm}{			THEN [LSOA name]}
+\PYG{c+cm}{		ELSE [LSOA code]}
+\PYG{c+cm}{	 END as [LSOA code]}
+\PYG{c+cm}{	,CASE}
+\PYG{c+cm}{		WHEN [LSOA code] like \PYGZsq{}\PYGZpc{}\PYGZdq{}\PYGZsq{}}
+\PYG{c+cm}{			THEN SUBSTRING([Outcome type],1,charindex(\PYGZsq{},\PYGZsq{},[Outcome type])\PYGZhy{}1)}
+\PYG{c+cm}{		ELSE [LSOA name]}
+\PYG{c+cm}{	 END as [LSOA name]}
+\PYG{c+cm}{	,CASE}
+\PYG{c+cm}{		WHEN [LSOA code] like \PYGZsq{}\PYGZpc{}\PYGZdq{}\PYGZsq{}}
+\PYG{c+cm}{			THEN SUBSTRING([Outcome type],charindex(\PYGZsq{},\PYGZsq{},[Outcome type])+1,LEN([Outcome type]))}
+\PYG{c+cm}{		ELSE [Outcome type]}
+\PYG{c+cm}{	 END as [Outcome type]}
+\PYG{c+cm}{FROM PoliceCrimeDataOutcomes}
+\PYG{c+cm}{)}
+\PYG{c+cm}{SELECT \PYGZhy{}\PYGZhy{} Selecting from our fixed cte only rows that line up to our Street crime table on ID}
+\PYG{c+cm}{	f.*}
+\PYG{c+cm}{\PYGZhy{}\PYGZhy{} Inserting this into a holding table so I don\PYGZsq{}t have to keep running this query}
+\PYG{c+cm}{INTO temp.PoliceCrimeOutcomes}
+\PYG{c+cm}{FROM FixShift2 f}
+\PYG{c+cm}{JOIN Police.CrimeDataStreet pc}
+\PYG{c+cm}{	on f.[Crime ID] = pc.[Crime ID]}
+\PYG{c+cm}{*/}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Tidying up tables appropriately}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{PoliceCrimeDataOutcomes}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{PoliceCrimeDataStopSearch}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{PoliceCrimeDataStreet}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Trash} \PYG{n}{TRANSFER} \PYG{n}{temp}\PYG{p}{.}\PYG{n}{PoliceCrimeOutcomes}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Trash} \PYG{n}{TRANSFER} \PYG{n}{temp}\PYG{p}{.}\PYG{n}{PoliceCrimeStreet}
+
+
+\PYG{c+cm}{/*\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+cm}{   Spatialisation of PoliceCrimeData Tables}
+\PYG{c+cm}{\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}*/}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Temp} \PYG{n}{TRANSFER} \PYG{n}{police}\PYG{p}{.}\PYG{n}{CrimeDataStopSearch}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Temp} \PYG{n}{TRANSFER} \PYG{n}{police}\PYG{p}{.}\PYG{n}{CrimeDataStreet}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Needs Primary Key in order to create spatial index}
+\PYG{k}{ALTER} \PYG{k}{TABLE} \PYG{n}{geo}\PYG{p}{.}\PYG{n}{ForceArea}
+	\PYG{k}{Add} \PYG{n}{id} \PYG{n+nb}{int} \PYG{k}{identity} \PYG{k}{primary} \PYG{k}{key}
+\PYG{k}{ALTER} \PYG{k}{TABLE} \PYG{n}{geo}\PYG{p}{.}\PYG{n}{LSOA}
+	\PYG{k}{Add} \PYG{n}{id} \PYG{n+nb}{int} \PYG{k}{identity} \PYG{k}{primary} \PYG{k}{key}
+\PYG{k}{ALTER} \PYG{k}{TABLE} \PYG{n}{Temp}\PYG{p}{.}\PYG{n}{CrimeDataStopSearch}
+	\PYG{k}{Add} \PYG{n}{id} \PYG{n+nb}{int} \PYG{k}{identity} \PYG{k}{primary} \PYG{k}{key}
+\PYG{k}{ALTER} \PYG{k}{TABLE} \PYG{n}{Temp}\PYG{p}{.}\PYG{n}{CrimeDataStreet}
+	\PYG{k}{Add} \PYG{n}{id} \PYG{n+nb}{int} \PYG{k}{identity} \PYG{k}{primary} \PYG{k}{key}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Creating spatial index(s) to speed up STIntersects (B\PYGZhy{}Trees baby!)}
+\PYG{k}{CREATE} \PYG{n}{SPATIAL} \PYG{k}{INDEX} \PYG{n}{SIndx\PYGZus{}CrimeDataStopSearch\PYGZus{}GeoPoint}
+   \PYG{k}{ON} \PYG{n}{Temp}\PYG{p}{.}\PYG{n}{CrimeDataStopSearch}\PYG{p}{([}\PYG{n}{Geo} \PYG{n}{point}\PYG{p}{])}
+\PYG{k}{CREATE} \PYG{n}{SPATIAL} \PYG{k}{INDEX} \PYG{n}{SIndx\PYGZus{}CrimeDataStreet\PYGZus{}GeoPoint}
+   \PYG{k}{ON} \PYG{n}{Temp}\PYG{p}{.}\PYG{n}{CrimeDataStreet}\PYG{p}{([}\PYG{n}{Geo} \PYG{n}{point}\PYG{p}{])}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{}CREATE SPATIAL INDEX SIndx\PYGZus{}GeoForceArea\PYGZus{}GeoPoly}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{}   ON Geo.ForceArea([Geo poly])			\PYGZhy{}\PYGZhy{} SMALL NUMBER OF ROWS: unnecessary to have spatial index}
+\PYG{k}{CREATE} \PYG{n}{SPATIAL} \PYG{k}{INDEX} \PYG{n}{SIndx\PYGZus{}GeoLSOA\PYGZus{}GeoPoly}
+   \PYG{k}{ON} \PYG{n}{Geo}\PYG{p}{.}\PYG{n}{LSOA}\PYG{p}{([}\PYG{n}{Geo} \PYG{n}{poly}\PYG{p}{])}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} STOP and SEARCH}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Intersecting with Force Areas}
+	\PYG{k}{SELECT}
+		 \PYG{n}{f}\PYG{p}{.[}\PYG{n}{Area} \PYG{n}{name}\PYG{p}{]}
+		\PYG{p}{,}\PYG{n}{f}\PYG{p}{.[}\PYG{n}{Area} \PYG{n}{code}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{k}{Search} \PYG{k}{type}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.}\PYG{n}{DateTimestamp} 
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{n}{Police} \PYG{k}{operation}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.}\PYG{n}{Gender}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{n}{Age} \PYG{n}{range}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.}\PYG{n}{legislation}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{k}{Object} \PYG{k}{of} \PYG{k}{search}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.}\PYG{n}{Outcome}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{n}{Geo} \PYG{n}{point}\PYG{p}{]} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Need this for the next select where we intersect with LSOA}
+	\PYG{k}{INTO} \PYG{n}{Temp}\PYG{p}{.}\PYG{n}{MatchedStopSearch} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Putting into temp so we can add in LSOA value as well}
+	\PYG{k}{FROM} \PYG{n}{Temp}\PYG{p}{.}\PYG{n}{CrimeDataStopSearch} \PYG{k}{c}
+	\PYG{k}{WITH} \PYG{p}{(}\PYG{k}{INDEX}\PYG{p}{(}\PYG{n}{SIndx\PYGZus{}CrimeDataStopSearch\PYGZus{}GeoPoint}\PYG{p}{))}
+	\PYG{k}{join} \PYG{n}{geo}\PYG{p}{.}\PYG{n}{ForceArea} \PYG{n}{f}
+		\PYG{c+c1}{\PYGZhy{}\PYGZhy{}WITH (INDEX(SIndx\PYGZus{}GeoForceArea\PYGZus{}GeoPoly))}
+		\PYG{k}{on} \PYG{k}{c}\PYG{p}{.[}\PYG{n}{Geo} \PYG{n}{point}\PYG{p}{].}\PYG{n}{STIntersects}\PYG{p}{(}\PYG{n}{f}\PYG{p}{.[}\PYG{n}{Geo} \PYG{n}{poly}\PYG{p}{])} \PYG{o}{=} \PYG{l+m+mi}{1}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Intersecting with LSOA}
+		\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Creating new spatial index on our StopSearch table with matched force areas}
+	\PYG{k}{ALTER} \PYG{k}{TABLE} \PYG{n}{temp}\PYG{p}{.}\PYG{n}{matchedstopsearch}	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Needs new primary key to create spatial index}
+		\PYG{k}{Add} \PYG{n}{id} \PYG{n+nb}{int} \PYG{k}{identity} \PYG{k}{primary} \PYG{k}{key}
+	\PYG{k}{CREATE} \PYG{n}{SPATIAL} \PYG{k}{INDEX} \PYG{n}{SIndx\PYGZus{}MatchedStopSearch\PYGZus{}GeoPoint}
+		\PYG{k}{ON} \PYG{n}{Temp}\PYG{p}{.}\PYG{n}{MatchedStopSearch}\PYG{p}{([}\PYG{n}{Geo} \PYG{n}{point}\PYG{p}{])}
+	\PYG{k}{SELECT}
+		 \PYG{k}{c}\PYG{p}{.[}\PYG{n}{Area} \PYG{n}{name}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{n}{Area} \PYG{n}{code}\PYG{p}{]}
+		\PYG{p}{,}\PYG{n}{l}\PYG{p}{.[}\PYG{n}{LSOA} \PYG{n}{name}\PYG{p}{]}
+		\PYG{p}{,}\PYG{n}{l}\PYG{p}{.[}\PYG{n}{LSOA} \PYG{n}{code}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.}\PYG{n}{DateTimestamp} 
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{k}{Search} \PYG{k}{type}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{k}{Object} \PYG{k}{of} \PYG{k}{search}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{n}{Police} \PYG{k}{operation}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.}\PYG{n}{Gender}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{n}{Age} \PYG{n}{range}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.}\PYG{n}{legislation}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.}\PYG{n}{Outcome}
+	\PYG{k}{INTO} \PYG{n}{Police}\PYG{p}{.}\PYG{n}{CrimeDataStopSearch}
+	\PYG{k}{FROM} \PYG{n}{Temp}\PYG{p}{.}\PYG{n}{MatchedStopSearch} \PYG{k}{c}
+	\PYG{k}{WITH} \PYG{p}{(}\PYG{k}{INDEX}\PYG{p}{(}\PYG{n}{SIndx\PYGZus{}MatchedStopSearch\PYGZus{}GeoPoint}\PYG{p}{))}
+	\PYG{k}{join} \PYG{n}{geo}\PYG{p}{.}\PYG{n}{LSOA} \PYG{n}{l}
+		\PYG{c+c1}{\PYGZhy{}\PYGZhy{}WITH (INDEX(SIndx\PYGZus{}GeoLSOA\PYGZus{}GeoPoly))}
+		\PYG{k}{on} \PYG{k}{c}\PYG{p}{.[}\PYG{n}{Geo} \PYG{n}{point}\PYG{p}{].}\PYG{n}{STIntersects}\PYG{p}{(}\PYG{n}{l}\PYG{p}{.[}\PYG{n}{Geo} \PYG{n}{poly}\PYG{p}{])} \PYG{o}{=} \PYG{l+m+mi}{1}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} STREET data}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Intersecting with Force Areas}
+	\PYG{k}{SELECT}
+		\PYG{n}{f}\PYG{p}{.[}\PYG{n}{Area} \PYG{n}{name}\PYG{p}{]}
+		\PYG{p}{,}\PYG{n}{f}\PYG{p}{.[}\PYG{n}{Area} \PYG{n}{code}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{n}{LSOA} \PYG{n}{name}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{n}{LSOA} \PYG{n}{code}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{k}{Year}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{k}{Month}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{n}{Crime} \PYG{k}{type}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{k}{Last} \PYG{n}{outcome} \PYG{n}{category}\PYG{p}{]}
+		\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{n}{Geo} \PYG{n}{point}\PYG{p}{]} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Need this for the next select where we intersect with LSOA}
+	\PYG{k}{INTO} \PYG{n}{Temp}\PYG{p}{.}\PYG{n}{MatchedStreet} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Putting into temp so we can add in LSOA value as well}
+	\PYG{k}{FROM} \PYG{n}{Temp}\PYG{p}{.}\PYG{n}{CrimeDataStreet} \PYG{k}{c}
+	\PYG{k}{WITH} \PYG{p}{(}\PYG{k}{INDEX}\PYG{p}{(}\PYG{n}{SIndx\PYGZus{}CrimeDataStreet\PYGZus{}GeoPoint}\PYG{p}{))}
+	\PYG{k}{join} \PYG{n}{geo}\PYG{p}{.}\PYG{n}{ForceArea} \PYG{n}{f}
+		\PYG{c+c1}{\PYGZhy{}\PYGZhy{}WITH (INDEX(SIndx\PYGZus{}GeoForceArea\PYGZus{}GeoPoly))}
+		\PYG{k}{on} \PYG{k}{c}\PYG{p}{.[}\PYG{n}{Geo} \PYG{n}{point}\PYG{p}{].}\PYG{n}{STIntersects}\PYG{p}{(}\PYG{n}{f}\PYG{p}{.[}\PYG{n}{Geo} \PYG{n}{poly}\PYG{p}{])} \PYG{o}{=} \PYG{l+m+mi}{1}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Intersecting with LSOA}
+		\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Creating new spatial index on our StopSearch table with matched force areas}
+	\PYG{c+cm}{/*}
+\PYG{c+cm}{	ALTER TABLE temp.matchedstreet	\PYGZhy{}\PYGZhy{} Needs new primary key to create spatial index}
+\PYG{c+cm}{		Add id int identity primary key}
+\PYG{c+cm}{	CREATE SPATIAL INDEX SIndx\PYGZus{}MatchedStreet\PYGZus{}GeoPoint}
+\PYG{c+cm}{		ON Temp.MatchedStreet([Geo point])}
+\PYG{c+cm}{	SELECT}
+\PYG{c+cm}{		 c.[Area name]}
+\PYG{c+cm}{		,c.[Area code]}
+\PYG{c+cm}{		,l.[LSOA name]}
+\PYG{c+cm}{		,l.[LSOA code]}
+\PYG{c+cm}{		,c.DateTimestamp }
+\PYG{c+cm}{		,c.[Search type]}
+\PYG{c+cm}{		,c.[Object of search]}
+\PYG{c+cm}{		,c.[Police operation]}
+\PYG{c+cm}{		,c.Gender}
+\PYG{c+cm}{		,c.[Age range]}
+\PYG{c+cm}{		,c.legislation}
+\PYG{c+cm}{		,c.Outcome}
+\PYG{c+cm}{	INTO Police.CrimeDataStopSearch}
+\PYG{c+cm}{	FROM Temp.MatchedStopSearch c}
+\PYG{c+cm}{	WITH (INDEX(SIndx\PYGZus{}MatchedStopSearch\PYGZus{}GeoPoint))}
+\PYG{c+cm}{	join geo.LSOA l}
+\PYG{c+cm}{		\PYGZhy{}\PYGZhy{}WITH (INDEX(SIndx\PYGZus{}GeoLSOA\PYGZus{}GeoPoly))}
+\PYG{c+cm}{		on c.[Geo point].STIntersects(l.[Geo poly]) = 1}
+\PYG{c+cm}{	*/}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Putting into correct schema}
+	\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Police} \PYG{n}{TRANSFER} \PYG{n}{temp}\PYG{p}{.}\PYG{n}{matchedstreet}
+
+
+\PYG{c+cm}{/*\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+cm}{   AreaCompare table cleanse}
+\PYG{c+cm}{\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}*/}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Creating a comparison table for LSOA to Force Area to Region}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} This should form the basis of the DimGeo table}
+\PYG{k}{SELECT} \PYG{k}{DISTINCT}
+	 \PYG{n}{ac}\PYG{p}{.}\PYG{n}{LSOA11NM} \PYG{k}{as} \PYG{p}{[}\PYG{n}{LSOA} \PYG{n}{name}\PYG{p}{]}
+	\PYG{p}{,}\PYG{n}{ac}\PYG{p}{.}\PYG{n}{LSOA11CD} \PYG{k}{as} \PYG{p}{[}\PYG{n}{LSOA} \PYG{n}{code}\PYG{p}{]}
+	\PYG{p}{,}\PYG{n}{b}\PYG{p}{.[}\PYG{k}{Force} \PYG{n}{area}\PYG{p}{]} \PYG{k}{as} \PYG{p}{[}\PYG{k}{Force} \PYG{n}{area}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{c}\PYG{p}{.[}\PYG{n}{Area} \PYG{n}{code}\PYG{p}{]} \PYG{k}{as} \PYG{p}{[}\PYG{k}{Force} \PYG{n}{area} \PYG{n}{code}\PYG{p}{]}
+	\PYG{p}{,}\PYG{n}{ac}\PYG{p}{.}\PYG{n}{RGN11NM} \PYG{k}{as} \PYG{p}{[}\PYG{n}{Region} \PYG{n}{name}\PYG{p}{]}
+	\PYG{p}{,}\PYG{n}{ac}\PYG{p}{.}\PYG{n}{RGN11CD} \PYG{k}{as} \PYG{p}{[}\PYG{n}{Region} \PYG{n}{code}\PYG{p}{]}
+\PYG{k}{INTO} \PYG{n}{temp}\PYG{p}{.}\PYG{n}{AreaCompare}
+\PYG{k}{FROM} \PYG{n}{dirty}\PYG{p}{.}\PYG{n}{AreaCompare} \PYG{n}{ac}
+\PYG{k}{join} \PYG{n}{dirty}\PYG{p}{.}\PYG{n}{FirearmDealersForceArea} \PYG{n}{f}
+	\PYG{k}{on} \PYG{n}{ac}\PYG{p}{.}\PYG{n}{RGN11NM} \PYG{o}{=} \PYG{n}{f}\PYG{p}{.}\PYG{n}{Region}
+\PYG{k}{join} \PYG{n}{police}\PYG{p}{.}\PYG{n}{MatchedStreet} \PYG{k}{c}
+	\PYG{k}{on} \PYG{n}{ac}\PYG{p}{.}\PYG{n}{LSOA11NM} \PYG{o}{=} \PYG{k}{c}\PYG{p}{.[}\PYG{n}{LSOA} \PYG{n}{name}\PYG{p}{]}
+\PYG{k}{join} \PYG{n}{Drug}\PYG{p}{.}\PYG{n}{SeizuresForceArea} \PYG{n}{b}
+	\PYG{k}{on} \PYG{n}{b}\PYG{p}{.[}\PYG{n}{Area} \PYG{n}{code}\PYG{p}{]} \PYG{o}{=} \PYG{k}{c}\PYG{p}{.[}\PYG{n}{Area} \PYG{n}{code}\PYG{p}{]}
+\PYG{k}{WHERE} \PYG{n}{ac}\PYG{p}{.}\PYG{n}{RGN11NM} \PYG{o}{!=} \PYG{l+s+s1}{\PYGZsq{}Scotland\PYGZsq{}}
+\PYG{k}{AND} \PYG{n}{f}\PYG{p}{.[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]} \PYG{k}{not} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}*\PYGZpc{}\PYGZsq{}}
+
+\PYG{p}{;}\PYG{k}{with} \PYG{n}{dupelsoadelete} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Need to delete some duplicate LSOAs where they fell into multiple areas}
+\PYG{k}{as} \PYG{p}{(}
+\PYG{k}{select}
+	\PYG{o}{*}\PYG{p}{,}
+	\PYG{n}{ROW\PYGZus{}NUMBER}\PYG{p}{()} \PYG{n}{over} \PYG{p}{(}\PYG{n}{partition} \PYG{k}{by} \PYG{p}{[}\PYG{n}{LSOA} \PYG{n}{name}\PYG{p}{]} \PYG{k}{order} \PYG{k}{by} \PYG{p}{(}\PYG{k}{SELECT} \PYG{l+m+mi}{1}\PYG{p}{))} \PYG{k}{AS} \PYG{n}{rown}
+\PYG{k}{FROM} \PYG{n}{Temp}\PYG{p}{.}\PYG{n}{AreaCompare}
+\PYG{p}{)}
+\PYG{k}{select}
+	 \PYG{p}{[}\PYG{n}{LSOA} \PYG{n}{name}\PYG{p}{]}
+	\PYG{p}{,[}\PYG{n}{LSOA} \PYG{n}{code}\PYG{p}{]}
+	\PYG{p}{,[}\PYG{k}{Force} \PYG{n}{area}\PYG{p}{]}
+	\PYG{p}{,[}\PYG{k}{Force} \PYG{n}{area} \PYG{n}{code}\PYG{p}{]}
+	\PYG{p}{,[}\PYG{n}{Region} \PYG{n}{name}\PYG{p}{]}
+	\PYG{p}{,[}\PYG{n}{Region} \PYG{n}{code}\PYG{p}{]}
+\PYG{k}{INTO} \PYG{n}{Geo}\PYG{p}{.}\PYG{n}{AreaCompare}
+\PYG{k}{FROM} \PYG{n}{dupelsoadelete}
+\PYG{k}{WHERE} \PYG{n}{rown}\PYG{o}{=}\PYG{l+m+mi}{1} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} We end up losing 3 LSOAs where no crime occurred }
+
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{AreaCompare}
+
+
+\PYG{c+cm}{/*\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+cm}{   Firearm/Shotgun tables cleanse [NOT \PYGZsq{}FirearmOffence\PYGZsq{} tables]}
+\PYG{c+cm}{\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}*/}
+\PYG{k}{Create} \PYG{k}{schema} \PYG{p}{[}\PYG{n}{Weapons}\PYG{p}{]}
+\PYG{k}{Go}
+\PYG{k}{Select}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Selecting only desired columns}
+	 \PYG{k}{year}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}20\PYGZsq{}} \PYG{o}{+} \PYG{k}{right}\PYG{p}{([}\PYG{k}{Year}\PYG{p}{],}\PYG{l+m+mi}{2}\PYG{p}{))} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{Year}\PYG{p}{]} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Fixing \PYGZsq{}08/09\PYGZsq{} format to singular year}
+	\PYG{p}{,[}\PYG{n}{Region}\PYG{p}{]}
+	\PYG{p}{,[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Renaming these columns to correctly differentiate}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{k}{Granted}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{New} \PYG{n}{applications} \PYG{k}{granted}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Refused}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{New} \PYG{n}{applications} \PYG{n}{refused}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Granted1}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Renewal} \PYG{n}{applications} \PYG{k}{granted}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Refused1}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Renewal} \PYG{n}{applications} \PYG{n}{refused}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Granted2}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Variation} \PYG{n}{certificate} \PYG{k}{granted}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Refused2}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Variation} \PYG{n}{certificate} \PYG{n}{refused}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Revocations}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Revocations}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Firearm} \PYG{n}{certificates} \PYG{k}{on} \PYG{n}{issue} \PYG{k}{as} \PYG{k}{at} \PYG{l+m+mi}{31} \PYG{n}{March}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Total} \PYG{k}{on} \PYG{n}{issue} \PYG{p}{(}\PYG{l+m+mi}{31}\PYG{o}{/}\PYG{l+m+mi}{03}\PYG{p}{)]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Firearms} \PYG{n}{covered} \PYG{k}{by} \PYG{n}{certificates} \PYG{k}{on} \PYG{n}{issue} \PYG{k}{as} \PYG{k}{at} \PYG{l+m+mi}{31} \PYG{n}{March}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Total} \PYG{n}{firearms} \PYG{p}{(}\PYG{l+m+mi}{31}\PYG{o}{/}\PYG{l+m+mi}{03}\PYG{p}{)]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Firearms} \PYG{n}{per} \PYG{l+m+mi}{100}\PYG{p}{,}\PYG{l+m+mi}{000} \PYG{n}{people} \PYG{k}{as} \PYG{k}{at} \PYG{l+m+mi}{31} \PYG{n}{March}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{float}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Firearms} \PYG{n}{per} \PYG{l+m+mi}{100}\PYG{n}{K} \PYG{n}{pop} \PYG{p}{(}\PYG{l+m+mi}{31}\PYG{o}{/}\PYG{l+m+mi}{03}\PYG{p}{)]}
+\PYG{k}{INTO} \PYG{p}{[}\PYG{n}{Guns}\PYG{p}{].}\PYG{n}{FirearmCertificatesForceArea}
+\PYG{k}{FROM} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{FirearmCertificatesForceArea}
+\PYG{k}{WHERE} \PYG{p}{[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]} \PYG{k}{not} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}*\PYGZpc{}\PYGZsq{}} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Removing rows that are area totals, fortunately prefaced with an asterisk \PYGZsq{}*\PYGZsq{}}
+\PYG{k}{Select}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Selecting only desired columns}
+	 \PYG{k}{year}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}20\PYGZsq{}} \PYG{o}{+} \PYG{k}{right}\PYG{p}{([}\PYG{k}{Year}\PYG{p}{],}\PYG{l+m+mi}{2}\PYG{p}{))} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{Year}\PYG{p}{]} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Fixing \PYGZsq{}08/09\PYGZsq{} format to singular year}
+	\PYG{p}{,[}\PYG{n}{Region}\PYG{p}{]}
+	\PYG{p}{,[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Renaming these columns to correctly differentiate}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{k}{Granted}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{New} \PYG{n}{applications} \PYG{k}{granted}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Refused}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{New} \PYG{n}{applications} \PYG{n}{refused}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Granted1}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Renewal} \PYG{n}{applications} \PYG{k}{granted}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Refused1}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Renewal} \PYG{n}{applications} \PYG{n}{refused}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Revocations}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Revocations}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Shotgun} \PYG{n}{certificates} \PYG{k}{on} \PYG{n}{issue} \PYG{k}{as} \PYG{k}{at} \PYG{l+m+mi}{31} \PYG{n}{March}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Total} \PYG{k}{on} \PYG{n}{issue} \PYG{p}{(}\PYG{l+m+mi}{31}\PYG{o}{/}\PYG{l+m+mi}{03}\PYG{p}{)]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Shotguns} \PYG{n}{covered} \PYG{k}{by} \PYG{n}{certificates} \PYG{k}{in} \PYG{k}{force} \PYG{k}{as} \PYG{k}{at} \PYG{l+m+mi}{31} \PYG{n}{March}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Total} \PYG{n}{shotguns} \PYG{p}{(}\PYG{l+m+mi}{31}\PYG{o}{/}\PYG{l+m+mi}{03}\PYG{p}{)]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Shotguns} \PYG{n}{per} \PYG{l+m+mi}{100}\PYG{p}{,}\PYG{l+m+mi}{000} \PYG{n}{people} \PYG{k}{as} \PYG{k}{at} \PYG{l+m+mi}{31} \PYG{n}{March}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{float}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Shotguns} \PYG{n}{per} \PYG{l+m+mi}{100}\PYG{n}{K} \PYG{n}{pop} \PYG{p}{(}\PYG{l+m+mi}{31}\PYG{o}{/}\PYG{l+m+mi}{03}\PYG{p}{)]}
+\PYG{k}{INTO} \PYG{p}{[}\PYG{n}{Guns}\PYG{p}{].}\PYG{n}{ShotgunCertificatesForceArea}
+\PYG{k}{FROM} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{ShotgunCertificatesForceArea}
+\PYG{k}{WHERE} \PYG{p}{[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]} \PYG{k}{not} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}*\PYGZpc{}\PYGZsq{}} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Removing rows that are area totals, fortunately prefaced with an \PYGZsq{}*\PYGZsq{} asterisk}
+\PYG{k}{Select}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Selecting only desired columns}
+	 \PYG{k}{year}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}20\PYGZsq{}} \PYG{o}{+} \PYG{k}{right}\PYG{p}{([}\PYG{k}{Year}\PYG{p}{],}\PYG{l+m+mi}{2}\PYG{p}{))} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{Year}\PYG{p}{]} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Fixing \PYGZsq{}08/09\PYGZsq{} format to singular year}
+	\PYG{p}{,[}\PYG{n}{Region}\PYG{p}{]}
+	\PYG{p}{,[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Renaming these columns to correctly differentiate}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{k}{Granted}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{New} \PYG{n}{license} \PYG{k}{granted}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Refused}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{New} \PYG{n}{license} \PYG{n}{refused}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Granted1}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Renewal} \PYG{n}{license} \PYG{k}{granted}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Refused1}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Renewal} \PYG{n}{license} \PYG{n}{refused}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Dealers} \PYG{n}{removed} \PYG{k}{from} \PYG{n}{register}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Dealers} \PYG{n}{removed}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Dealers} \PYG{n}{registered} \PYG{k}{as} \PYG{k}{at} \PYG{l+m+mi}{31} \PYG{n}{March}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Total} \PYG{n}{dealers} \PYG{p}{(}\PYG{l+m+mi}{31}\PYG{o}{/}\PYG{l+m+mi}{03}\PYG{p}{)]}
+\PYG{k}{INTO} \PYG{p}{[}\PYG{n}{Guns}\PYG{p}{].}\PYG{n}{FirearmDealersForceArea}
+\PYG{k}{FROM} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{FirearmDealersForceArea}
+\PYG{k}{WHERE} \PYG{p}{[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]} \PYG{k}{not} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}*\PYGZpc{}\PYGZsq{}} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Removing rows that are area totals, fortunately prefaced with an asterisk \PYGZsq{}*\PYGZsq{}}
+\PYG{k}{Select}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Selecting only desired columns (splitting table into 2, this one for gender)}
+	 \PYG{k}{year}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}20\PYGZsq{}} \PYG{o}{+} \PYG{k}{right}\PYG{p}{([}\PYG{k}{Year}\PYG{p}{],}\PYG{l+m+mi}{2}\PYG{p}{))} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{Year}\PYG{p}{]} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Fixing \PYGZsq{}08/09\PYGZsq{} format to singular year}
+	\PYG{p}{,[}\PYG{n}{Region}\PYG{p}{]}
+	\PYG{p}{,[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Renaming these columns to correctly differentiate}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Females}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Female} \PYG{n}{firearm} \PYG{n}{certs}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Males}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Male} \PYG{n}{firearm} \PYG{n}{certs}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Gender} \PYG{k}{not} \PYG{n}{\PYGZus{}known}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{GenderNA} \PYG{n}{firearm} \PYG{n}{certs}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Females1}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Female} \PYG{n}{shotgun} \PYG{n}{certs}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Males1}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Male} \PYG{n}{shotgun} \PYG{n}{certs}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Gender} \PYG{k}{not} \PYG{n}{known}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{GenderNA} \PYG{n}{shotgun} \PYG{n}{certs}\PYG{p}{]}
+\PYG{k}{INTO} \PYG{p}{[}\PYG{n}{Guns}\PYG{p}{].}\PYG{n}{GunsGenderForceArea}
+\PYG{k}{FROM} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{FirearmsGenderForceArea}
+\PYG{k}{WHERE} \PYG{p}{[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]} \PYG{k}{not} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}*\PYGZpc{}\PYGZsq{}} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Removing rows that are area totals, fortunately prefaced with an asterisk \PYGZsq{}*\PYGZsq{}}
+\PYG{k}{Select}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Selecting only desired columns (splitting table into 2, this one for age brackets)}
+	 \PYG{k}{year}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}20\PYGZsq{}} \PYG{o}{+} \PYG{k}{right}\PYG{p}{([}\PYG{k}{Year}\PYG{p}{],}\PYG{l+m+mi}{2}\PYG{p}{))} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{Year}\PYG{p}{]} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Fixing \PYGZsq{}08/09\PYGZsq{} format to singular year}
+	\PYG{p}{,[}\PYG{n}{Region}\PYG{p}{]}
+	\PYG{p}{,[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Renaming these columns to correctly differentiate}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{l+m+mi}{14} \PYG{k}{to} \PYG{l+m+mi}{17}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Firearm} \PYG{n}{certs} \PYG{l+m+mi}{14}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{17}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{l+m+mi}{18} \PYG{k}{to} \PYG{l+m+mi}{34}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Firearm} \PYG{n}{certs} \PYG{l+m+mi}{18}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{34}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{l+m+mi}{35} \PYG{k}{to} \PYG{l+m+mi}{49}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Firearm} \PYG{n}{certs} \PYG{l+m+mi}{35}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{49}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{l+m+mi}{50} \PYG{k}{to} \PYG{l+m+mi}{64}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Firearm} \PYG{n}{certs} \PYG{l+m+mi}{50}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{64}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{l+m+mi}{65} \PYG{k}{and} \PYG{n}{\PYGZus{}over}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Firearm} \PYG{n}{certs} \PYG{l+m+mi}{65}\PYG{o}{+}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{l+m+mi}{13} \PYG{k}{and} \PYG{n}{\PYGZus{}under1}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Shotgun} \PYG{n}{certs} \PYG{l+m+mi}{0}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{13}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{l+m+mi}{14} \PYG{k}{to} \PYG{l+m+mi}{171}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Shotgun} \PYG{n}{certs} \PYG{l+m+mi}{14}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{17}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{l+m+mi}{18} \PYG{k}{to} \PYG{l+m+mi}{341}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Shotgun} \PYG{n}{certs} \PYG{l+m+mi}{18}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{34}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{l+m+mi}{35} \PYG{k}{to} \PYG{l+m+mi}{491}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Shotgun} \PYG{n}{certs} \PYG{l+m+mi}{35}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{49}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{l+m+mi}{50} \PYG{k}{to} \PYG{l+m+mi}{641}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Shotgun} \PYG{n}{certs} \PYG{l+m+mi}{50}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{64}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{l+m+mi}{65} \PYG{k}{and} \PYG{n}{\PYGZus{}over1}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Shotgun} \PYG{n}{certs} \PYG{l+m+mi}{65}\PYG{o}{+}\PYG{p}{]}
+\PYG{k}{INTO} \PYG{p}{[}\PYG{n}{Guns}\PYG{p}{].}\PYG{n}{GunsAgeForceArea}
+\PYG{k}{FROM} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{FirearmsGenderForceArea}
+\PYG{k}{WHERE} \PYG{p}{[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]} \PYG{k}{not} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}*\PYGZpc{}\PYGZsq{}} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Removing rows that are area totals, fortunately prefaced with an asterisk \PYGZsq{}*\PYGZsq{}}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Moving original tables into dirty schema}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{FirearmCertificatesForceArea}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{ShotgunCertificatesForceArea}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{FirearmDealersForceArea}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{FirearmsGenderForceArea}
+
+
+\PYG{c+cm}{/*\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+cm}{   FirearmOffence tables cleanse }
+\PYG{c+cm}{\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}*/}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} OFFENCE BY SEVERITY OF INJURY}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Need to clean lots of unwanted data and also transpose table, so going to pivot/unpivot}
+\PYG{p}{;}\PYG{k}{with} \PYG{n}{GunOffenceByInjury}
+\PYG{k}{AS} \PYG{p}{(}
+\PYG{k}{SELECT} \PYG{n}{TOP} \PYG{l+m+mi}{10} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} TOP 10 so that we only look at firearm offences, not airgun}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Renaming date columns to something more sensible}
+	\PYG{n}{Injuries}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}02 to Mar \PYGZsq{}}\PYG{l+m+mi}{03}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2003\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}03 to Mar \PYGZsq{}}\PYG{l+m+mi}{04}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2004\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}04 to Mar \PYGZsq{}}\PYG{l+m+mi}{05}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2005\PYGZsq{}}\PYG{p}{,}
+	\PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}05 to Mar \PYGZsq{}}\PYG{l+m+mi}{06}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2006\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}06 to Mar \PYGZsq{}}\PYG{l+m+mi}{07}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2007\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}07 to Mar \PYGZsq{}}\PYG{l+m+mi}{08}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2008\PYGZsq{}}\PYG{p}{,}
+	\PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}08 to Mar \PYGZsq{}}\PYG{l+m+mi}{09}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2009\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}09 to Mar \PYGZsq{}}\PYG{l+m+mi}{10}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2010\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}10 to Mar \PYGZsq{}}\PYG{l+m+mi}{113}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2011\PYGZsq{}}\PYG{p}{,}
+	\PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}11 to Mar \PYGZsq{}}\PYG{l+m+mi}{12}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2012\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}12 to Mar \PYGZsq{}}\PYG{l+m+mi}{13}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2013\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}13 to Mar \PYGZsq{}}\PYG{l+m+mi}{14}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2014\PYGZsq{}}\PYG{p}{,}
+	\PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}14 to Mar \PYGZsq{}}\PYG{l+m+mi}{15}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2015\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}15 to Mar \PYGZsq{}}\PYG{l+m+mi}{16}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2016\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}16 to Mar \PYGZsq{}}\PYG{l+m+mi}{17}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2017\PYGZsq{}}
+\PYG{k}{FROM} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{FirearmOffenceByInjury}
+\PYG{p}{)}
+\PYG{k}{SELECT}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Better names and casting to suitable types}
+	 \PYG{k}{year}\PYG{p}{(}\PYG{k}{Cast}\PYG{p}{([}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)]} \PYG{k}{AS} \PYG{n+nb}{date}\PYG{p}{))} \PYG{k}{AS} \PYG{p}{[}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Fatal} \PYG{n}{injury4}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Fatal}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Serious} \PYG{n}{injury5}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Serious}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Slight} \PYG{n}{injury}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Lesser}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{k}{No} \PYG{n}{injury}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{No} \PYG{n}{Injury}\PYG{p}{]}
+\PYG{k}{INTO} \PYG{n}{Weapons}\PYG{p}{.}\PYG{n}{FirearmOffenceByInjury}
+\PYG{k}{FROM}
+\PYG{p}{(}\PYG{k}{SELECT}
+	\PYG{p}{[}\PYG{n}{Injuries}\PYG{p}{],}\PYG{n}{value}\PYG{p}{,[}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)]}
+	\PYG{k}{FROM} \PYG{n}{GunOffenceByInjury}
+	\PYG{n}{unpivot} \PYG{p}{(}
+		\PYG{n}{value} \PYG{k}{for} \PYG{p}{[}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)]} \PYG{k}{in} 
+		\PYG{p}{([}\PYG{l+m+mi}{2003}\PYG{p}{],[}\PYG{l+m+mi}{2004}\PYG{p}{],[}\PYG{l+m+mi}{2005}\PYG{p}{],[}\PYG{l+m+mi}{2006}\PYG{p}{],[}\PYG{l+m+mi}{2007}\PYG{p}{],[}\PYG{l+m+mi}{2008}\PYG{p}{],[}\PYG{l+m+mi}{2009}\PYG{p}{],[}\PYG{l+m+mi}{2010}\PYG{p}{],[}\PYG{l+m+mi}{2011}\PYG{p}{],[}\PYG{l+m+mi}{2012}\PYG{p}{],[}\PYG{l+m+mi}{2013}\PYG{p}{],}
+		\PYG{p}{[}\PYG{l+m+mi}{2014}\PYG{p}{],[}\PYG{l+m+mi}{2015}\PYG{p}{],[}\PYG{l+m+mi}{2016}\PYG{p}{],[}\PYG{l+m+mi}{2017}\PYG{p}{])}
+	\PYG{p}{)} \PYG{n}{unpiv} 
+	\PYG{p}{)} \PYG{k}{AS} \PYG{n}{src}
+\PYG{n}{PIVOT} \PYG{p}{(}
+	\PYG{k}{sum}\PYG{p}{(}\PYG{n}{value}\PYG{p}{)}
+	\PYG{k}{FOR} \PYG{n}{Injuries} \PYG{k}{IN} \PYG{p}{([}\PYG{n}{Fatal} \PYG{n}{injury4}\PYG{p}{],} \PYG{p}{[}\PYG{n}{Serious} \PYG{n}{injury5}\PYG{p}{],} \PYG{p}{[}\PYG{n}{Slight} \PYG{n}{injury}\PYG{p}{],} \PYG{p}{[}\PYG{k}{No} \PYG{n}{injury}\PYG{p}{])}
+	\PYG{p}{)} \PYG{k}{AS} \PYG{n}{PivotTable}\PYG{p}{;}
+\PYG{k}{GO}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} OFFENCE BY LOCATION TYPE (ROBBERIES)}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} e.g. Post Office/Public highway}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Need to clean some unwanted data and also transpose table, so going to pivot/unpivot}
+\PYG{p}{;}\PYG{k}{with} \PYG{n}{GunOffenceByLoc}
+\PYG{k}{AS} \PYG{p}{(}
+\PYG{k}{SELECT}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Renaming date columns to something more sensible}
+	\PYG{p}{[}\PYG{k}{Location} \PYG{k}{of} \PYG{n}{offence}\PYG{p}{]}
+	\PYG{p}{,[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}02 to Mar \PYGZsq{}}\PYG{l+m+mi}{03}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2003\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}03 to Mar \PYGZsq{}}\PYG{l+m+mi}{04}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2004\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}04 to Mar \PYGZsq{}}\PYG{l+m+mi}{05}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2005\PYGZsq{}}\PYG{p}{,}
+	\PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}05 to Mar \PYGZsq{}}\PYG{l+m+mi}{06}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2006\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}06 to Mar \PYGZsq{}}\PYG{l+m+mi}{07}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2007\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}07 to Mar \PYGZsq{}}\PYG{l+m+mi}{08}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2008\PYGZsq{}}\PYG{p}{,}
+	\PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}08 to Mar \PYGZsq{}}\PYG{l+m+mi}{09}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2009\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}09 to Mar \PYGZsq{}}\PYG{l+m+mi}{10}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2010\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}10 to Mar \PYGZsq{}}\PYG{l+m+mi}{11}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2011\PYGZsq{}}\PYG{p}{,}
+	\PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}11 to Mar \PYGZsq{}}\PYG{l+m+mi}{12}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2012\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}12 to Mar \PYGZsq{}}\PYG{l+m+mi}{13}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2013\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}13 to Mar \PYGZsq{}}\PYG{l+m+mi}{14}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2014\PYGZsq{}}\PYG{p}{,}
+	\PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}14 to Mar \PYGZsq{}}\PYG{l+m+mi}{15}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2015\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}15 to Mar \PYGZsq{}}\PYG{l+m+mi}{16}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2016\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}16 to Mar \PYGZsq{}}\PYG{l+m+mi}{17}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2017\PYGZsq{}}
+\PYG{k}{FROM} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{FirearmOffenceByLocationType}
+\PYG{p}{)}
+\PYG{k}{SELECT}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Better names and casting to suitable types}
+	 \PYG{k}{year}\PYG{p}{(}\PYG{k}{Cast}\PYG{p}{([}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)]} \PYG{k}{AS} \PYG{n+nb}{date}\PYG{p}{))} \PYG{k}{AS} \PYG{p}{[}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Shop}\PYG{p}{,} \PYG{n}{stall} \PYG{n}{etc}\PYG{p}{.]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Shop}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Garage}\PYG{p}{,} \PYG{n}{service} \PYG{n}{station} \PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Garage}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Post} \PYG{n}{Office}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Post} \PYG{n}{office}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Bank}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{o}{+} \PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Building} \PYG{n}{society}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Bank}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Residential2}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Residential}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{k}{Public} \PYG{n}{highway}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Road}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Other} \PYG{n}{premises} \PYG{k}{or} \PYG{k}{open} \PYG{k}{space}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Other}\PYG{p}{]}
+\PYG{k}{INTO} \PYG{n}{Weapons}\PYG{p}{.}\PYG{n}{FirearmOffenceByLocationType}
+\PYG{k}{FROM}
+\PYG{p}{(}\PYG{k}{SELECT}
+	\PYG{p}{[}\PYG{k}{Location} \PYG{k}{of} \PYG{n}{offence}\PYG{p}{],}\PYG{n}{value}\PYG{p}{,[}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)]}
+	\PYG{k}{FROM} \PYG{n}{GunOffenceByLoc}
+	\PYG{n}{unpivot} \PYG{p}{(}
+		\PYG{n}{value} \PYG{k}{for} \PYG{p}{[}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)]} \PYG{k}{in} 
+		\PYG{p}{([}\PYG{l+m+mi}{2003}\PYG{p}{],[}\PYG{l+m+mi}{2004}\PYG{p}{],[}\PYG{l+m+mi}{2005}\PYG{p}{],[}\PYG{l+m+mi}{2006}\PYG{p}{],[}\PYG{l+m+mi}{2007}\PYG{p}{],[}\PYG{l+m+mi}{2008}\PYG{p}{],[}\PYG{l+m+mi}{2009}\PYG{p}{],[}\PYG{l+m+mi}{2010}\PYG{p}{],[}\PYG{l+m+mi}{2011}\PYG{p}{],[}\PYG{l+m+mi}{2012}\PYG{p}{],[}\PYG{l+m+mi}{2013}\PYG{p}{],}
+		\PYG{p}{[}\PYG{l+m+mi}{2014}\PYG{p}{],[}\PYG{l+m+mi}{2015}\PYG{p}{],[}\PYG{l+m+mi}{2016}\PYG{p}{],[}\PYG{l+m+mi}{2017}\PYG{p}{])}
+	\PYG{p}{)} \PYG{n}{unpiv} 
+	\PYG{p}{)} \PYG{k}{AS} \PYG{n}{src}
+\PYG{n}{PIVOT} \PYG{p}{(}
+	\PYG{k}{sum}\PYG{p}{(}\PYG{n}{value}\PYG{p}{)}
+	\PYG{k}{FOR} \PYG{p}{[}\PYG{k}{Location} \PYG{k}{of} \PYG{n}{offence}\PYG{p}{]} \PYG{k}{IN} \PYG{p}{([}\PYG{n}{Shop}\PYG{p}{,} \PYG{n}{stall} \PYG{n}{etc}\PYG{p}{.],} \PYG{p}{[}\PYG{n}{Garage}\PYG{p}{,} \PYG{n}{service} \PYG{n}{station} \PYG{p}{],} \PYG{p}{[}\PYG{n}{Post} \PYG{n}{Office}\PYG{p}{],} \PYG{p}{[}\PYG{n}{Bank}\PYG{p}{]}
+					\PYG{p}{,[}\PYG{n}{Building} \PYG{n}{society}\PYG{p}{],} \PYG{p}{[}\PYG{n}{Residential2}\PYG{p}{],} \PYG{p}{[}\PYG{k}{Public} \PYG{n}{highway}\PYG{p}{],} \PYG{p}{[}\PYG{n}{Other} \PYG{n}{premises} \PYG{k}{or} \PYG{k}{open} \PYG{k}{space}\PYG{p}{])}
+	\PYG{p}{)} \PYG{k}{AS} \PYG{n}{PivotTable}\PYG{p}{;}
+\PYG{k}{GO}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} OFFENCE BY OFFENCE}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} e.g. Homicide/Robbery/Possession}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Need to clean some unwanted data and also transpose table, so going to pivot/unpivot}
+\PYG{p}{;}\PYG{k}{with} \PYG{n}{GunOffenceByOffence}
+\PYG{k}{AS} \PYG{p}{(}
+\PYG{k}{SELECT} \PYG{n}{TOP} \PYG{l+m+mi}{17} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} So we only get firearm offences and not also air\PYGZhy{}weapons}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Renaming date columns to something more sensible}
+	\PYG{p}{[}\PYG{n}{Offence} \PYG{k}{type}\PYG{p}{]}
+	\PYG{p}{,[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}03 to Mar \PYGZsq{}}\PYG{l+m+mi}{04}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2004\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}04 to Mar \PYGZsq{}}\PYG{l+m+mi}{05}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2005\PYGZsq{}}\PYG{p}{,}
+	\PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}05 to Mar \PYGZsq{}}\PYG{l+m+mi}{062}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2006\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}06 to Mar \PYGZsq{}}\PYG{l+m+mi}{07}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2007\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}07 to Mar \PYGZsq{}}\PYG{l+m+mi}{08}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2008\PYGZsq{}}\PYG{p}{,}
+	\PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}08 to Mar \PYGZsq{}}\PYG{l+m+mi}{09}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2009\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}09 to Mar \PYGZsq{}}\PYG{l+m+mi}{10}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2010\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}10 to Mar \PYGZsq{}}\PYG{l+m+mi}{11}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2011\PYGZsq{}}\PYG{p}{,}
+	\PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}11 to Mar \PYGZsq{}}\PYG{l+m+mi}{12}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2012\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}12 to Mar \PYGZsq{}}\PYG{l+m+mi}{13}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2013\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}13 to Mar \PYGZsq{}}\PYG{l+m+mi}{14}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2014\PYGZsq{}}\PYG{p}{,}
+	\PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}14 to Mar \PYGZsq{}}\PYG{l+m+mi}{15}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2015\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}15 to Mar \PYGZsq{}}\PYG{l+m+mi}{16}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2016\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}16 to Mar \PYGZsq{}}\PYG{l+m+mi}{17}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2017\PYGZsq{}}
+\PYG{k}{FROM} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{FirearmOffenceByOffence}
+\PYG{p}{)}
+\PYG{k}{SELECT}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Better names and casting to suitable types}
+	 \PYG{k}{year}\PYG{p}{(}\PYG{k}{Cast}\PYG{p}{([}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)]} \PYG{k}{AS} \PYG{n+nb}{date}\PYG{p}{))} \PYG{k}{AS} \PYG{p}{[}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Homicide3}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Homicide}\PYG{p}{]}
+	\PYG{p}{,}\PYG{n}{COALESCE}\PYG{p}{(}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Attempted} \PYG{n}{murder} \PYG{k}{and} \PYG{n}{other} \PYG{n}{most} \PYG{n}{serious} \PYG{n}{violence}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{),}
+				\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Attempted} \PYG{n}{murder} \PYG{k}{and} \PYG{n}{GBH} \PYG{k}{with} \PYG{n}{intent} \PYG{n}{offences4}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{),}
+				\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Attempted} \PYG{n}{murder}\PYG{p}{,} \PYG{n}{assault} \PYG{k}{with} \PYG{n}{intent} \PYG{k}{to} \PYG{n}{cause} \PYG{n}{serious} \PYG{n}{harm} \PYG{k}{and} \PYG{n}{endangering} \PYG{n}{life4}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)}
+	\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Attempted} \PYG{n}{murder}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Other}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Other} \PYG{n}{violence}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Robbery}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Robbery}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Burglary}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Burglary}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Criminal} \PYG{n}{damage}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Criminal} \PYG{n}{damage}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{k}{Public} \PYG{n}{fear}\PYG{p}{,} \PYG{n}{alarm} \PYG{k}{or} \PYG{n}{distress}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{Public} \PYG{n}{fear}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Possession} \PYG{k}{of} \PYG{n}{weapons}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Possession}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{Cast}\PYG{p}{([}\PYG{n}{Other} \PYG{n}{firearm} \PYG{n}{offences}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Other}\PYG{p}{]}
+\PYG{k}{INTO} \PYG{n}{Weapons}\PYG{p}{.}\PYG{n}{FirearmOffenceByOffence}
+\PYG{k}{FROM}
+\PYG{p}{(}\PYG{k}{SELECT}
+	\PYG{p}{[}\PYG{n}{Offence} \PYG{k}{type}\PYG{p}{],}\PYG{n}{value}\PYG{p}{,[}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)]}
+	\PYG{k}{FROM} \PYG{n}{GunOffenceByOffence}
+	\PYG{n}{unpivot} \PYG{p}{(}
+		\PYG{n}{value} \PYG{k}{for} \PYG{p}{[}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)]} \PYG{k}{in} 
+		\PYG{p}{([}\PYG{l+m+mi}{2004}\PYG{p}{],[}\PYG{l+m+mi}{2005}\PYG{p}{],[}\PYG{l+m+mi}{2006}\PYG{p}{],[}\PYG{l+m+mi}{2007}\PYG{p}{],[}\PYG{l+m+mi}{2008}\PYG{p}{],[}\PYG{l+m+mi}{2009}\PYG{p}{],[}\PYG{l+m+mi}{2010}\PYG{p}{],[}\PYG{l+m+mi}{2011}\PYG{p}{],[}\PYG{l+m+mi}{2012}\PYG{p}{],[}\PYG{l+m+mi}{2013}\PYG{p}{],}
+		\PYG{p}{[}\PYG{l+m+mi}{2014}\PYG{p}{],[}\PYG{l+m+mi}{2015}\PYG{p}{],[}\PYG{l+m+mi}{2016}\PYG{p}{],[}\PYG{l+m+mi}{2017}\PYG{p}{])}
+	\PYG{p}{)} \PYG{n}{unpiv} 
+	\PYG{p}{)} \PYG{k}{AS} \PYG{n}{src}
+\PYG{n}{PIVOT} \PYG{p}{(}
+	\PYG{k}{sum}\PYG{p}{(}\PYG{n}{value}\PYG{p}{)}
+	\PYG{k}{FOR} \PYG{p}{[}\PYG{n}{Offence} \PYG{k}{type}\PYG{p}{]} \PYG{k}{IN} \PYG{p}{([}\PYG{n}{Homicide3}\PYG{p}{],} \PYG{p}{[}\PYG{n}{Attempted} \PYG{n}{murder} \PYG{k}{and} \PYG{n}{other} \PYG{n}{most} \PYG{n}{serious} \PYG{n}{violence}\PYG{p}{],} \PYG{p}{[}\PYG{n}{Attempted} \PYG{n}{murder} \PYG{k}{and} \PYG{n}{GBH} \PYG{k}{with} \PYG{n}{intent} \PYG{n}{offences4}\PYG{p}{],} 
+	\PYG{p}{[}\PYG{n}{Attempted} \PYG{n}{murder}\PYG{p}{,} \PYG{n}{assault} \PYG{k}{with} \PYG{n}{intent} \PYG{k}{to} \PYG{n}{cause} \PYG{n}{serious} \PYG{n}{harm} \PYG{k}{and} \PYG{n}{endangering} \PYG{n}{life4}\PYG{p}{],[}\PYG{n}{Other}\PYG{p}{],} \PYG{p}{[}\PYG{n}{Robbery}\PYG{p}{],} 
+	\PYG{p}{[}\PYG{n}{Burglary}\PYG{p}{],} \PYG{p}{[}\PYG{n}{Criminal} \PYG{n}{damage}\PYG{p}{],[}\PYG{k}{Public} \PYG{n}{fear}\PYG{p}{,} \PYG{n}{alarm} \PYG{k}{or} \PYG{n}{distress}\PYG{p}{],[}\PYG{n}{Possession} \PYG{k}{of} \PYG{n}{weapons}\PYG{p}{],[}\PYG{n}{Other} \PYG{n}{firearm} \PYG{n}{offences}\PYG{p}{])}
+	\PYG{p}{)} \PYG{k}{AS} \PYG{n}{PivotTable}\PYG{p}{;}
+\PYG{k}{GO}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} FirearmOffenceByWeapon will remain unused, moving to Trash schema}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Trash} \PYG{n}{TRANSFER} \PYG{n}{FirearmOffenceByWeapon}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} OFFENCE BY FORCE AREA}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Removed final pivot in order to match area convention with other tables}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} e.g. Cumbria/West Mercia/Dorset}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Need to clean some unwanted data, remove totals and also transpose table, so going to pivot/unpivot}
+\PYG{p}{;}\PYG{k}{with} \PYG{n}{GunOffenceByArea}
+\PYG{k}{AS} \PYG{p}{(}
+\PYG{k}{SELECT}
+	\PYG{p}{[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{],}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Renaming date columns to something more sensible}
+	\PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}07 to Mar \PYGZsq{}}\PYG{l+m+mi}{08}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2008\PYGZsq{}}\PYG{p}{,}
+	\PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}08 to Mar \PYGZsq{}}\PYG{l+m+mi}{09}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2009\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}09 to Mar \PYGZsq{}}\PYG{l+m+mi}{10}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2010\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}10 to Mar \PYGZsq{}}\PYG{l+m+mi}{11}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2011\PYGZsq{}}\PYG{p}{,}
+	\PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}11 to Mar \PYGZsq{}}\PYG{l+m+mi}{12}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2012\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}12 to Mar \PYGZsq{}}\PYG{l+m+mi}{13}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2013\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}13 to Mar \PYGZsq{}}\PYG{l+m+mi}{14}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2014\PYGZsq{}}\PYG{p}{,}
+	\PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}14 to Mar \PYGZsq{}}\PYG{l+m+mi}{15}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2015\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}15 to Mar \PYGZsq{}}\PYG{l+m+mi}{16}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2016\PYGZsq{}}\PYG{p}{,} \PYG{p}{[}\PYG{n}{Apr} \PYG{l+s+s1}{\PYGZsq{}16 to Mar \PYGZsq{}}\PYG{l+m+mi}{17}\PYG{p}{]} \PYG{k}{AS} \PYG{l+s+s1}{\PYGZsq{}2017\PYGZsq{}}
+\PYG{k}{FROM} \PYG{n}{dirty}\PYG{p}{.}\PYG{n}{FirearmOffenceForceArea}
+\PYG{k}{WHERE} \PYG{l+m+mi}{1}\PYG{o}{=}\PYG{l+m+mi}{1}
+	\PYG{k}{AND} \PYG{p}{[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]} \PYG{k}{not} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}East \PYGZsq{}} 
+	\PYG{k}{AND} \PYG{p}{[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]} \PYG{k}{not} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}South West \PYGZsq{}} 
+	\PYG{k}{AND} \PYG{p}{[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]} \PYG{k}{not} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}South East \PYGZsq{}}
+	\PYG{k}{AND} \PYG{p}{[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]} \PYG{k}{not} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}North West \PYGZsq{}} 
+	\PYG{k}{AND} \PYG{p}{[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]} \PYG{k}{not} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}North East \PYGZsq{}}
+	\PYG{k}{AND} \PYG{p}{[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]} \PYG{k}{not} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}Wales\PYGZsq{}}
+	\PYG{k}{AND} \PYG{p}{[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]} \PYG{k}{not} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}Yorkshire and The Humber \PYGZsq{}}
+	\PYG{k}{AND} \PYG{p}{[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]} \PYG{k}{not} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}London \PYGZsq{}}
+	\PYG{k}{AND} \PYG{p}{[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]} \PYG{k}{not} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}East Midlands \PYGZsq{}}
+\PYG{p}{)}
+\PYG{k}{SELECT}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Better names and casting to suitable types}
+	\PYG{k}{year}\PYG{p}{(}\PYG{k}{Cast}\PYG{p}{([}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)]} \PYG{k}{AS} \PYG{n+nb}{date}\PYG{p}{))} \PYG{k}{AS} \PYG{p}{[}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)]}
+	\PYG{p}{,[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{]} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Area}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{MIN}\PYG{p}{([}\PYG{n}{value}\PYG{p}{])} \PYG{n}{over} \PYG{p}{(}\PYG{n}{partition} \PYG{k}{by} \PYG{p}{[}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)],} \PYG{p}{[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{])} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Offences}\PYG{p}{]}
+\PYG{k}{INTO} \PYG{n}{Weapons}\PYG{p}{.}\PYG{n}{FirearmOffenceByArea}
+\PYG{k}{FROM}
+\PYG{p}{(}\PYG{k}{SELECT}
+	\PYG{p}{[}\PYG{n}{Police} \PYG{k}{force} \PYG{n}{area}\PYG{p}{],}\PYG{n}{value}\PYG{p}{,[}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)]}
+	\PYG{k}{FROM} \PYG{n}{GunOffenceByArea}
+	\PYG{n}{unpivot} \PYG{p}{(}
+		\PYG{n}{value} \PYG{k}{for} \PYG{p}{[}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)]} \PYG{k}{in} 
+		\PYG{p}{([}\PYG{l+m+mi}{2008}\PYG{p}{],[}\PYG{l+m+mi}{2009}\PYG{p}{],[}\PYG{l+m+mi}{2010}\PYG{p}{],[}\PYG{l+m+mi}{2011}\PYG{p}{],[}\PYG{l+m+mi}{2012}\PYG{p}{],[}\PYG{l+m+mi}{2013}\PYG{p}{],}
+		\PYG{p}{[}\PYG{l+m+mi}{2014}\PYG{p}{],[}\PYG{l+m+mi}{2015}\PYG{p}{],[}\PYG{l+m+mi}{2016}\PYG{p}{],[}\PYG{l+m+mi}{2017}\PYG{p}{])}
+	\PYG{p}{)} \PYG{n}{unpiv} 
+	\PYG{p}{)} \PYG{k}{AS} \PYG{n}{src}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{}PIVOT (}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{}	sum(value)}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{}	FOR [Police force area] IN ([Cleveland], [Durham], [Northumbria], [Cheshire],[Cumbria],[Greater Manchester]}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{}	,[Lancashire],[Merseyside], [Humberside],[North Yorkshire], [South Yorkshire],[West Yorkshire],[Derbyshire]}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{}	,[Leicestershire],[Lincolnshire],[Northamptonshire],[Nottinghamshire],[Staffordshire],[Warwickshire],[West Mercia]}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{}	,[West Midlands],[Bedfordshire],[Cambridgeshire],[Essex] ,[Hertfordshire], [Norfolk], [Suffolk], [City  of London]}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{}	,[Metropolitan Police] ,[Hampshire] ,[Kent],[Surrey],[Sussex],[Thames Valley],[Avon and Somerset],[Devon and Cornwall]}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{}	,[Dorset],[Gloucestershire],[Wiltshire],[Dyfed\PYGZhy{}Powys],[Gwent],[North Wales],[South Wales])}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{}	) AS PivotTable;}
+\PYG{k}{GO}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Removing duplicate West Midland Rows}
+\PYG{k}{WITH} \PYG{n}{Temp} \PYG{p}{([}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)],}\PYG{n}{Area}\PYG{p}{,}\PYG{n}{Offences}\PYG{p}{,}\PYG{n}{duplicateRecCount}\PYG{p}{)}
+\PYG{k}{AS}
+\PYG{p}{(}
+\PYG{k}{SELECT} \PYG{p}{[}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)],}\PYG{n}{Area}\PYG{p}{,}\PYG{n}{Offences}\PYG{p}{,}\PYG{n}{ROW\PYGZus{}NUMBER}\PYG{p}{()} \PYG{n}{OVER}\PYG{p}{(}\PYG{n}{PARTITION} \PYG{k}{by} \PYG{p}{[}\PYG{n+nb}{Date} \PYG{p}{(}\PYG{n}{March}\PYG{p}{)],}\PYG{n}{Area}\PYG{p}{,}\PYG{n}{Offences} \PYG{k}{ORDER} \PYG{k}{BY} \PYG{n}{Area}\PYG{p}{)} 
+\PYG{k}{AS} \PYG{n}{duplicateRecCount}
+\PYG{k}{FROM} \PYG{n}{Weapons}\PYG{p}{.}\PYG{n}{FirearmOffenceByArea}
+\PYG{p}{)}
+\PYG{k}{DELETE} \PYG{k}{FROM} \PYG{n}{Temp} \PYG{c+c1}{\PYGZhy{}\PYGZhy{}Now Delete Duplicate Records}
+\PYG{k}{WHERE} \PYG{n}{duplicateRecCount} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{1} 
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Moving original tables into dirty schema}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{FirearmOffenceByInjury}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{FirearmOffenceByLocationType}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{FirearmOffenceByOffence}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{FirearmOffenceForceArea}
+
+
+\PYG{c+cm}{/*\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+cm}{    BladedOffence tables cleanse}
+\PYG{c+cm}{\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}*/}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Minor v.s. Adult}
+\PYG{k}{SELECT}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Case statement to transform quarterly date strings into two columns}
+		\PYG{c+c1}{\PYGZhy{}\PYGZhy{} One for year and one for quarter}
+	\PYG{k}{CASE}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{F1}\PYG{p}{]} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}Q1\PYGZpc{}\PYGZsq{}} \PYG{k}{THEN} \PYG{n}{DATEPART}\PYG{p}{(}\PYG{n}{YY}\PYG{p}{,}\PYG{k}{Convert}\PYG{p}{(}\PYG{n+nb}{date}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}15\PYGZhy{}02\PYGZhy{}\PYGZsq{}}\PYG{o}{+}\PYG{k}{RIGHT}\PYG{p}{(}\PYG{n}{F1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{),}\PYG{l+m+mi}{105}\PYG{p}{))} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Use Feb 15th for Q1}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{F1}\PYG{p}{]} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}Q2\PYGZpc{}\PYGZsq{}} \PYG{k}{THEN} \PYG{n}{DATEPART}\PYG{p}{(}\PYG{n}{YY}\PYG{p}{,}\PYG{k}{Convert}\PYG{p}{(}\PYG{n+nb}{date}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}15\PYGZhy{}05\PYGZhy{}\PYGZsq{}}\PYG{o}{+}\PYG{k}{RIGHT}\PYG{p}{(}\PYG{n}{F1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{),}\PYG{l+m+mi}{105}\PYG{p}{))} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Use May 15th for Q2}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{F1}\PYG{p}{]} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}Q3\PYGZpc{}\PYGZsq{}} \PYG{k}{THEN} \PYG{n}{DATEPART}\PYG{p}{(}\PYG{n}{YY}\PYG{p}{,}\PYG{k}{Convert}\PYG{p}{(}\PYG{n+nb}{date}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}15\PYGZhy{}08\PYGZhy{}\PYGZsq{}}\PYG{o}{+}\PYG{k}{RIGHT}\PYG{p}{(}\PYG{n}{F1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{),}\PYG{l+m+mi}{105}\PYG{p}{))} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Use Aug 15th for Q3}
+		\PYG{k}{ELSE} \PYG{n}{DATEPART}\PYG{p}{(}\PYG{n}{YY}\PYG{p}{,}\PYG{k}{Convert}\PYG{p}{(}\PYG{n+nb}{date}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}15\PYGZhy{}11\PYGZhy{}\PYGZsq{}}\PYG{o}{+}\PYG{k}{RIGHT}\PYG{p}{(}\PYG{n}{F1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{),}\PYG{l+m+mi}{105}\PYG{p}{))} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Use Nov 15th for Q4}
+	\PYG{k}{END} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{Year}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CASE}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{F1}\PYG{p}{]} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}Q1\PYGZpc{}\PYGZsq{}} \PYG{k}{THEN} \PYG{n}{DATEPART}\PYG{p}{(}\PYG{n}{QQ}\PYG{p}{,}\PYG{k}{Convert}\PYG{p}{(}\PYG{n+nb}{date}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}15\PYGZhy{}02\PYGZhy{}\PYGZsq{}}\PYG{o}{+}\PYG{k}{RIGHT}\PYG{p}{(}\PYG{n}{F1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{),}\PYG{l+m+mi}{105}\PYG{p}{))} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Use Feb 15th for Q1}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{F1}\PYG{p}{]} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}Q2\PYGZpc{}\PYGZsq{}} \PYG{k}{THEN} \PYG{n}{DATEPART}\PYG{p}{(}\PYG{n}{QQ}\PYG{p}{,}\PYG{k}{Convert}\PYG{p}{(}\PYG{n+nb}{date}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}15\PYGZhy{}05\PYGZhy{}\PYGZsq{}}\PYG{o}{+}\PYG{k}{RIGHT}\PYG{p}{(}\PYG{n}{F1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{),}\PYG{l+m+mi}{105}\PYG{p}{))} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Use May 15th for Q2}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{F1}\PYG{p}{]} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}Q3\PYGZpc{}\PYGZsq{}} \PYG{k}{THEN} \PYG{n}{DATEPART}\PYG{p}{(}\PYG{n}{QQ}\PYG{p}{,}\PYG{k}{Convert}\PYG{p}{(}\PYG{n+nb}{date}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}15\PYGZhy{}08\PYGZhy{}\PYGZsq{}}\PYG{o}{+}\PYG{k}{RIGHT}\PYG{p}{(}\PYG{n}{F1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{),}\PYG{l+m+mi}{105}\PYG{p}{))} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Use Aug 15th for Q3}
+		\PYG{k}{ELSE} \PYG{n}{DATEPART}\PYG{p}{(}\PYG{n}{QQ}\PYG{p}{,}\PYG{k}{Convert}\PYG{p}{(}\PYG{n+nb}{date}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}15\PYGZhy{}11\PYGZhy{}\PYGZsq{}}\PYG{o}{+}\PYG{k}{RIGHT}\PYG{p}{(}\PYG{n}{F1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{),}\PYG{l+m+mi}{105}\PYG{p}{))} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Use Nov 15th for Q4}
+	\PYG{k}{END} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Quarter}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Aged} \PYG{l+m+mi}{10} \PYG{k}{to} \PYG{l+m+mi}{17}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Minor}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Aged} \PYG{l+m+mi}{18} \PYG{k}{and} \PYG{n}{over}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Adult}\PYG{p}{]}
+\PYG{k}{INTO} \PYG{n}{Weapons}\PYG{p}{.}\PYG{n}{BladedOffenceByAge}
+\PYG{k}{FROM} \PYG{p}{[}\PYG{n}{dbo}\PYG{p}{].[}\PYG{n}{BladedOffenceByAgeOutcomeQuarter}\PYG{p}{]}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Outcomes}
+\PYG{k}{SELECT}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Case statement to transform quarterly date strings into two columns}
+		\PYG{c+c1}{\PYGZhy{}\PYGZhy{} One for year and one for quarter}
+	\PYG{k}{CASE}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{F1}\PYG{p}{]} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}Q1\PYGZpc{}\PYGZsq{}} \PYG{k}{THEN} \PYG{n}{DATEPART}\PYG{p}{(}\PYG{n}{YY}\PYG{p}{,}\PYG{k}{Convert}\PYG{p}{(}\PYG{n+nb}{date}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}15\PYGZhy{}02\PYGZhy{}\PYGZsq{}}\PYG{o}{+}\PYG{k}{RIGHT}\PYG{p}{(}\PYG{n}{F1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{),}\PYG{l+m+mi}{105}\PYG{p}{))} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Use Feb 15th for Q1}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{F1}\PYG{p}{]} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}Q2\PYGZpc{}\PYGZsq{}} \PYG{k}{THEN} \PYG{n}{DATEPART}\PYG{p}{(}\PYG{n}{YY}\PYG{p}{,}\PYG{k}{Convert}\PYG{p}{(}\PYG{n+nb}{date}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}15\PYGZhy{}05\PYGZhy{}\PYGZsq{}}\PYG{o}{+}\PYG{k}{RIGHT}\PYG{p}{(}\PYG{n}{F1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{),}\PYG{l+m+mi}{105}\PYG{p}{))} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Use May 15th for Q2}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{F1}\PYG{p}{]} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}Q3\PYGZpc{}\PYGZsq{}} \PYG{k}{THEN} \PYG{n}{DATEPART}\PYG{p}{(}\PYG{n}{YY}\PYG{p}{,}\PYG{k}{Convert}\PYG{p}{(}\PYG{n+nb}{date}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}15\PYGZhy{}08\PYGZhy{}\PYGZsq{}}\PYG{o}{+}\PYG{k}{RIGHT}\PYG{p}{(}\PYG{n}{F1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{),}\PYG{l+m+mi}{105}\PYG{p}{))} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Use Aug 15th for Q3}
+		\PYG{k}{ELSE} \PYG{n}{DATEPART}\PYG{p}{(}\PYG{n}{YY}\PYG{p}{,}\PYG{k}{Convert}\PYG{p}{(}\PYG{n+nb}{date}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}15\PYGZhy{}11\PYGZhy{}\PYGZsq{}}\PYG{o}{+}\PYG{k}{RIGHT}\PYG{p}{(}\PYG{n}{F1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{),}\PYG{l+m+mi}{105}\PYG{p}{))} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Use Nov 15th for Q4}
+	\PYG{k}{END} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{Year}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CASE}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{F1}\PYG{p}{]} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}Q1\PYGZpc{}\PYGZsq{}} \PYG{k}{THEN} \PYG{n}{DATEPART}\PYG{p}{(}\PYG{n}{QQ}\PYG{p}{,}\PYG{k}{Convert}\PYG{p}{(}\PYG{n+nb}{date}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}15\PYGZhy{}02\PYGZhy{}\PYGZsq{}}\PYG{o}{+}\PYG{k}{RIGHT}\PYG{p}{(}\PYG{n}{F1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{),}\PYG{l+m+mi}{105}\PYG{p}{))} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Use Feb 15th for Q1}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{F1}\PYG{p}{]} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}Q2\PYGZpc{}\PYGZsq{}} \PYG{k}{THEN} \PYG{n}{DATEPART}\PYG{p}{(}\PYG{n}{QQ}\PYG{p}{,}\PYG{k}{Convert}\PYG{p}{(}\PYG{n+nb}{date}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}15\PYGZhy{}05\PYGZhy{}\PYGZsq{}}\PYG{o}{+}\PYG{k}{RIGHT}\PYG{p}{(}\PYG{n}{F1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{),}\PYG{l+m+mi}{105}\PYG{p}{))} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Use May 15th for Q2}
+		\PYG{k}{WHEN} \PYG{p}{[}\PYG{n}{F1}\PYG{p}{]} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}Q3\PYGZpc{}\PYGZsq{}} \PYG{k}{THEN} \PYG{n}{DATEPART}\PYG{p}{(}\PYG{n}{QQ}\PYG{p}{,}\PYG{k}{Convert}\PYG{p}{(}\PYG{n+nb}{date}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}15\PYGZhy{}08\PYGZhy{}\PYGZsq{}}\PYG{o}{+}\PYG{k}{RIGHT}\PYG{p}{(}\PYG{n}{F1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{),}\PYG{l+m+mi}{105}\PYG{p}{))} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Use Aug 15th for Q3}
+		\PYG{k}{ELSE} \PYG{n}{DATEPART}\PYG{p}{(}\PYG{n}{QQ}\PYG{p}{,}\PYG{k}{Convert}\PYG{p}{(}\PYG{n+nb}{date}\PYG{p}{,}\PYG{l+s+s1}{\PYGZsq{}15\PYGZhy{}11\PYGZhy{}\PYGZsq{}}\PYG{o}{+}\PYG{k}{RIGHT}\PYG{p}{(}\PYG{n}{F1}\PYG{p}{,}\PYG{l+m+mi}{4}\PYG{p}{),}\PYG{l+m+mi}{105}\PYG{p}{))} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Use Nov 15th for Q4}
+	\PYG{k}{END} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Quarter}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Caution}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Caution}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{k}{Absolute} \PYG{o}{/} \PYG{n}{Conditional} \PYG{n}{discharge}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Discharged}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Fine}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Fine}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Community} \PYG{n}{sentence}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Community} \PYG{n}{sentence}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Suspended} \PYG{n}{sentence}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Suspended} \PYG{n}{sentence}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{k}{Immediate} \PYG{n}{custody}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{Immediate} \PYG{n}{custody}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Other} \PYG{n}{disposal} \PYG{l+m+mi}{4}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Other}\PYG{p}{]}
+\PYG{k}{INTO} \PYG{n}{Weapons}\PYG{p}{.}\PYG{n}{BladedOffenceByOutcome}
+\PYG{k}{FROM} \PYG{p}{[}\PYG{n}{dbo}\PYG{p}{].[}\PYG{n}{BladedOffenceByAgeOutcomeQuarter}\PYG{p}{]}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Offence by Offence}
+\PYG{k}{BEGIN} \PYG{n}{TRAN} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} removing singular erroneous row}
+	\PYG{k}{DELETE} \PYG{k}{FROM} \PYG{p}{[}\PYG{n}{BladedOffenceByOffence}\PYG{p}{]}
+	\PYG{k}{WHERE} \PYG{p}{[}\PYG{n}{Time} \PYG{n}{period}  \PYG{p}{]} \PYG{k}{like} \PYG{l+s+s1}{\PYGZsq{}\PYGZpc{}Year ending\PYGZpc{}\PYGZsq{}}
+\PYG{k}{COMMIT} \PYG{n}{TRAN}
+\PYG{k}{SELECT} 
+	 \PYG{k}{year}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}20\PYGZsq{}} \PYG{o}{+} \PYG{k}{right}\PYG{p}{([}\PYG{n}{Time} \PYG{n}{period}  \PYG{p}{],}\PYG{l+m+mi}{2}\PYG{p}{))} \PYG{k}{AS} \PYG{p}{[}\PYG{k}{Year}\PYG{p}{]} \PYG{c+c1}{\PYGZhy{}\PYGZhy{} Fixing \PYGZsq{}2008/09\PYGZsq{} format to singular year}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Attempted} \PYG{n}{murder}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Attempted} \PYG{n}{murder}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Threats} \PYG{k}{to} \PYG{n}{kill}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Threats} \PYG{k}{to} \PYG{n}{kill}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Assault} \PYG{k}{with} \PYG{n}{injury} \PYG{k}{and} \PYG{n}{intent} \PYG{k}{to} \PYG{n}{cause} \PYG{n}{serious} \PYG{n}{harm}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Assault}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Robbery}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Robbery}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Rape}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Rape}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Sexual} \PYG{n}{assault}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Sexual} \PYG{n}{assault}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Homicide}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Homicide}\PYG{p}{]}
+\PYG{k}{INTO} \PYG{n}{Weapons}\PYG{p}{.}\PYG{n}{BladedOffenceByOffence}
+\PYG{k}{FROM} \PYG{p}{[}\PYG{n}{dbo}\PYG{p}{].[}\PYG{n}{BladedOffenceByOffence}\PYG{p}{]}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Offence by Force Area}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Need to unpivot this to match convention for Areas and Years so using cte}
+\PYG{p}{;}\PYG{k}{with} \PYG{n}{HalfCleanBladeArea}
+\PYG{k}{AS} \PYG{p}{(}
+\PYG{k}{SELECT} 
+	 \PYG{p}{[}\PYG{n}{F1}\PYG{p}{]} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Area}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n+nb}{Number}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{l+m+mi}{2009}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Number1}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{l+m+mi}{2010}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Number2}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{l+m+mi}{2011}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Number3}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{l+m+mi}{2012}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Number4}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{l+m+mi}{2013}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Number5}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{l+m+mi}{2014}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Number6}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{l+m+mi}{2015}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Number7}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{l+m+mi}{2016}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{CAST}\PYG{p}{([}\PYG{n}{Number8}\PYG{p}{]} \PYG{k}{as} \PYG{n+nb}{int}\PYG{p}{)} \PYG{k}{AS} \PYG{p}{[}\PYG{l+m+mi}{2017}\PYG{p}{]}
+\PYG{k}{FROM} \PYG{p}{[}\PYG{n}{dbo}\PYG{p}{].[}\PYG{n}{BladedOffenceForceArea}\PYG{p}{]}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Only return relevant rows}
+\PYG{k}{WHERE} \PYG{p}{[}\PYG{n}{F1}\PYG{p}{]} \PYG{k}{IS} \PYG{k}{NOT} \PYG{k}{NULL} 
+	\PYG{k}{AND} \PYG{p}{[}\PYG{n}{F1}\PYG{p}{]} \PYG{k}{NOT} \PYG{k}{LIKE} \PYG{l+s+s1}{\PYGZsq{}\PYGZpc{}Region\PYGZpc{}\PYGZsq{}}
+	\PYG{k}{AND} \PYG{p}{[}\PYG{n}{F1}\PYG{p}{]} \PYG{k}{NOT} \PYG{k}{LIKE} \PYG{l+s+s1}{\PYGZsq{}WALES\PYGZsq{}}
+	\PYG{k}{AND} \PYG{p}{[}\PYG{n}{F1}\PYG{p}{]} \PYG{k}{NOT} \PYG{k}{LIKE} \PYG{l+s+s1}{\PYGZsq{}\PYGZpc{}England\PYGZpc{}\PYGZsq{}}
+\PYG{p}{)}
+\PYG{k}{SELECT}
+	\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Better names and casting to suitable types}
+	\PYG{k}{year}\PYG{p}{([}\PYG{n+nb}{Date}\PYG{p}{])} \PYG{k}{AS} \PYG{p}{[}\PYG{n+nb}{Date}\PYG{p}{]}
+	\PYG{p}{,[}\PYG{n}{Area}\PYG{p}{]} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Area}\PYG{p}{]}
+	\PYG{p}{,}\PYG{k}{MIN}\PYG{p}{([}\PYG{n}{value}\PYG{p}{])} \PYG{n}{over} \PYG{p}{(}\PYG{n}{partition} \PYG{k}{by} \PYG{p}{[}\PYG{n+nb}{Date}\PYG{p}{],} \PYG{p}{[}\PYG{n}{Area}\PYG{p}{])} \PYG{k}{AS} \PYG{p}{[}\PYG{n}{Offences}\PYG{p}{]}
+\PYG{k}{INTO} \PYG{n}{Weapons}\PYG{p}{.}\PYG{n}{BladedOffenceByArea}
+\PYG{k}{FROM}
+\PYG{p}{(}\PYG{k}{SELECT}
+	\PYG{p}{[}\PYG{n+nb}{Date}\PYG{p}{],[}\PYG{n}{Area}\PYG{p}{],}\PYG{n}{value}
+	\PYG{k}{FROM} \PYG{n}{HalfCleanBladeArea}
+	\PYG{n}{unpivot} \PYG{p}{(}
+		\PYG{n}{value} \PYG{k}{for} \PYG{p}{[}\PYG{n+nb}{Date}\PYG{p}{]} \PYG{k}{in} 
+		\PYG{p}{([}\PYG{l+m+mi}{2009}\PYG{p}{],[}\PYG{l+m+mi}{2010}\PYG{p}{],[}\PYG{l+m+mi}{2011}\PYG{p}{],[}\PYG{l+m+mi}{2012}\PYG{p}{],[}\PYG{l+m+mi}{2013}\PYG{p}{],}
+		\PYG{p}{[}\PYG{l+m+mi}{2014}\PYG{p}{],[}\PYG{l+m+mi}{2015}\PYG{p}{],[}\PYG{l+m+mi}{2016}\PYG{p}{],[}\PYG{l+m+mi}{2017}\PYG{p}{])}
+	\PYG{p}{)} \PYG{n}{unpiv} 
+	\PYG{p}{)} \PYG{k}{AS} \PYG{n}{src}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Moving original tables into dirty schema}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{BladedOffenceByAgeOutcomeQuarter}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{BladedOffenceByOffence}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{BladedOffenceForceArea}
+
+
+\PYG{c+cm}{/*\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+cm}{    PoliceTaserUse tables cleanse }
+\PYG{c+cm}{\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}*/}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Completed in Alteryx, moving original data to dirty schema}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{PoliceTaserUse13}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{PoliceTaserUse14}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{PoliceTaserUse15}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{PoliceTaserUse16}
+
+\PYG{c+cm}{/*\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+cm}{    DrugDeathByArea table cleanse}
+\PYG{c+cm}{\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}*/}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Creating new \PYGZsq{}Drug\PYGZsq{} schema}
+\PYG{k}{CREATE} \PYG{k}{SCHEMA} \PYG{p}{[}\PYG{n}{Drug}\PYG{p}{]}
+\PYG{k}{GO}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} This tabled cleansed in Alteryx and exported here, moving OG data to dirty}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{drugdeathbyarea}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Just remove some of the oldest rows}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{temp} \PYG{n}{transfer} \PYG{n}{drug}\PYG{p}{.}\PYG{n}{deathbyarea}
+\PYG{k}{SELECT}
+	\PYG{o}{*}
+\PYG{k}{into} \PYG{n}{Drug}\PYG{p}{.}\PYG{n}{DeathByRegion}
+\PYG{k}{FROM} \PYG{n}{temp}\PYG{p}{.}\PYG{n}{deathbyarea}
+\PYG{k}{WHERE} \PYG{p}{[}\PYG{k}{Year}\PYG{p}{]} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{1999}
+
+\PYG{c+cm}{/*\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+cm}{    DrugSeizures tables cleanse }
+\PYG{c+cm}{\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}*/}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Completed in Alteryx, moving original data to dirty schema}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{DrugSeizuresForceArea}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{DrugSeizuresForceAreaSnapshot}
+
+\PYG{c+cm}{/*\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+cm}{    DrugAdmissionsNHS tables cleanse }
+\PYG{c+cm}{\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}*/}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Completed in Alteryx, moving original data to dirty schema}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{DrugAdmissionsNHSMental}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{DrugAdmissionsNHSPoison}
+
+\PYG{c+cm}{/*\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+cm}{    DrugSurveyData tables cleanse }
+\PYG{c+cm}{\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}*/}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Completed in Alteryx, moving original data to dirty schema}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{DrugSurveyData}
+
+\PYG{c+cm}{/*\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+cm}{    DeprivationIndicesLSOA tables cleanse }
+\PYG{c+cm}{\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}*/}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Completed in Alteryx, moving original data to dirty schema}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{DeprivationIndicesLSOA}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{WalesDeprivationRanksLSOA}
+
+\PYG{c+cm}{/*\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{c+cm}{    PopulationByLSOA tables cleanse }
+\PYG{c+cm}{\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}*/}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} Completed in Alteryx, moving original data to dirty schema}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{PopulationByLSOA11}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{PopulationByLSOA12}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{PopulationByLSOA13}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{PopulationByLSOA14}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{PopulationByLSOA15}
+\PYG{k}{ALTER} \PYG{k}{SCHEMA} \PYG{n}{Dirty} \PYG{n}{TRANSFER} \PYG{n}{dbo}\PYG{p}{.}\PYG{n}{PopulationByLSOA16}
+
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{}	   \PYGZus{}\PYGZus{}\PYGZus{} \PYGZus{}                  \PYGZus{}                 \PYGZus{}\PYGZus{}\PYGZus{}                      \PYGZus{}      \PYGZus{}         \PYGZhy{}\PYGZhy{}}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{}	  / \PYGZus{}\PYGZus{}\PYGZbs{} | \PYGZus{}\PYGZus{}\PYGZus{}  \PYGZus{}\PYGZus{} \PYGZus{} \PYGZus{} \PYGZus{}\PYGZus{} (\PYGZus{})\PYGZus{} \PYGZus{}\PYGZus{}   \PYGZus{}\PYGZus{} \PYGZus{}    / \PYGZus{}\PYGZus{}\PYGZbs{}\PYGZus{}\PYGZus{}\PYGZus{}  \PYGZus{} \PYGZus{}\PYGZus{} \PYGZus{}\PYGZus{}\PYGZus{}  \PYGZus{} \PYGZus{}\PYGZus{} | | \PYGZus{}\PYGZus{}\PYGZus{}| |\PYGZus{} \PYGZus{}\PYGZus{}\PYGZus{}   \PYGZhy{}\PYGZhy{}}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{}	 / /  | |/ \PYGZus{} \PYGZbs{}/ \PYGZus{}` | \PYGZsq{}\PYGZus{} \PYGZbs{}| | \PYGZsq{}\PYGZus{} \PYGZbs{} / \PYGZus{}` |  / /  / \PYGZus{} \PYGZbs{}| \PYGZsq{}\PYGZus{} ` \PYGZus{} \PYGZbs{}| \PYGZsq{}\PYGZus{} \PYGZbs{}| |/ \PYGZus{} \PYGZbs{} \PYGZus{}\PYGZus{}/ \PYGZus{} \PYGZbs{}  \PYGZhy{}\PYGZhy{}}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{}	/ /\PYGZus{}\PYGZus{}\PYGZus{}| |  \PYGZus{}\PYGZus{}/ (\PYGZus{}| | | | | | | | | (\PYGZus{}| | / /\PYGZus{}\PYGZus{}| (\PYGZus{}) | | | | | | |\PYGZus{}) | |  \PYGZus{}\PYGZus{}/ ||  \PYGZus{}\PYGZus{}/  \PYGZhy{}\PYGZhy{}}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{}	\PYGZbs{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}/|\PYGZus{}|\PYGZbs{}\PYGZus{}\PYGZus{}\PYGZus{}|\PYGZbs{}\PYGZus{}\PYGZus{},\PYGZus{}|\PYGZus{}| |\PYGZus{}|\PYGZus{}|\PYGZus{}| |\PYGZus{}|\PYGZbs{}\PYGZus{}\PYGZus{}, | \PYGZbs{}\PYGZus{}\PYGZus{}\PYGZus{}\PYGZus{}/\PYGZbs{}\PYGZus{}\PYGZus{}\PYGZus{}/|\PYGZus{}| |\PYGZus{}| |\PYGZus{}| .\PYGZus{}\PYGZus{}/|\PYGZus{}|\PYGZbs{}\PYGZus{}\PYGZus{}\PYGZus{}|\PYGZbs{}\PYGZus{}\PYGZus{}\PYGZbs{}\PYGZus{}\PYGZus{}\PYGZus{}|  \PYGZhy{}\PYGZhy{}}
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{}                                    |\PYGZus{}\PYGZus{}\PYGZus{}/                       |\PYGZus{}|                     \PYGZhy{}\PYGZhy{}}
+\end{Verbatim}

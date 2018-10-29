@@ -1,11 +1,13 @@
-\contentsline {section}{\numberline {1}Intro/Brief}{2}{section.1}
-\contentsline {section}{\numberline {2}Aims/Goals/Hypothesis [AND OUTCOME]}{2}{section.2}
-\contentsline {section}{\numberline {3}Data Sources}{2}{section.3}
-\contentsline {section}{\numberline {4}Methodology}{3}{section.4}
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}
+\contentsline {section}{\numberline {2}Aims of the Project}{2}{section.2}
+\contentsline {section}{\numberline {3}Data Sources}{3}{section.3}
+\contentsline {section}{\numberline {4}Methodology}{4}{section.4}
 \contentsline {subsection}{\numberline {4.1}Engineering}{4}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Modelling}{4}{subsection.4.2}
 \contentsline {subsection}{\numberline {4.3}Analysis}{4}{subsection.4.3}
-\contentsline {section}{\numberline {5}Assumptions / Problems}{5}{section.5}
-\contentsline {section}{\numberline {6}Conclusions}{5}{section.6}
-\contentsline {section}{\numberline {7}References}{6}{section.7}
-\contentsline {section}{\numberline {8}Appendices (Code)}{6}{section.8}
+\contentsline {section}{\numberline {5}Assumptions and Limitations}{5}{section.5}
+\contentsline {section}{\numberline {6}Appendices}{6}{section.6}
+\contentsline {subsection}{\numberline {6.1}SQL Cleanse}{6}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Alteryx Cleanse}{25}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}SQL Modelling}{29}{subsection.6.3}
+\contentsline {subsection}{\numberline {6.4}Dimensional Model}{42}{subsection.6.4}

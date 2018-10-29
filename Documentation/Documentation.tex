@@ -5,13 +5,14 @@
 \usepackage{hyperref} % Set up href (and automatically link contents)
 \usepackage{setspace}
 \usepackage{fancyhdr}
-\usepackage{graphicx}
-\usepackage{animate} % gif 
+\usepackage{graphicx}  % displaying images
+\usepackage{subcaption} % better image displaying
+\usepackage{minted} % displayed code
 
 \pagestyle{fancy}
 \fancyhf{\color{charcoal-black}}
 \lhead{\color{charcoal-black} George Claireaux}
-\rhead{\color{charcoal-black} Whole Lotta Gang Sh*t}
+\rhead{\color{charcoal-black} Crime Project - Gangs, Guns and Drugs}
 \rfoot{\color{charcoal-black} Page \thepage}
 
 \usepackage{tgadventor}
@@ -25,7 +26,7 @@
 \definecolor{electro-blue}{RGB}{38, 171, 242}
 \definecolor{electro-blue-dark}{RGB}{41, 142, 196}
 \definecolor{off-white}{RGB}{246, 246, 246}
-\definecolor{more-off-white}{RGB}{230, 230, 230}
+\definecolor{more-off-white}{RGB}{240, 240, 240}
 
 \hypersetup{ % Designate link colors
     colorlinks,
@@ -67,8 +68,8 @@
 
 \begin{document}
 
-\begin{changemargin}{-4em}{-5em}
-\titlebox{\textsc{\color{electro-blue} \Huge \break \break \break Whole Lotta Gang Sh*t \Large a.k.a. guns and drugs}}
+\begin{changemargin}{-3em}{-5em}
+\titlebox{\textsc{\color{electro-blue} \Huge \break \break \break Crime Project \Large - Gangs, Guns and Drugs}}
 \end{changemargin}
 
 %\pagenumbering{gobble} % Remove page numbers
@@ -84,35 +85,51 @@
 
 \color{charcoal-black}
 
-\begin{changemargin}{-4em}{-5em}
-\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em}  \section{Intro/Brief} }}
+\begin{changemargin}{-3em}{-5em}
+\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em}  \section{Introduction} }}
 \end{changemargin}
-\begin{frame}
-\centering
-\animategraphics[loop,autoplay]{2}{./images/}{10}{15}
-\end{frame}
-FIRST TALK ABOUT THE BRIEF GIVEN 
-\linebreak
-THEN
-\linebreak
-GO ON TO EXPLAIN MY ANGLE AND WHAT I'M AIMING TO DO
+% \begin{frame} % begin gif
+% \centering
+% \animategraphics[loop,autoplay]{2}{./images/}{10}{15}
+% \end{frame} % end gif
+\vspace{1em}
+The Home Office is coming under increasing pressure to tackle the rising levels of crime in the UK. To justify expenditure and better target resources the government has enlisted Kubrick Group consultants to land, profile, cleanse, model and analyse data on crime and present analyses via an attractive and informative dashboard.
 \linebreak \linebreak
-REFERENCE THE \emph{\href{https://www.amnesty.org.uk/press-releases/met-police-using-racially-discriminatory-gangs-matrix-database}{Amnesty report on met police gang matrix}} 
-AND TALK ABOUT ITS SHORTCOMINGS ETC
+Given this brief, I set out to look at gang-related crime across England and Wales with a hope to offer new means of analysis and therefore high quality information to assist in acting upon the data available.
+\linebreak \linebreak
+The main source of data used was directly from the UK police, however various pieces of external data were also utilised in order to enrich and allow further analysis for the end user.
 
 \vspace{3em}
 
-\begin{changemargin}{-4em}{-5em}
-\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em} \section{Aims/Goals/Hypothesis [AND OUTCOME]} }}
+\begin{changemargin}{-3em}{-5em}
+\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em} \section{Aims of the Project} }}
 \end{changemargin}
-DETAIL MY AIMS AND GOALS IN TRYING TO IMPROVE ON THE GANG MATRIX AND ACCURATELY MAP UK (ENGLAND/WALES) GANG ACTIVITY
+\vspace{1em}
+The idea to look at gang crime was conceptualised after researching modern crime trends in the UK and discovering the \emph{\href{https://www.amnesty.org.uk/press-releases/met-police-using-racially-discriminatory-gangs-matrix-database}{Amnesty report on the Met Police's gang matrix}}. To condense the message of this report, the current prime method for police in England (and specifically London) to tackle gang crime is through a racially biased system that has been criticised by one of the leading human rights institutions in the world. 
 \linebreak \linebreak
-GIVE A VERY CONCISE, PRECISE AND CLEAR OUTCOME OF MY INVESTIGATION AND WORK
-
+I wanted to offer a new solution.
+\linebreak \linebreak
+To achieve such a goal, I entirely eliminated ethnicity and race from the data during the engineering phase so as to create a 'colour-blind' model to analyse. The hope was to visualise potential gang hotspots and areas derived from instances of gang-related crime; including drug use, weapon crime, theft and robbery as well as violent or sexual offences.
+\linebreak \linebreak
+I also wanted to offer other related insights as a means to look at \emph{why} these areas were hotspots for gangs, rather than just pointing them out.
+\linebreak
+Some of these ideas were:
+\vspace{1em}
+\begin{itemize} % Starts unordered (bullet point) list
+	\item What type of deprivation in areas is more likely to be correlated with gang crime?
+	\item Does Taser use by police help fight weapon crime and violent offences?
+	\item Does a 'war on drugs' by police actually cut drug deaths and hospitalisations?
+	\item Are the number of legal firearms linked to the number of illegal firearm offences?
+\end{itemize}
+\vspace{1em}
+Before we dig into the details of the project, a brief note on the final outcome itself:
+\linebreak \linebreak
+\textbf{While offering the ability to look at gang crime, the project quickly expanded and was finally realised as a wide-reaching dashboard allowing parameter-driven visualisation of crime across England and Wales.}
 \vspace{3em}
 
-\begin{changemargin}{-4em}{-5em}
+\begin{changemargin}{-3em}{-5em}
 \sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em} \section{Data Sources} }}
+\label{sec:3-1}
 \end{changemargin}
 \vspace{1em}
 \begin{large} England/Wales Police Force Data \end{large}
@@ -129,7 +146,6 @@ GIVE A VERY CONCISE, PRECISE AND CLEAR OUTCOME OF MY INVESTIGATION AND WORK
 \begin{large} UK Government Data \end{large} 
 \linebreak
 \emph{\href{https://www.ons.gov.uk/}{gov.uk / ons.gov.uk}}
-\linebreak
 \begin{itemize} % Starts unordered (bullet point) list
 	\begin{small}
 	\item LSOA population data
@@ -146,7 +162,6 @@ GIVE A VERY CONCISE, PRECISE AND CLEAR OUTCOME OF MY INVESTIGATION AND WORK
 \begin{large} UK Government GeoPortal Data \end{large} 
 \linebreak
 \emph{\href{http://geoportal.statistics.gov.uk/datasets/output-area-to-lsoa-to-msoa-to-local-authority-district-december-2017-lookup-with-area-classifications-in-great-britain?page=9}{geoportal.statistics.gov.uk}}
-\linebreak
 \begin{itemize} % Starts unordered (bullet point) list
 	\begin{small}
 	\item Area comparison table
@@ -157,7 +172,6 @@ GIVE A VERY CONCISE, PRECISE AND CLEAR OUTCOME OF MY INVESTIGATION AND WORK
 \begin{large} UK Parliament Data \end{large}
 \linebreak
 \emph{\href{https://researchbriefings.parliament.uk/ResearchBriefing/Summary/SN04304}{parliament.uk}}
-\linebreak
 \begin{itemize} % Starts unordered (bullet point) list
 	\begin{small}
 	\item Weapon crime statistics
@@ -167,7 +181,6 @@ GIVE A VERY CONCISE, PRECISE AND CLEAR OUTCOME OF MY INVESTIGATION AND WORK
 \begin{large} NHS Data \end{large} 
 \linebreak
 \emph{\href{https://digital.nhs.uk/data-and-information/publications/statistical/statistics-on-drug-misuse/2017}{nhs.uk}}
-\linebreak
 \begin{itemize} % Starts unordered (bullet point) list
 	\begin{small}
 	\item NHS drug abuse data
@@ -177,108 +190,160 @@ GIVE A VERY CONCISE, PRECISE AND CLEAR OUTCOME OF MY INVESTIGATION AND WORK
 \begin{large} Government of Wales Data \end{large} 
 \linebreak 
 \emph{\href{https://statswales.gov.wales/Catalogue/Community-Safety-and-Social-Inclusion/Welsh-Index-of-Multiple-Deprivation/WIMD-2014}{statswales.gov.wales}}
-\linebreak
 \begin{itemize} % Starts unordered (bullet point) list
 	\begin{small}
 	\item Deprivation indices (Wales)
 	\end{small}
 \end{itemize}
-
 \vspace{3em}
 
-\begin{changemargin}{-4em}{-5em}
+\begin{changemargin}{-3em}{-5em}
 \sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em} \section{Methodology} }}
 \end{changemargin}
-Bacon ipsum dolor amet esse eu ham, flank quis kevin labore consequat ground round porchetta corned beef pig chuck cupim duis. Aute fugiat jowl, cupim pariatur chicken et id sunt landjaeger nisi biltong short ribs. Elit duis consectetur ut in aliqua do spare ribs cow short ribs veniam beef chicken short loin. Enim consequat quis rump, strip steak t-bone beef salami. Biltong salami tenderloin cillum. Voluptate shankle drumstick pork beef ribs picanha aute ullamco ball tip jerky ad bacon in id.
-\linebreak \linebreak
-Quis ea veniam capicola shankle jowl pastrami mollit adipisicing ipsum. Alcatra leberkas tail, dolore veniam sausage pork shoulder porchetta. Nulla chuck consequat, pork loin tri-tip ball tip consectetur magna short loin landjaeger shankle salami. Esse corned beef beef pork chop ut short loin in et hamburger drumstick quis turkey id aute. Filet mignon boudin ut swine.
+\vspace{1em}
+This project spanned across much of the data pipeline and thus can be broken down and discussed in separate parts. These three sections, titled \textbf{Engineering}, \textbf{Modelling} and \textbf{Analysis} will comprise the ETL process as well as visualisation of the modelled data.
+\linebreak
+\begin{itemize} % Starts unordered (bullet point) list
+	\item The \textbf{Engineering} section will cover the \emph{extraction} and \emph{transformation} of data, with references to the SQL code used for detailed further review; depicted in the appendices.
+	\item The \textbf{Modelling} section, as the name implies, will frame the \emph{loading} of data into a dimensional model as preparation for effective, efficient utilisation.
+	\item Thirdly, the \textbf{Analysis} section will look at the design decisions taken in creating the final dashboard visualisation and offer suggestions on its use as a source of information and analysis.
+\end{itemize}
 
-	\vspace{3em}
-
-	\begin{changemargin}{-2em}{-5em}
+	\vspace{2em}
+	
+	\begin{changemargin}{-1em}{-5em}
 	\subsectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{15em} \subsection{Engineering} }}
 	\end{changemargin}
-	Bacon ipsum dolor amet esse eu ham, flank quis kevin labore consequat ground round porchetta corned beef pig chuck cupim duis. Aute fugiat jowl, cupim pariatur chicken et id sunt landjaeger nisi biltong short ribs. Elit duis consectetur ut in aliqua do spare ribs cow short ribs veniam beef chicken short loin. Enim consequat quis rump, strip steak t-bone beef salami. Biltong salami tenderloin cillum. Voluptate shankle drumstick pork beef ribs picanha aute ullamco ball tip jerky ad bacon in id.
-\linebreak \linebreak
-Quis ea veniam capicola shankle jowl pastrami mollit adipisicing ipsum. Alcatra leberkas tail, dolore veniam sausage pork shoulder porchetta. Nulla chuck consequat, pork loin tri-tip ball tip consectetur magna short loin landjaeger shankle salami. Esse corned beef beef pork chop ut short loin in et hamburger drumstick quis turkey id aute. Filet mignon boudin ut swine.
+	\vspace{1em}
+	All data sources of extraction are listed in \hyperref[sec:3-1]{\color{electro-blue-dark}section 3}, with individual specific links given in the references section at the end of this documentation.
+	\linebreak \linebreak
+	Appendix \hyperref[sec:8-1]{\color{electro-blue-dark}section 8.1} and \hyperref[sec:8-2]{\color{electro-blue-dark}section 8.2} show the SQL and Alteryx cleansing and transformation of this data respectively. These appendices are commented throughout as form of explanation.
 
 	\vspace{3em}
 
-	\begin{changemargin}{-2em}{-5em}
+	\begin{changemargin}{-1em}{-5em}
 	\subsectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{15em} \subsection{Modelling} }}
 	\end{changemargin}
-	Bacon ipsum dolor amet esse eu ham, flank quis kevin labore consequat ground round porchetta corned beef pig chuck cupim duis. Aute fugiat jowl, cupim pariatur chicken et id sunt landjaeger nisi biltong short ribs. Elit duis consectetur ut in aliqua do spare ribs cow short ribs veniam beef chicken short loin. Enim consequat quis rump, strip steak t-bone beef salami. Biltong salami tenderloin cillum. Voluptate shankle drumstick pork beef ribs picanha aute ullamco ball tip jerky ad bacon in id.
-\linebreak \linebreak
-Quis ea veniam capicola shankle jowl pastrami mollit adipisicing ipsum. Alcatra leberkas tail, dolore veniam sausage pork shoulder porchetta. Nulla chuck consequat, pork loin tri-tip ball tip consectetur magna short loin landjaeger shankle salami. Esse corned beef beef pork chop ut short loin in et hamburger drumstick quis turkey id aute. Filet mignon boudin ut swine.
+	\vspace{1em}
+	Appendix \hyperref[sec:8-3]{\color{electro-blue-dark}section 8.3} shows the dimensional modelling of the data in SQL and \hyperref[sec:8-4]{\color{electro-blue-dark}section 8.4} shows a representation of this model visually. These appendices are commented throughout or are self explanatory.
 
 	\vspace{3em}
 	
-	\begin{changemargin}{-2em}{-5em}
+	\begin{changemargin}{-1em}{-5em}
 	\subsectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{15em} \subsection{Analysis} }}
 	\end{changemargin}
-Bacon ipsum dolor amet esse eu ham, flank quis kevin labore consequat ground round porchetta corned beef pig chuck cupim duis. Aute fugiat jowl, cupim pariatur chicken et id sunt landjaeger nisi biltong short ribs. Elit duis consectetur ut in aliqua do spare ribs cow short ribs veniam beef chicken short loin. Enim consequat quis rump, strip steak t-bone beef salami. Biltong salami tenderloin cillum. Voluptate shankle drumstick pork beef ribs picanha aute ullamco ball tip jerky ad bacon in id.
-\linebreak \linebreak
-Quis ea veniam capicola shankle jowl pastrami mollit adipisicing ipsum. Alcatra leberkas tail, dolore veniam sausage pork shoulder porchetta. Nulla chuck consequat, pork loin tri-tip ball tip consectetur magna short loin landjaeger shankle salami. Esse corned beef beef pork chop ut short loin in et hamburger drumstick quis turkey id aute. Filet mignon boudin ut swine.
-
+	\vspace{1em}
+	The final product of this project is a crime dashboard that allows the user to explore many facets of crime in England and Wales and draw conclusions based on their specific requirements. The dashboard can be {\href{https://public.tableau.com/views/CrimeDashboard_13/RegionsDashboard?:embed=y&:display_count=yes}{accessed here}}.
+	\linebreak \linebreak
+	The dashboard contains detailed dynamic instructions in order to assist in data exploration and analysis.
+	\linebreak \linebreak
+	On the following page is an example of portraying analyses made using the dashboard as an infographic.
+	\linebreak \linebreak
+	\begin{figure}[h!]
+  		\centering
+		\includegraphics[width=\linewidth]{images/BondInfographic.png}
+  	\end{figure}
+	
 \vspace{3em}
 
-\begin{changemargin}{-4em}{-5em}
-\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em} \section{Assumptions / Problems} }}
+\begin{changemargin}{-3em}{-5em}
+\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em} \section{Assumptions and Limitations} }}
 \end{changemargin}
-Bacon ipsum dolor amet esse eu ham, flank quis kevin labore consequat ground round porchetta corned beef pig chuck cupim duis. Aute fugiat jowl, cupim pariatur chicken et id sunt landjaeger nisi biltong short ribs. Elit duis consectetur ut in aliqua do spare ribs cow short ribs veniam beef chicken short loin. Enim consequat quis rump, strip steak t-bone beef salami. Biltong salami tenderloin cillum. Voluptate shankle drumstick pork beef ribs picanha aute ullamco ball tip jerky ad bacon in id.
+\vspace{1em}
+Most assumptions are discussed throughout the code as and when they were made during the course of the project, via comments shown in the \hyperref[sec:8-0]{\color{electro-blue-dark}appendices}.
 \linebreak \linebreak
-Quis ea veniam capicola shankle jowl pastrami mollit adipisicing ipsum. Alcatra leberkas tail, dolore veniam sausage pork shoulder porchetta. Nulla chuck consequat, pork loin tri-tip ball tip consectetur magna short loin landjaeger shankle salami. Esse corned beef beef pork chop ut short loin in et hamburger drumstick quis turkey id aute. Filet mignon boudin ut swine.
-\linebreak \linebreak
-Salami kevin pastrami tempor, shoulder velit flank est nostrud ground round. Drumstick proident venison duis cillum aliqua. Salami meatball capicola picanha, shankle burgdoggen ut porchetta fatback nostrud andouille mollit aute veniam. Voluptate incididunt turducken tempor t-bone landjaeger dolore consequat reprehenderit enim mollit aute. Mollit swine cupidatat non, chuck brisket shank. Ham pork belly labore consectetur. Bacon sirloin corned beef id.
-\linebreak \linebreak
-Tail veniam incididunt chicken. Culpa fugiat venison, ut minim doner exercitation. Do pork belly lorem deserunt. Reprehenderit jowl jerky tempor ribeye consequat, in elit buffalo aliqua ground round occaecat. Deserunt ham brisket exercitation ham hock shank. Proident pastrami porchetta venison aliquip brisket.
-\linebreak \linebreak
-Elit ham hock bresaola est officia nisi, flank doner occaecat. Cupim duis ut non, in bacon picanha. Proident do meatball pancetta tempor strip steak. Ham hock deserunt esse ut. Ut aliqua biltong spare ribs ham hock, jowl pariatur occaecat dolore sint beef ribs. Alcatra pastrami mollit, ham eiusmod frankfurter ham hock labore fatback.
+In terms of limitations, main points to note include:
+\vspace{1em}
+\begin{itemize} % Starts unordered (bullet point) list
+	\item Disregarding crime types that are not gang-related.
+	\item Limiting the scope in terms of time period to homogenise many sources of data.
+	\item Large amount of data slowing down visualisation.
+	\item Exploratory tool rather than final analysis.
 
-\vspace{3em}
+\pagebreak
 
-\begin{changemargin}{-4em}{-5em}
-\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em} \section{Conclusions} }}
+\begin{changemargin}{-3em}{-5em}
+\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em} \section{Appendices} }}
 \end{changemargin}
-Bacon ipsum dolor amet esse eu ham, flank quis kevin labore consequat ground round porchetta corned beef pig chuck cupim duis. Aute fugiat jowl, cupim pariatur chicken et id sunt landjaeger nisi biltong short ribs. Elit duis consectetur ut in aliqua do spare ribs cow short ribs veniam beef chicken short loin. Enim consequat quis rump, strip steak t-bone beef salami. Biltong salami tenderloin cillum. Voluptate shankle drumstick pork beef ribs picanha aute ullamco ball tip jerky ad bacon in id.
-\linebreak \linebreak
-Quis ea veniam capicola shankle jowl pastrami mollit adipisicing ipsum. Alcatra leberkas tail, dolore veniam sausage pork shoulder porchetta. Nulla chuck consequat, pork loin tri-tip ball tip consectetur magna short loin landjaeger shankle salami. Esse corned beef beef pork chop ut short loin in et hamburger drumstick quis turkey id aute. Filet mignon boudin ut swine.
-\linebreak \linebreak
-Salami kevin pastrami tempor, shoulder velit flank est nostrud ground round. Drumstick proident venison duis cillum aliqua. Salami meatball capicola picanha, shankle burgdoggen ut porchetta fatback nostrud andouille mollit aute veniam. Voluptate incididunt turducken tempor t-bone landjaeger dolore consequat reprehenderit enim mollit aute. Mollit swine cupidatat non, chuck brisket shank. Ham pork belly labore consectetur. Bacon sirloin corned beef id.
-\linebreak \linebreak
-Tail veniam incididunt chicken. Culpa fugiat venison, ut minim doner exercitation. Do pork belly lorem deserunt. Reprehenderit jowl jerky tempor ribeye consequat, in elit buffalo aliqua ground round occaecat. Deserunt ham brisket exercitation ham hock shank. Proident pastrami porchetta venison aliquip brisket.
-\linebreak \linebreak
-Elit ham hock bresaola est officia nisi, flank doner occaecat. Cupim duis ut non, in bacon picanha. Proident do meatball pancetta tempor strip steak. Ham hock deserunt esse ut. Ut aliqua biltong spare ribs ham hock, jowl pariatur occaecat dolore sint beef ribs. Alcatra pastrami mollit, ham eiusmod frankfurter ham hock labore fatback.
-
-\vspace{3em}
-
-\begin{changemargin}{-4em}{-5em}
-\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em} \section{References} }}
-\end{changemargin}
-Bacon ipsum dolor amet esse eu ham, flank quis kevin labore consequat ground round porchetta corned beef pig chuck cupim duis. Aute fugiat jowl, cupim pariatur chicken et id sunt landjaeger nisi biltong short ribs. Elit duis consectetur ut in aliqua do spare ribs cow short ribs veniam beef chicken short loin. Enim consequat quis rump, strip steak t-bone beef salami. Biltong salami tenderloin cillum. Voluptate shankle drumstick pork beef ribs picanha aute ullamco ball tip jerky ad bacon in id.
-\linebreak \linebreak
-Quis ea veniam capicola shankle jowl pastrami mollit adipisicing ipsum. Alcatra leberkas tail, dolore veniam sausage pork shoulder porchetta. Nulla chuck consequat, pork loin tri-tip ball tip consectetur magna short loin landjaeger shankle salami. Esse corned beef beef pork chop ut short loin in et hamburger drumstick quis turkey id aute. Filet mignon boudin ut swine.
-\linebreak \linebreak
-Salami kevin pastrami tempor, shoulder velit flank est nostrud ground round. Drumstick proident venison duis cillum aliqua. Salami meatball capicola picanha, shankle burgdoggen ut porchetta fatback nostrud andouille mollit aute veniam. Voluptate incididunt turducken tempor t-bone landjaeger dolore consequat reprehenderit enim mollit aute. Mollit swine cupidatat non, chuck brisket shank. Ham pork belly labore consectetur. Bacon sirloin corned beef id.
-\linebreak \linebreak
-Tail veniam incididunt chicken. Culpa fugiat venison, ut minim doner exercitation. Do pork belly lorem deserunt. Reprehenderit jowl jerky tempor ribeye consequat, in elit buffalo aliqua ground round occaecat. Deserunt ham brisket exercitation ham hock shank. Proident pastrami porchetta venison aliquip brisket.
-\linebreak \linebreak
-Elit ham hock bresaola est officia nisi, flank doner occaecat. Cupim duis ut non, in bacon picanha. Proident do meatball pancetta tempor strip steak. Ham hock deserunt esse ut. Ut aliqua biltong spare ribs ham hock, jowl pariatur occaecat dolore sint beef ribs. Alcatra pastrami mollit, ham eiusmod frankfurter ham hock labore fatback.
-
-\vspace{3em}
-
-\begin{changemargin}{-4em}{-5em}
-\sectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{5em} \section{Appendices (Code)} }}
-\end{changemargin}
-Bacon ipsum dolor amet esse eu ham, flank quis kevin labore consequat ground round porchetta corned beef pig chuck cupim duis. Aute fugiat jowl, cupim pariatur chicken et id sunt landjaeger nisi biltong short ribs. Elit duis consectetur ut in aliqua do spare ribs cow short ribs veniam beef chicken short loin. Enim consequat quis rump, strip steak t-bone beef salami. Biltong salami tenderloin cillum. Voluptate shankle drumstick pork beef ribs picanha aute ullamco ball tip jerky ad bacon in id.
-\linebreak \linebreak
-Quis ea veniam capicola shankle jowl pastrami mollit adipisicing ipsum. Alcatra leberkas tail, dolore veniam sausage pork shoulder porchetta. Nulla chuck consequat, pork loin tri-tip ball tip consectetur magna short loin landjaeger shankle salami. Esse corned beef beef pork chop ut short loin in et hamburger drumstick quis turkey id aute. Filet mignon boudin ut swine.
-\linebreak \linebreak
-Salami kevin pastrami tempor, shoulder velit flank est nostrud ground round. Drumstick proident venison duis cillum aliqua. Salami meatball capicola picanha, shankle burgdoggen ut porchetta fatback nostrud andouille mollit aute veniam. Voluptate incididunt turducken tempor t-bone landjaeger dolore consequat reprehenderit enim mollit aute. Mollit swine cupidatat non, chuck brisket shank. Ham pork belly labore consectetur. Bacon sirloin corned beef id.
-\linebreak \linebreak
-Tail veniam incididunt chicken. Culpa fugiat venison, ut minim doner exercitation. Do pork belly lorem deserunt. Reprehenderit jowl jerky tempor ribeye consequat, in elit buffalo aliqua ground round occaecat. Deserunt ham brisket exercitation ham hock shank. Proident pastrami porchetta venison aliquip brisket.
-\linebreak \linebreak
-Elit ham hock bresaola est officia nisi, flank doner occaecat. Cupim duis ut non, in bacon picanha. Proident do meatball pancetta tempor strip steak. Ham hock deserunt esse ut. Ut aliqua biltong spare ribs ham hock, jowl pariatur occaecat dolore sint beef ribs. Alcatra pastrami mollit, ham eiusmod frankfurter ham hock labore fatback.
-
+\label{sec:8-0}
+	\vspace{1em}
+	
+	\begin{changemargin}{-1em}{-5em}
+	\subsectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{15em} \subsection{SQL Cleanse} }}
+	\label{sec:8-1}
+	\end{changemargin}
+	\begin{changemargin}{0.5em}{-5em}
+	\inputminted[linenos,breaklines,fontsize=\small]{sql}{Cleanse.sql}
+	\end{changemargin}
+	
+	\pagebreak
+	\begin{changemargin}{-1em}{-5em}
+	\subsectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{15em} \subsection{Alteryx Cleanse} }}
+	\end{changemargin}
+	\label{sec:8-2}
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.8\linewidth]{images/Alteryx_Deprivation.JPG}
+  	\end{figure}
+  	\begin{figure}[h!]
+  		\centering
+		\includegraphics[width=0.8\linewidth]{images/Alteryx_DrugSurvey.JPG}
+  	\end{figure}
+  	\begin{figure}
+  		\begin{subfigure}[t]{0.5\linewidth}
+  			\centering
+			\includegraphics[width=\linewidth]{images/Alteryx_YearlyRegion.JPG}
+		\end{subfigure}
+		\begin{subfigure}[t]{0.5\linewidth}
+  			\centering
+			\includegraphics[width=\linewidth]{images/Alteryx_DrugSeizures.JPG}
+		\end{subfigure}
+  	\end{figure}
+  	\begin{figure}
+  		\begin{subfigure}[b]{0.5\linewidth}
+  			\centering
+			\includegraphics[width=\linewidth]{images/Alteryx_PopulationLSOA.JPG}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.5\linewidth}
+  			\centering
+			\includegraphics[width=\linewidth]{images/Alteryx_GeoAreas.JPG}
+		\end{subfigure}
+  	\end{figure}
+  	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=\linewidth]{images/Alteryx_Taser.JPG}
+  	\end{figure}
+  	\begin{figure}[h!]
+  		\centering
+		\includegraphics[width=\linewidth]{images/Alteryx_DrugDeaths.JPG}
+  	\end{figure}
+  	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=\linewidth]{images/Alteryx_GunTable.JPG}
+  	\end{figure}
+  	\begin{figure}[h!]
+  		\centering
+		\includegraphics[width=\linewidth]{images/Alteryx_DrugNHS.JPG}
+  	\end{figure}
+  	\clearpage
+  	
+  	\begin{changemargin}{-1em}{-5em}
+	\subsectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{15em} \subsection{SQL Modelling} }}
+	\label{sec:8-3}
+	\end{changemargin}
+	\begin{changemargin}{0.5em}{-5em}
+	\inputminted[linenos,breaklines,fontsize=\small]{sql}{Model.sql}
+	\end{changemargin}
+	
+	\pagebreak
+	\begin{changemargin}{-1em}{-5em}
+	\subsectionbox{\textsc{\color{electro-blue} \vspace{-1em} \hspace{15em} \subsection{Dimensional Model} }}
+	\label{sec:8-4}
+	\end{changemargin}
+	\begin{figure}[h!]
+  		\centering
+		\includegraphics[width=\linewidth]{images/DimModel.JPG}
+  	\end{figure}
+  	\clearpage
 
 \end{document}
